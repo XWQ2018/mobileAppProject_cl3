@@ -3,6 +3,8 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import {
+    Cell,
+    CellGroup,
     Button,
     Icon,
     Popup,
@@ -12,7 +14,7 @@ import {
     Lazyload,
 } from 'vant'
 
-Vue.use(Button).use(Icon).use(Popup).use(Search).use(Dialog).use(Toast).use(Lazyload);
+Vue.use(Cell).use(CellGroup).use(Button).use(Icon).use(Popup).use(Search).use(Dialog).use(Toast).use(Lazyload);
 
 //样式
 import 'vant/lib/index.css';

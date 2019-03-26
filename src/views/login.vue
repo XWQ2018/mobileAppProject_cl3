@@ -1,13 +1,37 @@
 <template>
     <div class="login">
-        <h3>登入页面</h3>
-        <van-button type="primary" size="large" @click="btnLogin">登入</van-button>
+        <div class="loginInfo">
+            <h1>LOGIN SYSTEM</h1>
+            <van-cell-group>
+                <van-field
+                    v-model="username"
+                    required
+                    clearable
+                    label="用户名"
+                    placeholder="请输入用户名"
+                    @click-right-icon="$toast('question')"
+                />
+                <van-field
+                    v-model="password"
+                    type="password"
+                    label="密码"
+                    placeholder="请输入密码"
+                    required
+                />
+                <van-button type="primary" class="btnSubmit" size="large" @click="btnLogin">登入</van-button>
+            </van-cell-group>
+        </div>
+        <div class="back"></div>
     </div>
 </template>
 <script>
+import { Field } from "vant";
 export default {
     data() {
         return {};
+    },
+    components: {
+        vanField: Field
     },
     methods: {
         btnLogin() {
@@ -18,11 +42,33 @@ export default {
 </script>
 <style lang='less' scoped>
 .login {
-    h3 {
-        font-size: 24px;
-        color: #e4e4e4;
-        background-color: #f00;
-        padding: 20px 0;
+    .loginInfo {
+        width: 90%;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        box-sizing: border-box;
+        h1 {
+            font-size: 24px;
+            padding: 20px 0;
+        }
+        .btnSubmit {
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    }
+    .back {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #f2f2f2;
+        z-index: -1;
     }
 }
 </style>
