@@ -23,6 +23,11 @@ import './untils/pxToRem.js'
 // console.log(Vue)
 
 Vue.config.productionTip = false
+
+if (process.env.NODE_ENV != 'production') {
+    console.log(process.env);
+}
+
 new Vue({
     store,
     router,
