@@ -18,11 +18,11 @@ var service = $http.create({
     }],
 });
 
-const tips = {
+const totastCode = {
     40000: function () {
         Toast('xxxxx')
     }
-}
+};
 //interceptors.request
 service.interceptors.request.use(function (config) {
     console.log(config)
@@ -36,8 +36,11 @@ service.interceptors.request.use(function (config) {
 });
 
 //interceptors.response
-service.interceptors.response.use(function (data) {
+service.interceptors.response.use(function (res) {
     console.log(data)
+    if (totastCode[res.code]) {
+        totastCode[res.code]();
+    }
 
 }, error => {
     return Promise.reject(error)

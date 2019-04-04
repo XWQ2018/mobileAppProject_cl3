@@ -10,6 +10,7 @@
                     label="用户名"
                     placeholder="请输入用户名"
                     @click-right-icon="$toast('question')"
+                    maxlength='12'
                 />
                 <van-field
                     v-model="password"
@@ -17,6 +18,7 @@
                     label="密码"
                     placeholder="请输入密码"
                     required
+                    maxlength='12'
                 />
                 <van-button type="primary" class="btnSubmit" size="large" @click="btnLogin">登入</van-button>
             </van-cell-group>
@@ -28,7 +30,10 @@
 import { Field } from "vant";
 export default {
     data() {
-        return {};
+        return {
+            username:'',
+            password:''
+        };
     },
     components: {
         vanField: Field
@@ -52,6 +57,7 @@ export default {
         top: 50%;
         transform: translate(-50%, -50%);
         box-sizing: border-box;
+        box-shadow: 0px 10px 20px #ccc, 1px 2px 10px #0ff;
         h1 {
             font-size: 24px;
             padding: 20px 0;

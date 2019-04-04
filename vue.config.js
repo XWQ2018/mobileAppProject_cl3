@@ -1,4 +1,9 @@
 module.exports = {
+    outputDir: process.env.outputDir,
+    assetsDir: 'static',
+    devServer: {
+        proxy: null
+    },
     css: {
         loaderOptions: {
             css: {
