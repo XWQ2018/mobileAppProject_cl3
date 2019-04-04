@@ -1,6 +1,9 @@
 import $http from 'axios';
 import Qs from 'qs';
-import { $toast } from 'vant';
+import { Toast } from 'vant';
+import Vue from 'vue';
+
+Vue.use(Toast);
 
 // process.env.VUE_APP_API_URL
 
@@ -17,7 +20,7 @@ var service = $http.create({
 
 const tips = {
     40000: function () {
-        $toast('xxxxx')
+        Toast('xxxxx')
     }
 }
 //interceptors.request
