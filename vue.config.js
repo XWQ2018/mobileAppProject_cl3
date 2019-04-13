@@ -1,6 +1,8 @@
 module.exports = {
+    // publicPath: 'jns',
     outputDir: process.env.outputDir,
     assetsDir: 'static',
+    lintOnSave: false,
     devServer: {
         proxy: null
     },

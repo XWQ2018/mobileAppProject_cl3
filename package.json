@@ -11,9 +11,9 @@
     "dependencies": {
         "axios": "^0.18.0",
         "less": "^3.9.0",
-        "vant": "^1.6.10",
+        "vant": "^1.6.13",
         "vue": "^2.6.6",
-        "vue-router": "^3.0.2",
+        "vue-router": "^3.0.4",
         "vue-web-storage": "^4.0.0",
         "vuex": "^3.0.1"
     },

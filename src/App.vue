@@ -1,12 +1,22 @@
 <template>
     <div id="app">
-        <router-view/>
+        <keep-alive>
+            <router-view v-if="this.$route.meta.keepAlive"/>
+        </keep-alive>
+        <router-view v-if="!this.$route.meta.keepAlive"/>
     </div>
 </template>
 
 <script>
 export default {
-    name: "app"
+    name: "app",
+    data() {
+        return {};
+    },
+    created() {},
+    mounted() {
+        console.log(this.$route);
+    }
 };
 </script>
 
