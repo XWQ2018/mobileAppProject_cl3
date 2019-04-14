@@ -1,5 +1,5 @@
 module.exports = {
-    // publicPath: 'jns',
+    publicPath: 'jns',
     outputDir: process.env.outputDir,
     assetsDir: 'static',
     lintOnSave: false,

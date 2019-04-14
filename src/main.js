@@ -13,9 +13,11 @@ import {
     Dialog,
     Toast,
     Lazyload,
+    Row,
+    Col,
 } from 'vant'
 
-Vue.use(Cell).use(CellGroup).use(Button).use(Icon).use(Popup).use(Search).use(Dialog).use(Toast).use(Lazyload);
+Vue.use(Cell).use(CellGroup).use(Button).use(Icon).use(Popup).use(Search).use(Dialog).use(Toast).use(Lazyload).use(Row).use(Col);
 
 //样式
 import 'vant/lib/index.css';
