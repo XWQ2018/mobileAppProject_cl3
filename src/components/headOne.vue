@@ -3,12 +3,13 @@
         <van-nav-bar
             :title="title"
             :isFixed="isFixed"
-            left-text
+            :left-text="leftText"
+            :right-text="rightText"
             :left-arrow="leftArrow"
             @click-left="onClickLeft"
             @click-right="onClickRight"
         >
-            <van-icon v-show="rightIcon" name="shop-collect-o" slot="right"/>
+            <van-icon v-show="rightIcon" :name="iconName?iconName:'shop-collect-o'" slot="right"/>
         </van-nav-bar>
     </div>
 </template>
@@ -17,7 +18,6 @@
 import { NavBar } from "vant";
 export default {
     name: "headOne",
-    // props: ["title", "isFixed", "leftArrow"],
     props: {
         title: {
             type: String,
@@ -27,13 +27,30 @@ export default {
             type: Boolean,
             default: false
         },
+        leftText: {
+            type: String,
+            default: ""
+        },
+        rightText: {
+            type: String,
+            default: ""
+        },
         leftArrow: {
             type: Boolean,
-            default: false
+            default: true
         },
         rightIcon: {
             type: Boolean,
             default: true
+        },
+        iconName: {
+            type: String
+        },
+        onClickLeftStatus: {
+            type: Boolean
+        },
+        onClickRightStatus: {
+            type: Boolean
         }
     },
     data() {
@@ -46,7 +63,11 @@ export default {
     mounted() {},
     methods: {
         onClickLeft() {
-            this.$emit("onClickLeft");
+            if (this.onClickLeftStatus) {
+                this.$emit("onClickLeft");
+            } else {
+                this.$router.back();
+            }
         },
         onClickRight() {
             this.$emit("onClickRight");
@@ -62,10 +83,10 @@ export default {
         background-color: #f2f2f2;
     }
     /deep/ .van-nav-bar__title {
-        font-size: 24px;
+        font-size: 20px;
     }
     /deep/ .van-icon {
-        font-size: 24px;
+        font-size: 20px;
     }
 }
 </style>

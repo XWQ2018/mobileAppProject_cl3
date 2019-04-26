@@ -37,7 +37,7 @@ service.interceptors.request.use(function (config) {
 
 //interceptors.response
 service.interceptors.response.use(function (res) {
-    console.log(data)
+    console.log(res)
     if (totastCode[res.code]) {
         totastCode[res.code]();
     }

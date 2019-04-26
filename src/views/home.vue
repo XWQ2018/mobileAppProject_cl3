@@ -5,20 +5,69 @@
             :isFixed="isFixed"
             :leftArrow="leftArrow"
             :rightIcon="rightIcon"
+            :leftText="leftText"
+            :rightText="rightText"
+            :onClickLeftStatus="onClickLeftStatus"
             @onClickLeft="back"
             @onClickRight="clickMenu"
         />
+        <!--   <test #head>
+            <span v-slot="head">666666</span>
+        </test>-->
+        <div>
+            <Vpie :data="chartData" :settings="chartSettings"></Vpie>
+        </div>
     </div>
 </template>
 <script>
 import headOne from "@/components/headOne";
+import test from "@/views/test";
+import Vpie from "v-charts/lib/pie";
+import "v-charts/lib/style.css";
 export default {
     data() {
+        //设置饼图的大小
+        /*  this.chartSettings = {
+            radius: 100,
+            offsetY: 200
+        }; */
         return {
-            title: "首页",
+            title: "echarts",
             isFixed: false,
-            leftArrow: false,
-            rightIcon: true
+            leftArrow: true,
+            rightIcon: true,
+            leftText: "返回",
+            rightText: "图表",
+            onClickLeftStatus: true,
+            //设置饼图的大小
+            chartSettings: {
+                radius: 70,
+                offsetY: 200,
+                labelLine: {
+                    smooth: true
+                },
+                // dimension: "百分比"   设置指标
+                legend: {
+                    bottom: 10,
+                    left: "center"
+                },
+                title: {
+                    text: "统计图",
+                    subtext: "虚构数据",
+                    left: "center"
+                }
+            },
+            chartData: {
+                columns: ["百分比", "用户量", "金额"],
+                rows: [
+                    { 百分比: "17%", 用户量: 5000, 金额: 4500 },
+                    { 百分比: "25%", 用户量: 7000, 金额: 6500 },
+                    { 百分比: "10%", 用户量: 2923, 金额: 3200 },
+                    { 百分比: "5%", 用户量: 1723, 金额: 2000 },
+                    { 百分比: "15%", 用户量: 4500, 金额: 5000 },
+                    { 百分比: "28%", 用户量: 8000, 金额: 9000 }
+                ]
+            }
         };
     },
     //不能直接访问this，需要传入函数
@@ -29,7 +78,9 @@ export default {
         });
     },
     components: {
-        headOne
+        headOne,
+        test,
+        Vpie: Vpie
     },
     created() {},
     mounted() {},

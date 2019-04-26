@@ -5,7 +5,7 @@ const router = [
     {
         path: '/',
         // component: resolve => require(['@/views/login'], resolve),
-        redirect: { name: 'login' }
+        redirect: { name: 'home' }
     },
     {
         path: '/login',
