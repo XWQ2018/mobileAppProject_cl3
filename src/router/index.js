@@ -24,6 +24,15 @@ const router = [
             title: '首页',
             keepAlive: false
         }
+    },
+    {
+        path: '/dialogMsg',
+        name: 'dialogMsg',
+        component: resolve => require(['@/components/dialogMsg'], resolve),
+        meta: {
+            title: 'test',
+            keepAlive: false
+        }
     }
 ]
 export default new vueRouter({
