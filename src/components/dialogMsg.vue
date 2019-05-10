@@ -23,20 +23,26 @@
 <script>
 import { Dialog } from "vant";
 export default {
-    props: [
-        "cancelButtonText",
-        "cancelButtonColor",
-        "confirmButtonText",
-        "confirmButtonColor",
-        "warningInfoText"
-    ],
+    components: {
+        [Dialog.name]: Dialog
+    },
+    props: {
+        cancelButtonText: {
+            type: String,
+            default: "取消"
+        },
+        confirmButtonText: {
+            type: String,
+            default: "确定"
+        },
+        cancelButtonColor: String,
+        confirmButtonColor: String,
+        warningInfoText: String
+    },
     data() {
         return {
             show: true
         };
-    },
-    components: {
-        [Dialog.name]: Dialog
     },
     created() {},
     mounted() {},
