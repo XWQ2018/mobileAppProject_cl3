@@ -48,7 +48,7 @@ export default {
     mounted() {},
     methods: {
         closeHandle() {
-            this.$emit("closeHandle1");
+            this.$emit("closeHandle");
         },
         confirm() {
             this.$emit("confirm");
