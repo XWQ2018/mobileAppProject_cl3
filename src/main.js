@@ -22,6 +22,7 @@ Vue.use(Cell).use(CellGroup).use(Button).use(Icon).use(Popup).use(Search).use(Di
 
 //样式
 import 'vant/lib/index.css';
+import '@/assets/commonCss.css';
 //pxToRem
 import './untils/pxToRem.js'
 // console.log(Vue)

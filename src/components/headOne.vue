@@ -6,7 +6,7 @@
             :left-text="leftText"
             :right-text="rightText"
             :left-arrow="leftArrow"
-            :class="backgroundTransparent"
+            :class="{backgroundTransparent:transparentStatus}"
             @click-left="onClickLeft"
             @click-right="onClickRight"
         >
@@ -53,7 +53,7 @@ export default {
         onClickRightStatus: {
             type: Boolean
         },
-        transparentStatus: {
+        isTransparent: {
             type: Boolean,
             default: false
         }
@@ -63,12 +63,14 @@ export default {
     },
     data() {
         return {
+            transparentStatus: false,
             backgroundTransparent: "background-transparent"
         };
     },
     created() {},
     mounted() {
-        if (this.transparentStatus) {
+        if (this.isTransparent) {
+            this.transparentStatus = this.isTransparent;
         }
     },
     methods: {
@@ -93,7 +95,7 @@ export default {
         background-color: #fff;
     }
     /deep/ .van-nav-bar__title {
-        font-size: 20px;
+        font-size: 18px;
     }
     /deep/ .van-icon {
         font-size: 20px;

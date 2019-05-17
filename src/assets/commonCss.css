@@ -4,3 +4,11 @@
 .text-align{
     text-align:center;
 }
+.clearFix::after{
+    display:block;
+    content:'.';
+    height:0;
+    visibility:hidden;
+    clear:both;
+    zoom:1;
+}

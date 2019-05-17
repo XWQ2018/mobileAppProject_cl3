@@ -1,16 +1,22 @@
 import Vue from 'vue';
 import vueRouter from 'vue-router';
 Vue.use(vueRouter);
+
+const login = () => import('@/views/login');
+const home = () => import('@/views/home');
+const dialogMsg = () => import('@/components/dialogMsg');
+const NotFound = () => import('@/components/notFound');
+
 const router = [
     {
         path: '/',
-        // component: resolve => require(['@/views/login'], resolve),
         redirect: { name: 'home' }
     },
     {
         path: '/login',
         name: 'login',
-        component: resolve => require(['@/views/login'], resolve),
+        // component: resolve => require(['@/views/login'], resolve),
+        component: login,
         meta: {
             title: '登入页面',
             keepAlive: false
@@ -19,7 +25,7 @@ const router = [
     {
         path: '/home',
         name: 'home',
-        component: resolve => require(['@/views/home'], resolve),
+        component: home,
         meta: {
             title: '首页',
             keepAlive: false
@@ -28,13 +34,19 @@ const router = [
     {
         path: '/dialogMsg',
         name: 'dialogMsg',
-        component: resolve => require(['@/components/dialogMsg'], resolve),
+        component: dialogMsg,
         meta: {
             title: 'test',
             keepAlive: false
         }
+    },
+    {
+        path: '*',
+        name: 'NotFound',
+        component: NotFound
     }
 ]
+
 export default new vueRouter({
     routes: router
 })
