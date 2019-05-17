@@ -10,10 +10,8 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
-        "echarts": "^4.2.1",
         "less": "^3.9.0",
-        "v-charts": "^1.19.0",
-        "vant": "^1.6.17",
+        "vant": "^1.6.18",
         "vue": "^2.6.6",
         "vue-router": "^3.0.6",
         "vue-web-storage": "^4.0.0",

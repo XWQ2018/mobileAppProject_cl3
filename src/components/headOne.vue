@@ -6,6 +6,7 @@
             :left-text="leftText"
             :right-text="rightText"
             :left-arrow="leftArrow"
+            :class="backgroundTransparent"
             @click-left="onClickLeft"
             @click-right="onClickRight"
         >
@@ -41,7 +42,7 @@ export default {
         },
         rightIcon: {
             type: Boolean,
-            default: true
+            default: false
         },
         iconName: {
             type: String
@@ -51,16 +52,25 @@ export default {
         },
         onClickRightStatus: {
             type: Boolean
+        },
+        transparentStatus: {
+            type: Boolean,
+            default: false
         }
     },
-    data() {
-        return {};
-    },
     components: {
-        vanNavBar: NavBar
+        [NavBar.name]: NavBar
+    },
+    data() {
+        return {
+            backgroundTransparent: "background-transparent"
+        };
     },
     created() {},
-    mounted() {},
+    mounted() {
+        if (this.transparentStatus) {
+        }
+    },
     methods: {
         onClickLeft() {
             if (this.onClickLeftStatus) {
@@ -80,13 +90,16 @@ export default {
 <style lang='less' scoped>
 .headOne {
     /deep/ .van-nav-bar {
-        background-color: #f2f2f2;
+        background-color: #fff;
     }
     /deep/ .van-nav-bar__title {
         font-size: 20px;
     }
     /deep/ .van-icon {
         font-size: 20px;
+    }
+    .background-transparent {
+        background-color: rgba(255, 255, 255, 0);
     }
 }
 </style>

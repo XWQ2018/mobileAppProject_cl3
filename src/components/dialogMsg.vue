@@ -23,9 +23,6 @@
 <script>
 import { Dialog } from "vant";
 export default {
-    components: {
-        [Dialog.name]: Dialog
-    },
     props: {
         cancelButtonText: {
             type: String,
@@ -38,6 +35,9 @@ export default {
         cancelButtonColor: String,
         confirmButtonColor: String,
         warningInfoText: String
+    },
+    components: {
+        [Dialog.name]: Dialog
     },
     data() {
         return {

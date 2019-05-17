@@ -1,11 +1,22 @@
 module.exports = {
     publicPath: 'jns',
-    outputDir: process.env.outputDir,
-    assetsDir: 'static',
-    lintOnSave: false,
     devServer: {
-        proxy: null
+        proxy: {
+            '/api': {
+                // 目标 API 地址
+                target: process.env.VUE_APP_API_URL,
+                // 如果要代理 websockets
+                // ws: true,
+                // 将主机标头的原点更改为目标URL
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+
+        }
     },
+    lintOnSave: false,
     css: {
         loaderOptions: {
             css: {
