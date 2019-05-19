@@ -51,14 +51,16 @@ export default {
     methods: {
         btnLogin() {
             if (this.username && this.password) {
+                this.$toast("登入成功。。。");
                 this.$router.push({
                     name: "home"
                 });
-                this.$toast("登入成功。。。");
-                // console.log(location.hash);
             } else {
                 this.$toast("请输入用户名或密码!");
             }
+            setTimeout(() => {
+                this.$toast.clear();
+            }, 1000);
         }
     }
 };

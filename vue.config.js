@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
     publicPath: 'jns',
     devServer: {
@@ -19,15 +20,29 @@ module.exports = {
     lintOnSave: false,
     css: {
         loaderOptions: {
-            css: {
-                // options here will be passed to css-loader
-            },
             postcss: {
-                // options here will be passed to postcss-loader
-                plugins: [require('postcss-px2rem')({
-                    remUnit: 37.5
-                })]
+                plugins: [
+                    require('postcss-pxtorem')({
+                        rootValue: 37.5, // 换算的基数
+                        propList: ['*'],
+                    }),
+                ]
             }
         }
-    }
+    },
+
+    chainWebpack: config => {
+        const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+        types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)))
+    },
+
+}
+function addStyleResource(rule) {
+    rule.use('style-resource')
+        .loader('style-resources-loader')
+        .options({
+            patterns: [
+                path.resolve(__dirname, '@/less/test/import.less'),
+            ],
+        })
 }

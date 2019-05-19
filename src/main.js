@@ -17,7 +17,17 @@ import {
     Col,
 } from 'vant'
 
-Vue.use(Cell).use(CellGroup).use(Button).use(Icon).use(Popup).use(Search).use(Dialog).use(Toast).use(Lazyload).use(Row).use(Col);
+Vue.use(Cell)
+    .use(CellGroup)
+    .use(Button)
+    .use(Icon)
+    .use(Popup)
+    .use(Search)
+    .use(Dialog)
+    .use(Toast)
+    .use(Lazyload)
+    .use(Row)
+    .use(Col);
 
 
 //样式
@@ -30,11 +40,24 @@ import './untils/pxToRem.js'
 Vue.config.productionTip = false
 
 if (process.env.NODE_ENV != 'production') {
+    // eslint-disable-next-line no-console
     console.log(process.env);
 }
 
 new Vue({
     store,
     router,
-    render: h => h(App)
+    render: h => h(App),
+    data() {
+        return {
+
+        }
+    },
+    created() {
+        // eslint-disable-next-line no-console
+        console.log(777)
+    },
+    mounted() {
+
+    }
 }).$mount('#app')
