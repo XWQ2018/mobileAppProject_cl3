@@ -19,6 +19,12 @@ module.exports = {
     },
     lintOnSave: false,
     css: {
+        // 是否使用css分离插件 ExtractTextPlugin Default: 生产环境下是 true，开发环境下是 false
+        // extract: true,
+        // 开启 CSS source maps?
+        sourceMap: false,
+        // 启用 CSS modules for all css / pre-processor files.
+        modules: false,
         loaderOptions: {
             postcss: {
                 plugins: [
@@ -27,6 +33,16 @@ module.exports = {
                         propList: ['*'],
                     }),
                 ]
+            },
+            less: {
+                test: /\.less$/,
+                use: [{
+                    loader: 'style-loader'
+                }, {
+                    loader: 'css-loader'
+                }, {
+                    loader: 'less-loader',
+                }]
             }
         }
     },
@@ -42,7 +58,8 @@ function addStyleResource(rule) {
         .loader('style-resources-loader')
         .options({
             patterns: [
-                path.resolve(__dirname, '@/less/test/import.less'),
+                path.resolve(__dirname, '@/assets/less/style.less'),
+                path.resolve(__dirname, '@/assets/less/theme-colors-default.less')
             ],
         })
 }
