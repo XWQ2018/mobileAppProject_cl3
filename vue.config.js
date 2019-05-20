@@ -1,4 +1,11 @@
 const path = require('path');
+
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
+
+let isDev = process.env.NODE_ENV === 'development';
+
+
 module.exports = {
     publicPath: 'jns',
     devServer: {
@@ -52,7 +59,24 @@ module.exports = {
         types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)))
     },
 
+    configureWebpack: config => {
+        if (!isDev) {
+            const plugins = [];
+            plugins.push(
+                new CompressionWebpackPlugin({
+                    filename: '[path].gz[query]',
+                    algorithm: 'gzip',
+                    test: productionGzipExtensions,
+                    threshold: 10240,
+                    minRatio: 0.8
+                })
+            );
+            config.plugins = [...config.plugins, ...plugins];
+        }
+    },
+
 }
+
 function addStyleResource(rule) {
     rule.use('style-resource')
         .loader('style-resources-loader')

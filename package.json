@@ -10,6 +10,8 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
+        "babel-plugin-transform-remove-console": "^6.9.4",
+        "compression-webpack-plugin": "^2.0.0",
         "less": "^3.9.0",
         "vant": "^1.6.19",
         "vue": "^2.6.6",
