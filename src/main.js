@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import './untils/request'
+import Vconsole from 'vconsole';
 import {
     Cell,
     CellGroup,
@@ -29,12 +30,14 @@ Vue.use(Cell)
     .use(Row)
     .use(Col);
 
-
+const vConsole = new Vconsole();
+Vue.use(vConsole);
 //样式
 import 'vant/lib/index.css';
 import '@/assets/commonCss.css';
 //pxToRem
-import './untils/pxToRem.js'
+import 'amfe-flexible/index.js';
+// import './untils/pxToRem.js'
 // console.log(Vue)
 
 Vue.config.productionTip = false

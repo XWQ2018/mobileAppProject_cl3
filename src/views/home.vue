@@ -44,7 +44,7 @@ export default {
     mounted() {},
     methods: {
         back() {
-            this.$router.back();
+            console.log("不能在返回了....");
         },
         clickMenu() {
             console.log("菜单");

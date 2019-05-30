@@ -10,7 +10,7 @@ const NotFound = () => import('@/components/notFound');
 const router = [
     {
         path: '/',
-        redirect: { name: 'home' }
+        redirect: { name: 'login' }
     },
     {
         path: '/login',

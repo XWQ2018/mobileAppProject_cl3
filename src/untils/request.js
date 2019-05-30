@@ -25,6 +25,7 @@ const totastCode = {
 };
 //interceptors.request
 service.interceptors.request.use(function (config) {
+    // eslint-disable-next-line no-console
     console.log(config)
     if (!config.data) {
         config.data = {};
@@ -37,6 +38,7 @@ service.interceptors.request.use(function (config) {
 
 //interceptors.response
 service.interceptors.response.use(function (res) {
+    // eslint-disable-next-line no-console
     console.log(res)
     if (totastCode[res.code]) {
         totastCode[res.code]();
