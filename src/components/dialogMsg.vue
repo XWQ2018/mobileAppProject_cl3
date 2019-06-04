@@ -15,7 +15,7 @@
                     <van-icon name="cross" size="30px" color="#666" @click="closeHandle"/>
                 </van-col>
             </van-row>
-            <img src="@/assets/image/dialogIcon.png">
+            <img src="@image/dialogIcon.png">
             <p class="warning-info" v-text="warningInfoText?warningInfoText:''"></p>
         </van-dialog>
     </div>

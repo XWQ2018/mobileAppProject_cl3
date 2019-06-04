@@ -8,7 +8,7 @@ let plugins = [
     // 'transform-remove-console',
 ];
 if (process.env.NODE_ENV === 'production') {
-    plugins.push('transform-remove-console');
+    plugins.push('transform-remove-console');  //生产环境移除log内容
 }
 module.exports = {
     presets: [
