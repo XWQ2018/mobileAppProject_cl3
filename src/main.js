@@ -3,7 +3,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import './untils/request'
-import Vconsole from 'vconsole';
+import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
 import {
     Cell,
     CellGroup,
@@ -34,7 +34,7 @@ const vConsole = new Vconsole();
 Vue.use(vConsole);
 //样式
 import 'vant/lib/index.css';
-import '@/assets/commonCss.css';
+import '@css/commonCss.css';
 //pxToRem
 import 'amfe-flexible/index.js';
 // import './untils/pxToRem.js'

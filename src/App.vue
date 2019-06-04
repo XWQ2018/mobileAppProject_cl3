@@ -14,9 +14,7 @@ export default {
         return {};
     },
     created() {},
-    mounted() {
-        console.log(this.$route);
-    }
+    mounted() {}
 };
 </script>
 
