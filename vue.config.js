@@ -58,6 +58,7 @@ module.exports = {
                         rootValue: 37.5, // 换算的基数
                         propList: ['*'],
                     }),
+                    require('autoprefixer')({ broswer: 'last 5 versions' })
                 ]
             },
             less: {
