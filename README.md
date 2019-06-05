@@ -28,7 +28,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-* 目录结构
+` * 目录结构 `
 -------
 > * components--公共组件
 
