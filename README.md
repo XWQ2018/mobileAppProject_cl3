@@ -36,6 +36,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
  >> * unitls--公共方法
 
  >> * views--页面组件
+ 
+ > * vue.config.js --- 配置文件
 
 
  
