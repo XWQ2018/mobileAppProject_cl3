@@ -28,13 +28,13 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
---目录结构--
+* 目录结构
 -------
 > * components--公共组件
 
->unitls--公共方法
+> * unitls--公共方法
 
->views--页面组件
+> * views--页面组件
 
 
  
