@@ -20,6 +20,16 @@ npm run build
 npm run test
 ```
 
+### build_development   
+```
+npm run build_development    
+```
+
+### build_test
+```
+npm run  build_test
+```
+
 ### Lints and fixes files
 ```
 npm run lint
