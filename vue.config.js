@@ -10,7 +10,7 @@ let isDev = process.env.NODE_ENV === 'development';
 const pages = {
     index: {
         // page 的入口
-        entry: 'src/index/main.js',
+        entry: 'src/main.js',
         // 模板来源
         template: 'public/index.html',
         // 在 dist/index.html 的输出
@@ -58,7 +58,7 @@ module.exports = {
                         rootValue: 37.5, // 换算的基数
                         propList: ['*'],
                     }),
-                    require('autoprefixer')({ broswer: 'last 5 versions' })
+                    require('autoprefixer')({ broswer: 'last 5 versions' }) //CSS3前缀添加
                 ]
             },
             less: {

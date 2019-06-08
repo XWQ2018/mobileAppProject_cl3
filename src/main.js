@@ -4,6 +4,8 @@ import store from './store'
 import router from './router'
 import './untils/request'
 import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
+import 'amfe-flexible/index.js';
+import Storage from 'vue-web-storage';
 import {
     Cell,
     CellGroup,
@@ -30,15 +32,21 @@ Vue.use(Cell)
     .use(Row)
     .use(Col);
 
+//实例化插件
 const vConsole = new Vconsole();
 Vue.use(vConsole);
+//本地缓存插件
+Vue.use(Storage, {
+    prefix: 'APPInfo',// default `app_`
+    drivers: ['session', 'local'], // default 'local'
+});
+
+Vue.prototype.$local = Vue.$localStorage;
+Vue.prototype.$session = Vue.$sessionStorage;
 //样式
 import 'vant/lib/index.css';
 import '@css/commonCss.css';
-//pxToRem
-import 'amfe-flexible/index.js';
-// import './untils/pxToRem.js'
-// console.log(Vue)
+import '@css/reset.css';
 
 Vue.config.productionTip = false
 

@@ -7,8 +7,8 @@
 export default {
     props: {
         background: {
-            type: String,
-            default: "#f2f2f2"
+            type: String
+            // default: "#aaa9a9"
         }
     },
     data() {
@@ -33,7 +33,7 @@ export default {
         left: 0;
         top: 0;
         bottom: 0;
-        background-color: #f2f2f2;
+        background-color: #ddd5d8;
         margin: 0 auto;
         z-index: -1;
     }

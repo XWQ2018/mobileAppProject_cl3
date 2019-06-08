@@ -6,12 +6,13 @@
             :left-text="leftText"
             :right-text="rightText"
             :left-arrow="leftArrow"
-            :class="{backgroundTransparent:transparentStatus}"
+            :class="{backgroundTransparent:transparentStatus,'head-fixed':isFixed}"
             @click-left="onClickLeft"
             @click-right="onClickRight"
         >
             <van-icon v-show="rightIcon" :name="iconName?iconName:'shop-collect-o'" slot="right"/>
         </van-nav-bar>
+        <van-row span="24" v-if="isFixed" class="fix-chunk"></van-row>
     </div>
 </template>
 
@@ -102,6 +103,15 @@ export default {
     }
     .background-transparent {
         background-color: rgba(255, 255, 255, 0);
+    }
+    .head-fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+    .fix-chunk {
+        margin-top: 46px;
     }
 }
 </style>

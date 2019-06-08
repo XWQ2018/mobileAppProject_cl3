@@ -13,6 +13,7 @@
         "axios": "^0.18.0",
         "babel-plugin-transform-remove-console": "^6.9.4",
         "compression-webpack-plugin": "^2.0.0",
+        "sockjs": "^0.3.19",
         "vant": "^1.6.20",
         "vconsole": "^3.3.0",
         "vue": "^2.6.6",
