@@ -8,7 +8,6 @@ export default {
     props: {
         background: {
             type: String
-            // default: "#aaa9a9"
         }
     },
     data() {
