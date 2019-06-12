@@ -1,15 +1,23 @@
 <template>
-    <div class="vSlot">
-        <slot name="head"></slot>
-        <span>测试组件</span>
+    <div class="page">
+        <span>666666</span>
     </div>
 </template>
 <script>
 export default {
+    props: {},
+    components: {},
     data() {
-        return {};
-    }
+        return {
+            title: ""
+        };
+    },
+    created() {},
+    mounted() {},
+    methods: {}
 };
 </script>
-<style lang='less'>
+<style lang='less' scoped>
+.page {
+}
 </style>
