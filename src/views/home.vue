@@ -37,6 +37,7 @@
 <script>
 import headOne from "@/components/headOne";
 import background from "@/components/background";
+import { dateTimeFormate } from "@/untils/commonJs";
 export default {
     components: {
         headOne,
@@ -67,8 +68,14 @@ export default {
         });
     },
     created() {},
-    mounted() {},
+    mounted() {
+        this.forMate();
+    },
     methods: {
+        forMate() {
+            let result = dateTimeFormate("2019-2-12", "YYYY-MM-dd-HH");
+            console.log(result, "************");
+        },
         back() {
             console.log("不能在返回了....");
         },

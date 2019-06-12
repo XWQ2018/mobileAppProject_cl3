@@ -32,7 +32,7 @@ export default {
         left: 0;
         top: 0;
         bottom: 0;
-        background-color: #ddd5d8;
+        background-color: #f2f2f2;
         margin: 0 auto;
         z-index: -1;
     }

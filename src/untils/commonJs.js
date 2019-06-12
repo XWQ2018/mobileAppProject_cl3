@@ -40,7 +40,7 @@ export function dateTimeFormate(val, timeFormate) {
         return val > 9 ? val : "0" + val;
     };
     if (val && timeFormate) {
-        return timeFormate.replace(/YYYY||MM||dd||HH||mm||ss/g, v => {
+        return timeFormate.replace(/YYYY|MM|dd|HH|mm|ss/g, v => {
             switch (v) {
                 case "YYYY":
                     return t.getFullYear();
