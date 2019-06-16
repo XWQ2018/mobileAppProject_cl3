@@ -74,6 +74,7 @@
     </div>
 </template>
 <script>
+import loginApi from "@/api/login/login";
 import { Field, RadioGroup, Radio } from "vant";
 import button from "@/components/button";
 export default {
@@ -126,6 +127,9 @@ export default {
         //登录
         submit() {
             console.log("submit");
+            loginApi.getLoginInfo({}).then(res => {
+                console.log(res);
+            });
             /* if (this.username && this.password) {
                 this.$toast("登入成功。。。");
                 this.$router.push({
