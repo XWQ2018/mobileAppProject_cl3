@@ -47,6 +47,7 @@ Vue.prototype.$session = Vue.$sessionStorage;
 import 'vant/lib/index.css';
 import '@css/commonCss.css';
 import '@css/reset.css';
+import('vant/lib/icon/local.css');
 
 Vue.config.productionTip = false
 
