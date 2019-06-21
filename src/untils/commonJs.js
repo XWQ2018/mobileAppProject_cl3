@@ -62,3 +62,66 @@ export function dateTimeFormate(val, timeFormate) {
         console.log("缺少参数。。。");
     }
 }
+/**
+ * @Description: APP状态判断
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-06-21 09:34:46
+ */
+export function getAppStatus() {
+    //ios||android状态判断
+    let u = navigator.userAgent;
+    let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    return isiOS ? "ios" : "android";
+
+}
+
+/**
+ * @Description: 深复制方法
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-06-21 09:36:19
+ */
+export function deepCopy(val) {
+    // val = val ? val : {};
+    // let typeResult = Object.prototype.toString.call(val).slice(8, -1);//返回类型-》Object Array ...
+    //val instanceof Object  不能对Object类型正确判断，可以判断Array进行取反>>!(val instanceof Array)
+    if (typeof val === 'object') {
+        let result = JSON.parse(JSON.stringify(val));
+        return result;
+    } else {
+        return val;
+    }
+
+
+}
+
+/**
+ * @Description: 浅复制方法
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-06-21 09:50:25
+ */
+
+export function simpleCopy(val) {
+    /*
+     Object.assign({}, val)
+    当数据只有一层的时候也是深复制
+     */
+    if (typeof val === 'object') {
+        let result = Object.assign({}, val);
+        return result;
+    } else {
+        return val;
+    }
+
+}
