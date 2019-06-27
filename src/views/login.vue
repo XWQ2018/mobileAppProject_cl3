@@ -2,36 +2,13 @@
     <div class="page">
         <!-- <background/> -->
         <div class="main-container">
-            <!-- <div class="login-info">
-                <h1>LOGIN SYSTEM</h1>
-                <van-cell-group>
-                    <van-field
-                        v-model="username"
-                        clearable
-                        left-icon="contact"
-                        label="用户名"
-                        placeholder="请输入用户名"
-                        @click-right-icon="$toast('question')"
-                        maxlength="12"
-                    />
-                    <van-field
-                        v-model="password"
-                        type="password"
-                        label="密码"
-                        placeholder="请输入密码"
-                        left-icon="contact"
-                        maxlength="12"
-                    />
-                    <van-button type="primary" class="btnSubmit" size="large" @click="btnLogin">登入</van-button>
-                </van-cell-group>
-            </div>-->
             <van-row class="login-info text-left">
                 <van-row tag="h1">登入</van-row>
                 <van-row>
                     <van-cell-group>
                         <van-col tag="h5" class="title-h5" span="24">手机号</van-col>
                         <van-field
-                            v-model="username"
+                            v-model="tellPhone"
                             type="number"
                             maxlength="11"
                             clearable
@@ -86,7 +63,7 @@ export default {
     },
     data() {
         return {
-            username: "",
+            tellPhone: "",
             password: "",
             remenb: {
                 radioGroupVal: false,
@@ -94,7 +71,7 @@ export default {
                 selectVal: false
             },
             agreement: {
-                radioGroupVal: false,
+                radioGroupVal: true,
                 radioVal: true,
                 selectVal: false
             }
@@ -126,21 +103,50 @@ export default {
         },
         //登录
         submit() {
-            console.log("submit");
-            loginApi.getLoginInfo({}).then(res => {
-                console.log(res);
-            });
-            /* if (this.username && this.password) {
-                this.$toast("登入成功。。。");
-                this.$router.push({
-                    name: "home"
-                });
-            } else {
-                this.$toast("请输入用户名或密码!");
+            let params = {
+                tellPhone: this.tellPhone,
+                password: this.password
+            };
+            for (let k in params) {
+                if (!params[k]) {
+                    this.ruleInput(k);
+                    return;
+                }
             }
-            setTimeout(() => {
-                this.$toast.clear();
-            }, 1000); */
+            this.ruletellphone(this.tellPhone);
+            loginApi.getLoginInfo().then(res => {
+                if (res.code == 20000) {
+                    console.log(res);
+                    this.$toast(res.msg);
+                } else {
+                    this.$toast(res.msg);
+                }
+            });
+        },
+
+        //验证输入框是否为空
+        ruleInput(val) {
+            switch (val) {
+                case "tellPhone":
+                    this.$toast("手机号不能为空");
+                    break;
+                case "password":
+                    this.$toast("密码不能为空");
+                    break;
+                case "tellPhoneIllegal":
+                    this.$toast("手机号不合法");
+                    break;
+                default:
+                    break;
+            }
+        },
+        //验证手机号的合法性
+        ruletellphone(val) {
+            let Reg = /^[1][3,4,5,7,8][\d]{9}$/;
+            if (!Reg.test(val)) {
+                this.ruleInput("tellPhoneIllegal");
+                return;
+            }
         }
     }
 };
