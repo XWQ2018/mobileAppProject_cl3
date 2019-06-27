@@ -24,7 +24,7 @@ const responseCode = {
     }
 };
 //interceptors.request
-service.interceptors.request.use(function (config) {
+service.interceptors.request.use(config => {
     // eslint-disable-next-line no-console
     // console.log(config, '---------');
     if (!config.data) {
@@ -37,23 +37,26 @@ service.interceptors.request.use(function (config) {
 });
 
 //interceptors.response
-service.interceptors.response.use(function (res) {
-    // eslint-disable-next-line no-console
-    // console.log(res, '***********************')
-    if (res.data.code != 20000) {
-        if (responseCode[res.data.code]) {
-            responseCode[res.data.code]();
+service.interceptors.response.use(res => {
+
+    const response = res.data;
+
+    if (response.code != 20000) {
+        if (responseCode[response.code]) {
+            responseCode[response.code]();
         }
         return Promise.reject(res).catch(erro => {
             return erro;
         })
     } else {
 
-        return res.data;
+        return response;
     }
 
 }, error => {
-    return Promise.reject(error)
+    return Promise.reject(error).catch(errorInfo => {
+        return errorInfo;
+    })
 });
 
 

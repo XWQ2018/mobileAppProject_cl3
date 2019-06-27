@@ -1,11 +1,10 @@
 <template>
     <div class="page">
-        <ul>
-            <li>{{list.name}}</li>
-            <li>{{list.age}}</li>
-            <li>{{list.nickName}}</li>
-        </ul>
-        <van-button @click="submit">提交</van-button>
+        <van-row type="flex" span="24" justify="space-between">
+            <van-col span="12">{{list.name}}</van-col>
+            <van-col span="6">{{list.age}}</van-col>
+            <van-col span="6">{{list.nickName}}</van-col>
+        </van-row>
     </div>
 </template>
 <script>
@@ -20,25 +19,23 @@ export default {
         };
     },
     created() {},
-    mounted() {},
+    mounted() {
+        this.getLoginInfo();
+    },
     methods: {
-        submit() {
-            loginApi
-                .getLoginInfo()
-                .then(res => {
-                    if (res.code == 20000) {
-                        this.list = res.data;
-                        console.log(this.list.name);
-                    }
-                })
-                .catch(error => {
-                    console.log(error, "===========");
-                });
+        getLoginInfo() {
+            loginApi.getLoginInfo().then(res => {
+                if (res.code == 20000) {
+                    console.log(res.data.list);
+                    this.list = res.data.list;
+                }
+            });
         }
     }
 };
 </script>
 <style lang='less' scoped>
 .page {
+    font-size: 16px;
 }
 </style>
