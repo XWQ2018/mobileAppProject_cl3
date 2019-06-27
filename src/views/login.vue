@@ -114,7 +114,7 @@ export default {
                 }
             }
             this.ruletellphone(this.tellPhone);
-            loginApi.getLoginInfo().then(res => {
+            loginApi.getLoginInfo({ a: 1, b: 5 }).then(res => {
                 if (res.code == 20000) {
                     console.log(res);
                     this.$toast(res.msg);
