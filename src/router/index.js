@@ -4,7 +4,7 @@ Vue.use(vueRouter);
 
 const login = () => import('@/views/login');
 const home = () => import('@/views/home');
-const dialogMsg = () => import('@/components/dialogMsg');
+const test = () => import('@/views/test');
 const NotFound = () => import('@/components/notFound');
 
 const router = [
@@ -32,9 +32,9 @@ const router = [
         }
     },
     {
-        path: '/dialogMsg',
-        name: 'dialogMsg',
-        component: dialogMsg,
+        path: '/test',
+        name: 'test',
+        component: test,
         meta: {
             title: 'test',
             keepAlive: false
