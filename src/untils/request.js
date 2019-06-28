@@ -1,9 +1,6 @@
 import $http from 'axios';
 import Qs from 'qs';
 import { Toast } from 'vant';
-// import Vue from 'vue';
-
-// Vue.use(Toast);
 
 // process.env.VUE_APP_API_URL
 
