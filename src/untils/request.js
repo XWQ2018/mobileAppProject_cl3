@@ -1,9 +1,6 @@
 import $http from 'axios';
 import Qs from 'qs';
 import { Toast } from 'vant';
-// import Vue from 'vue';
-
-// Vue.use(Toast);
 
 // process.env.VUE_APP_API_URL
 
@@ -20,8 +17,8 @@ var service = $http.create({
 });
 
 const responseCode = {
-    40000: function () {
-        Toast('xxxxx')
+    31000: function () {
+        Toast('账号或密码不对')
     }
 };
 //interceptors.request
@@ -31,7 +28,7 @@ service.interceptors.request.use(config => {
     if (!config.data) {
         config.data = {};
     }
-    config.data.token = '44646116f161689441616161';
+    // config.data.token = '44646116f161689441616161';
     return config;
 }, error => {
     return Promise.rejiect(error)
@@ -41,16 +38,14 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(res => {
 
     const response = res.data;
-
     if (response.code != 20000) {
         if (responseCode[response.code]) {
             responseCode[response.code]();
         }
-        return Promise.reject(res).catch(erro => {
+        return Promise.reject(response).catch(erro => {
             return erro;
         })
     } else {
-
         return response;
     }
 

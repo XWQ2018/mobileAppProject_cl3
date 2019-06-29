@@ -114,14 +114,19 @@ export default {
                 }
             }
             this.ruletellphone(this.tellPhone);
-            loginApi.getLoginInfo({ a: 1, b: 5 }).then(res => {
-                if (res.code == 20000) {
-                    console.log(res);
-                    this.$toast(res.msg);
-                } else {
-                    this.$toast(res.msg);
-                }
-            });
+            loginApi
+                .getLoginInfo({
+                    username: this.tellPhone,
+                    password: this.password
+                })
+                .then(res => {
+                    if (res.code == 20000) {
+                        this.$toast(res.msg);
+                        this.$router.push({
+                            name: "home"
+                        });
+                    }
+                });
         },
 
         //验证输入框是否为空

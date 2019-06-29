@@ -67,7 +67,7 @@ new Vue({
     },
     created() {
         // eslint-disable-next-line no-console
-        console.log(777)
+        // console.log(777)
     },
     mounted() {
 
