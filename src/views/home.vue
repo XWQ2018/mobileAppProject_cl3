@@ -74,7 +74,6 @@ export default {
     methods: {
         forMate() {
             let result = dateTimeFormate("2019-2-12", "YYYY-MM-dd-HH");
-            console.log(result, "************");
         },
         back() {
             console.log("不能在返回了....");
