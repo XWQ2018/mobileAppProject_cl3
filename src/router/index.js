@@ -5,7 +5,9 @@ Vue.use(vueRouter);
 const login = () => import('@/views/login');
 const home = () => import('@/views/home');
 const test = () => import('@/views/test');
-const NotFound = () => import('@/components/notFound');
+const userRegister = () => import('@/views/userRegister');
+const agreement = () => import('@/views/agreement');
+const notFound = () => import('@/components/notFound');
 
 const router = [
     {
@@ -18,8 +20,26 @@ const router = [
         // component: resolve => require(['@/views/login'], resolve),
         component: login,
         meta: {
-            title: '登入页面',
+            title: '登入',
             keepAlive: false
+        }
+    },
+    {
+        path: '/userRegister',
+        name: 'userRegister',
+        component: userRegister,
+        meta: {
+            title: '用户注册',
+            keepAlive: false
+        }
+    },
+    {
+        path: '/agreement',
+        name: 'agreement',
+        component: agreement,
+        meta: {
+            title: '协议内容',
+            keepAlive: true
         }
     },
     {
@@ -41,9 +61,18 @@ const router = [
         }
     },
     {
+        path: '/notFound',
+        name: 'notFound',
+        component: notFound,
+        meta: {
+            title: '页面丢失了',
+            keepAlive: true,
+
+        }
+    },
+    {
         path: '*',
-        name: 'NotFound',
-        component: NotFound
+        redirect: { name: 'notFound' }
     }
 ]
 

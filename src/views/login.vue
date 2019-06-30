@@ -1,9 +1,14 @@
+<!--
+ * @Description: 登入页面
+ * @Author: xwq
+ * @Date: 2019-05-19 14:43:36
+ -->
 <template>
     <div class="page">
         <!-- <background/> -->
         <div class="main-container">
             <van-row class="login-info text-left">
-                <van-row tag="h1">登入</van-row>
+                <van-row tag="h1">{{title}}</van-row>
                 <van-row>
                     <van-cell-group>
                         <van-col tag="h5" class="title-h5" span="24">手机号</van-col>
@@ -31,6 +36,7 @@
                                 shape="square"
                                 @click="clickRemenb"
                             >记住密码</van-radio>
+                            <span class="register" @click="register">注册>></span>
                         </van-radio-group>
                     </van-cell-group>
                 </van-row>
@@ -63,6 +69,7 @@ export default {
     },
     data() {
         return {
+            title: this.$route.meta.title,
             tellPhone: "",
             password: "",
             remenb: {
@@ -99,9 +106,30 @@ export default {
         },
         //协议信息
         agreementInfo() {
-            alert(8888);
+            this.$router.push({ name: "agreement" });
         },
-        //登录
+        /**
+         * @Description: 注册账号
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-06-30 14:46:16
+         */
+        register() {
+            this.$router.push({ name: "userRegister" });
+        },
+        /**
+         * @Description: 用户登入
+         * @Param: username [type=string] 手机号
+         * @Param: password [type=string] 密码
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-06-30 14:47:13
+         */
         submit() {
             let params = {
                 tellPhone: this.tellPhone,
@@ -116,8 +144,8 @@ export default {
             this.ruletellphone(this.tellPhone);
             loginApi
                 .getLoginInfo({
-                    username: this.tellPhone,
-                    password: this.password
+                    username: this.tellPhone + "",
+                    password: this.password + ""
                 })
                 .then(res => {
                     if (res.code == 20000) {
@@ -159,6 +187,9 @@ export default {
 <style lang='less' scoped>
 .page {
     .main-container {
+        /deep/ .van-radio__icon {
+            padding-bottom: 6px;
+        }
         .login-info {
             margin-top: 80px;
             padding: 0 10px;
@@ -195,6 +226,13 @@ export default {
                         padding-bottom: 10px;
                     }
                 }
+            }
+            .register {
+                font-size: 16px;
+                position: absolute;
+                right: 0;
+                bottom: 8px;
+                color: #00f;
             }
         }
     }

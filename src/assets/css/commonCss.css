@@ -22,6 +22,9 @@
 .margin-right{
     margin-right:10px;
 }
+.border-radius{
+    border-radius:5px;
+}
 .clearFix::after{
     display:block;
     content:'.';

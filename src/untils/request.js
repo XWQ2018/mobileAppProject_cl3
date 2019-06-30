@@ -7,7 +7,7 @@ import { Toast } from 'vant';
 var service = $http.create({
     baseURL: process.env.VUE_APP_API_URL,
     timeout: 2000,
-    //'content-type': 'application/x-www-form-urlencoded'
+    'content-type': 'application/x-www-form-urlencoded',
     headers: { 'X-Custom-Header': 'foobar' },
     transformRequest: [function (data) {
         // Do whatever you want to transform the data

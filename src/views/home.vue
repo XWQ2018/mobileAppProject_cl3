@@ -1,3 +1,8 @@
+<!--
+ * @Description: 首页
+ * @Author: xwq
+ * @Date: 2019-05-19 14:43:36
+ -->
 <template>
     <div class="page">
         <headOne
