@@ -94,6 +94,15 @@ export default {
 
         submitRegister() {
             console.log("用户注册");
+            let registerInfo = this.registerInfo;
+            for (let k in registerInfo) {
+                if (!registerInfo[k]) {
+                    this.ruleInput(k);
+                    return;
+                }
+            }
+            this.regTellphone(registerInfo.username);
+            this.regEmail(registerInfo.email);
         },
         /**
          * @Description: 返回登入页
@@ -107,6 +116,71 @@ export default {
 
         backLogin() {
             this.$router.push({ name: "login" });
+        },
+
+        /**
+         * @Description: 验证输入框是否为空
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-06-30 16:36:30
+         */
+        ruleInput(val) {
+            switch (val) {
+                case "username":
+                    this.$toast("手机号不能为空");
+                    break;
+                case "password":
+                    this.$toast("密码不能为空");
+                    break;
+                case "email":
+                    this.$toast("邮箱号不能为空");
+                    break;
+                case "tellPhoneReg":
+                    this.$toast("手机号不合法");
+                    break;
+                case "emailReg":
+                    this.$toast("邮箱不合法");
+                    break;
+                default:
+                    break;
+            }
+        },
+
+        /**
+         * @Description: 验证手机号的合法性
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-06-30 16:35:44
+         */
+        regTellphone(val) {
+            let Reg = /^[1][3,4,5,7,8][\d]{9}$/;
+            if (!Reg.test(val)) {
+                this.ruleInput("tellPhoneReg");
+                return;
+            }
+        },
+        /**
+         * @Description: 邮箱验证
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-06-30 16:44:03
+         */
+
+        regEmail(val) {
+            let Reg = /^[a-z0-9][\w\-\.]{2,29}@[a-z0-9\-]{2,67}(\.[a-z\u2E80-\u9FFF]{2,6})+$/;
+            if (!Reg.test(val)) {
+                this.ruleInput("emailReg");
+                return;
+            }
         }
     }
 };
