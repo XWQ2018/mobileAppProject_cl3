@@ -59,6 +59,7 @@
 import background from "@/components/background";
 import button from "@/components/button";
 import { Field, RadioGroup, Radio } from "vant";
+import createUserApi from "@/api/user/createUser";
 export default {
     props: {},
     components: {
@@ -93,7 +94,6 @@ export default {
          */
 
         submitRegister() {
-            console.log("用户注册");
             let registerInfo = this.registerInfo;
             for (let k in registerInfo) {
                 if (!registerInfo[k]) {
@@ -103,6 +103,15 @@ export default {
             }
             this.regTellphone(registerInfo.username);
             this.regEmail(registerInfo.email);
+
+            createUserApi.createUser(this.registerInfo).then(res => {
+                if (res.code == 20000) {
+                    this.$toast(res.msg);
+                    this.$router.push({
+                        name: "login"
+                    });
+                }
+            });
         },
         /**
          * @Description: 返回登入页

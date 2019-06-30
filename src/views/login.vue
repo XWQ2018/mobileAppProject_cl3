@@ -57,7 +57,7 @@
     </div>
 </template>
 <script>
-import loginApi from "@/api/login/login";
+import loginApi from "@/api/user/login";
 import { Field, RadioGroup, Radio } from "vant";
 import button from "@/components/button";
 export default {

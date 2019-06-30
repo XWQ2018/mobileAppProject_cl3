@@ -99,10 +99,11 @@ export default {
             > h3 {
                 padding-top: 10px;
                 font-weight: bold;
+                font-size: 20px;
             }
             .desc-list-info {
                 & > li {
-                    font-size: 18px;
+                    font-size: 16px;
                     line-height: 26px;
                     padding: 10px 0 10px 10px;
                 }

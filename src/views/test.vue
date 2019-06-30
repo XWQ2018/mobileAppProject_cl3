@@ -8,7 +8,7 @@
     </div>
 </template>
 <script>
-import loginApi from "@/api/login/login";
+import loginApi from "@/api/user/login";
 export default {
     props: {},
     components: {},

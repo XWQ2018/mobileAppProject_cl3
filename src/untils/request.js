@@ -17,9 +17,12 @@ var service = $http.create({
 });
 
 const responseCode = {
-    31000: function () {
-        Toast('账号或密码不对')
-    }
+    31000: function (msg) {
+        Toast(msg)
+    },
+    32000: function (msg) {
+        Toast(msg)
+    },
 };
 //interceptors.request
 service.interceptors.request.use(config => {
@@ -40,7 +43,7 @@ service.interceptors.response.use(res => {
     const response = res.data;
     if (response.code != 20000) {
         if (responseCode[response.code]) {
-            responseCode[response.code]();
+            responseCode[response.code](response.msg);
         }
         return Promise.reject(response).catch(erro => {
             return erro;
