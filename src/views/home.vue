@@ -18,6 +18,7 @@
         />
         <background />
         <div class="main-container">
+            <Vbanner />
             <VresultList :listInfo="listInfo" title="诊断结果" />
         </div>
     </div>
@@ -26,12 +27,14 @@
 import headOne from "@/components/headOne";
 import background from "@/components/background";
 import resultList from "@/components/resultList";
+import banner from "@/components/banner";
 import { dateTimeFormate } from "@/untils/commonJs";
 export default {
     components: {
         headOne,
         background,
-        VresultList: resultList
+        VresultList: resultList,
+        Vbanner: banner
     },
     data() {
         return {
