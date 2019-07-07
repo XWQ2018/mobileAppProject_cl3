@@ -5,7 +5,7 @@
  -->
 <template>
     <div class="page">
-        <Vbackground/>
+        <Vbackground />
         <div class="main-container">
             <!-- <h1 class="text-left margin-bottom">{{title}}>></h1> -->
             <div class="text-left margin-bottom">
@@ -50,7 +50,7 @@
                         <van-radio name="女">女</van-radio>
                     </van-radio-group>
                 </div>
-                <Vbutton @clickButton="submitRegister" buttonText="注册"/>
+                <Vbutton @clickButton="submitRegister" buttonText="注册" />
             </div>
         </div>
     </div>
@@ -107,9 +107,12 @@ export default {
             createUserApi.createUser(this.registerInfo).then(res => {
                 if (res.code == 20000) {
                     this.$toast(res.msg);
-                    this.$router.push({
-                        name: "login"
-                    });
+                    setTimeout(() => {
+                        this.$toast.clear();
+                        this.$router.push({
+                            name: "login"
+                        });
+                    }, 2000);
                 }
             });
         },
