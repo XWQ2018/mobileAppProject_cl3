@@ -143,3 +143,19 @@ export function isEmptyObject(obj) {
     }
     return true;
 }
+
+/**
+ * @Description: 轮播图动态获取高度
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-07-08 16:02:53
+ */
+
+export function bannerHeightFormate() {
+
+    let currentHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    return Math.ceil(currentHeight * 0.375)
+}

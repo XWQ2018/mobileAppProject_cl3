@@ -18,8 +18,7 @@
         />
         <background />
         <div class="main-container">
-            <Vbanner />
-            <VresultList :listInfo="listInfo" title="诊断结果" />
+            <Vbanner :imgList="imgList" />
         </div>
     </div>
 </template>
@@ -45,7 +44,11 @@ export default {
             leftText: "",
             rightText: "图表",
             onClickLeftStatus: true,
-            listInfo: "和覅哦我i换肤哈佛为符合哈佛王红"
+            listInfo: "和覅哦我i换肤哈佛为符合哈佛王红",
+            imgList: [
+                "https://img.yzcdn.cn/vant/apple-1.jpg",
+                "https://img.yzcdn.cn/vant/apple-2.jpg"
+            ]
         };
     },
     //不能直接访问this，需要传入函数

@@ -84,10 +84,10 @@ module.exports = {
             .set('@', resolve('src'))
             .set('@assets', resolve('src/assets'))
             .set('@css', resolve('src/assets/css'))
-            .set('@image', resolve('src/assets/image'));
+            .set('@image', resolve('src/assets/image'))
     },
 
-    //修改插件
+    //生产环境开启插件
     configureWebpack: config => {
         if (!isDev) {
             const plugins = [];
@@ -96,7 +96,7 @@ module.exports = {
                     filename: '[path].gz[query]',
                     algorithm: 'gzip',
                     test: productionGzipExtensions,
-                    threshold: 10240,
+                    threshold: 10240, //条件
                     minRatio: 0.8
                 })
             );

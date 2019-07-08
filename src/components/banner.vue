@@ -1,20 +1,19 @@
 <template>
-    <div class="page">
+    <div class="page" v-if="imgList">
         <div class="banner">
-            <van-swipe>
-                <van-swipe-item v-for="(image, index) in images" :key="index">
-                    <img v-lazy="image" />
+            <van-swipe :autoplay="3000">
+                <van-swipe-item v-for="(image, index) in imgList" :key="index">
+                    <img v-lazy="image" @click="enlargeImage(imgList, index)" />
                 </van-swipe-item>
             </van-swipe>
         </div>
-        <van-row span="24" class="fix-chunk"></van-row>
     </div>
 </template>
 <script>
-import { Swipe, SwipeItem } from "vant";
+import { Swipe, SwipeItem, ImagePreview } from "vant";
 export default {
     props: {
-        list: {
+        imgList: {
             type: Array,
             default: function() {
                 return [];
@@ -26,42 +25,45 @@ export default {
         [SwipeItem.name]: SwipeItem
     },
     data() {
-        return {
-            images: [
-                "https://img.yzcdn.cn/vant/apple-1.jpg",
-                "https://img.yzcdn.cn/vant/apple-2.jpg"
-            ]
-        };
+        return {};
     },
     created() {},
     mounted() {},
-    methods: {}
+    methods: {
+        /**
+         * @Description: 查看图片
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-08 16:34:20
+         */
+
+        enlargeImage(imgList, index) {
+            ImagePreview({
+                images: imgList,
+                loop: false,
+                startPosition: index,
+                lazyLoad: true,
+                showIndicators: true
+            });
+        }
+    }
 };
 </script>
 <style lang="less" scoped>
 .page {
+    margin-bottom: 10px;
     .banner {
         width: 100%;
-        height: 200px;
         background-color: #fff;
-        position: absolute;
-        left: 0;
-        right: 0;
         /deep/ .van-swipe-item {
             & > img {
-                height: 200px;
+                display: block;
+                width: 100%;
             }
         }
-        &:after {
-            content: "6666";
-            display: block;
-            width: 100%;
-            visibility: hidden;
-            margin-bottom: 10px;
-        }
     }
-    // .fix-chunk {
-    // margin-top: 200px;
-    // }
 }
 </style>

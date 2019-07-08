@@ -26,7 +26,7 @@ export default {
         getLoginInfo() {
             loginApi.getLoginInfo().then(res => {
                 if (res.code == 20000) {
-                    console.log(res.data.list);
+                    // console.log(res.data.list);
                     this.list = res.data.list;
                 }
             });
