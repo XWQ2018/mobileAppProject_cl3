@@ -47,7 +47,8 @@ export default {
             listInfo: "和覅哦我i换肤哈佛为符合哈佛王红",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
-                "https://img.yzcdn.cn/vant/apple-2.jpg"
+                "https://img.yzcdn.cn/vant/apple-2.jpg",
+                require("@image/1.jpg")
             ]
         };
     },
