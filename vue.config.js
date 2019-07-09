@@ -58,7 +58,7 @@ module.exports = {
                         rootValue: 37.5, // 换算的基数
                         propList: ['*'],
                         /* 这是解决使用van-circle组件出现的Bug,详情见》》https://github.com/youzan/vant/issues/1948 */
-                        selectorBlackList: "van-circle__layer"
+                        selectorBlackList: ["van-circle__layer"]
                     }),
                     require('autoprefixer')({ broswer: 'last 5 versions' }) //CSS3前缀添加
                 ]

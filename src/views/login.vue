@@ -1,5 +1,5 @@
 <!--
- * @Description: 登入页面
+ * @Description: 用户登入
  * @Author: xwq
  * @Date: 2019-05-19 14:43:36
  -->
@@ -40,7 +40,7 @@
                         </van-radio-group>
                     </van-cell-group>
                 </van-row>
-                <Vbutton buttonText="登录" @clickButton="submit"/>
+                <Vbutton buttonText="登录" @clickButton="submit" />
                 <div class="agreement">
                     <van-radio-group v-model="agreement.radioGroupVal">
                         <van-radio

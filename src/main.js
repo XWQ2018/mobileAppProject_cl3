@@ -3,7 +3,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import './untils/request'
-import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
+// import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
 import 'amfe-flexible/index.js';
 import Storage from 'vue-web-storage';
 import {

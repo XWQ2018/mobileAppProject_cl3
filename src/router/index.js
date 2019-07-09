@@ -4,7 +4,6 @@ Vue.use(vueRouter);
 
 const login = () => import('@/views/login');
 const home = () => import('@/views/home');
-const test = () => import('@/views/test');
 const userRegister = () => import('@/views/userRegister');
 const agreement = () => import('@/views/agreement');
 const notFound = () => import('@/components/notFound');
@@ -48,15 +47,6 @@ const router = [
         component: home,
         meta: {
             title: '首页',
-            keepAlive: false
-        }
-    },
-    {
-        path: '/test',
-        name: 'test',
-        component: test,
-        meta: {
-            title: 'test',
             keepAlive: false
         }
     },
