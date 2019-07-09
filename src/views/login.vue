@@ -1,37 +1,19 @@
+<!--
+ * @Description: 登入页面
+ * @Author: xwq
+ * @Date: 2019-05-19 14:43:36
+ -->
 <template>
     <div class="page">
         <!-- <background/> -->
         <div class="main-container">
-            <!-- <div class="login-info">
-                <h1>LOGIN SYSTEM</h1>
-                <van-cell-group>
-                    <van-field
-                        v-model="username"
-                        clearable
-                        left-icon="contact"
-                        label="用户名"
-                        placeholder="请输入用户名"
-                        @click-right-icon="$toast('question')"
-                        maxlength="12"
-                    />
-                    <van-field
-                        v-model="password"
-                        type="password"
-                        label="密码"
-                        placeholder="请输入密码"
-                        left-icon="contact"
-                        maxlength="12"
-                    />
-                    <van-button type="primary" class="btnSubmit" size="large" @click="btnLogin">登入</van-button>
-                </van-cell-group>
-            </div>-->
             <van-row class="login-info text-left">
-                <van-row tag="h1">登入</van-row>
+                <van-row tag="h1">{{title}}</van-row>
                 <van-row>
                     <van-cell-group>
                         <van-col tag="h5" class="title-h5" span="24">手机号</van-col>
                         <van-field
-                            v-model="username"
+                            v-model="tellPhone"
                             type="number"
                             maxlength="11"
                             clearable
@@ -54,6 +36,7 @@
                                 shape="square"
                                 @click="clickRemenb"
                             >记住密码</van-radio>
+                            <span class="register" @click="register">注册>></span>
                         </van-radio-group>
                     </van-cell-group>
                 </van-row>
@@ -74,7 +57,7 @@
     </div>
 </template>
 <script>
-import loginApi from "@/api/login/login";
+import loginApi from "@/api/user/login";
 import { Field, RadioGroup, Radio } from "vant";
 import button from "@/components/button";
 export default {
@@ -86,7 +69,8 @@ export default {
     },
     data() {
         return {
-            username: "",
+            title: this.$route.meta.title,
+            tellPhone: "",
             password: "",
             remenb: {
                 radioGroupVal: false,
@@ -94,7 +78,7 @@ export default {
                 selectVal: false
             },
             agreement: {
-                radioGroupVal: false,
+                radioGroupVal: true,
                 radioVal: true,
                 selectVal: false
             }
@@ -122,25 +106,80 @@ export default {
         },
         //协议信息
         agreementInfo() {
-            alert(8888);
+            this.$router.push({ name: "agreement" });
         },
-        //登录
+        /**
+         * @Description: 注册账号
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-06-30 14:46:16
+         */
+        register() {
+            this.$router.push({ name: "userRegister" });
+        },
+        /**
+         * @Description: 用户登入
+         * @Param: username [type=string] 手机号
+         * @Param: password [type=string] 密码
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-06-30 14:47:13
+         */
         submit() {
-            console.log("submit");
-            loginApi.getLoginInfo({}).then(res => {
-                console.log(res);
-            });
-            /* if (this.username && this.password) {
-                this.$toast("登入成功。。。");
-                this.$router.push({
-                    name: "home"
-                });
-            } else {
-                this.$toast("请输入用户名或密码!");
+            let params = {
+                tellPhone: this.tellPhone,
+                password: this.password
+            };
+            for (let k in params) {
+                if (!params[k]) {
+                    this.ruleInput(k);
+                    return;
+                }
             }
-            setTimeout(() => {
-                this.$toast.clear();
-            }, 1000); */
+            this.ruletellphone(this.tellPhone);
+            loginApi
+                .getLoginInfo({
+                    username: this.tellPhone + "",
+                    password: this.password + ""
+                })
+                .then(res => {
+                    if (res.code == 20000) {
+                        this.$toast(res.msg);
+                        this.$router.push({
+                            name: "home"
+                        });
+                    }
+                });
+        },
+
+        //验证输入框是否为空
+        ruleInput(val) {
+            switch (val) {
+                case "tellPhone":
+                    this.$toast("手机号不能为空");
+                    break;
+                case "password":
+                    this.$toast("密码不能为空");
+                    break;
+                case "tellPhoneIllegal":
+                    this.$toast("手机号不合法");
+                    break;
+                default:
+                    break;
+            }
+        },
+        //验证手机号的合法性
+        ruletellphone(val) {
+            let Reg = /^[1][3,4,5,7,8][\d]{9}$/;
+            if (!Reg.test(val)) {
+                this.ruleInput("tellPhoneIllegal");
+                return;
+            }
         }
     }
 };
@@ -148,6 +187,9 @@ export default {
 <style lang='less' scoped>
 .page {
     .main-container {
+        /deep/ .van-radio__icon {
+            padding-bottom: 6px;
+        }
         .login-info {
             margin-top: 80px;
             padding: 0 10px;
@@ -184,6 +226,13 @@ export default {
                         padding-bottom: 10px;
                     }
                 }
+            }
+            .register {
+                font-size: 16px;
+                position: absolute;
+                right: 0;
+                bottom: 8px;
+                color: #00f;
             }
         }
     }

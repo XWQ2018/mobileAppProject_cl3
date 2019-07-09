@@ -125,3 +125,37 @@ export function simpleCopy(val) {
     }
 
 }
+
+/**
+ * @Description:判断 数组、对象是否为空
+ * @Param: Array  Object
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return:
+ * @Date: 2019-06-26 10:28:00
+ */
+
+export function isEmptyObject(obj) {
+    let len = Object.keys(obj).length;
+    if (len) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * @Description: 轮播图动态获取高度
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-07-08 16:02:53
+ */
+
+export function bannerHeightFormate() {
+
+    let currentHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    return Math.ceil(currentHeight * 0.375)
+}

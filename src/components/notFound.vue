@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <h3>页面走丢了。。。。</h3>
+        <h3>页面走丢了。。</h3>
     </div>
 </template>
 <script>

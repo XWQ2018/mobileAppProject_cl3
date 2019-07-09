@@ -5,12 +5,12 @@
             :isFixed="isFixed"
             :left-text="leftText"
             :right-text="rightText"
-            :left-arrow="leftArrow"
+            :left-arrow="leftArrowStatus"
             :class="{backgroundTransparent:transparentStatus,'head-fixed':isFixed}"
             @click-left="onClickLeft"
             @click-right="onClickRight"
         >
-            <van-icon v-show="rightIcon" :name="iconName?iconName:'shop-collect-o'" slot="right"/>
+            <van-icon v-show="rightIcon" :name="iconName?iconName:'shop-collect-o'" slot="right" />
         </van-nav-bar>
         <van-row span="24" v-if="isFixed" class="fix-chunk"></van-row>
     </div>
@@ -37,7 +37,7 @@ export default {
             type: String,
             default: ""
         },
-        leftArrow: {
+        leftArrowStatus: {
             type: Boolean,
             default: true
         },

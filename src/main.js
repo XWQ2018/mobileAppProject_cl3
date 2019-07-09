@@ -33,8 +33,8 @@ Vue.use(Cell)
     .use(Col);
 
 //实例化插件
-const vConsole = new Vconsole();
-Vue.use(vConsole);
+// const vConsole = new Vconsole();
+// Vue.use(vConsole);
 //本地缓存插件
 Vue.use(Storage, {
     prefix: 'APPInfo',// default `app_`
@@ -67,7 +67,7 @@ new Vue({
     },
     created() {
         // eslint-disable-next-line no-console
-        console.log(777)
+        // console.log(777)
     },
     mounted() {
 

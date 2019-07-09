@@ -1,51 +1,61 @@
 import $http from 'axios';
 import Qs from 'qs';
 import { Toast } from 'vant';
-import Vue from 'vue';
-
-Vue.use(Toast);
 
 // process.env.VUE_APP_API_URL
 
 var service = $http.create({
     baseURL: process.env.VUE_APP_API_URL,
     timeout: 2000,
+    'content-type': 'application/x-www-form-urlencoded',
     headers: { 'X-Custom-Header': 'foobar' },
-    transformResponse: [function (data) {
+    transformRequest: [function (data) {
         // Do whatever you want to transform the data
         data = Qs.stringify(data);
         return data;
     }],
 });
 
-const totastCode = {
-    40000: function () {
-        Toast('xxxxx')
-    }
+const responseCode = {
+    31000: function (msg) {
+        Toast(msg)
+    },
+    32000: function (msg) {
+        Toast(msg)
+    },
 };
 //interceptors.request
-service.interceptors.request.use(function (config) {
+service.interceptors.request.use(config => {
     // eslint-disable-next-line no-console
-    console.log(config)
+    // console.log(config, '---------');
     if (!config.data) {
         config.data = {};
     }
-    config.data.token = '44646116f161689441616161';
+    // config.data.token = '44646116f161689441616161';
     return config;
 }, error => {
     return Promise.rejiect(error)
 });
 
 //interceptors.response
-service.interceptors.response.use(function (res) {
-    // eslint-disable-next-line no-console
-    console.log(res)
-    if (totastCode[res.code]) {
-        totastCode[res.code]();
+service.interceptors.response.use(res => {
+
+    const response = res.data;
+    if (response.code != 20000) {
+        if (responseCode[response.code]) {
+            responseCode[response.code](response.msg);
+        }
+        return Promise.reject(response).catch(erro => {
+            return erro;
+        })
+    } else {
+        return response;
     }
 
 }, error => {
-    return Promise.reject(error)
+    return Promise.reject(error).catch(errorInfo => {
+        return errorInfo;
+    })
 });
 
 

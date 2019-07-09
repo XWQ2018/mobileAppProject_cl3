@@ -1,9 +1,14 @@
+<!--
+ * @Description: 首页
+ * @Author: xwq
+ * @Date: 2019-05-19 14:43:36
+ -->
 <template>
     <div class="page">
         <headOne
             :title="title"
             :isFixed="isFixed"
-            :leftArrow="leftArrow"
+            :leftArrowStatus="leftArrowStatus"
             :rightIcon="rightIcon"
             :leftText="leftText"
             :rightText="rightText"
@@ -11,58 +16,44 @@
             @onClickLeft="back"
             @onClickRight="clickMenu"
         />
-        <background/>
+        <background />
         <div class="main-container">
-            <van-row span="24" class="desc-info margin-bottom">
-                <van-col span="24" tag="h3" class="text-left">标题描述</van-col>
-                <van-col tag="ul" span="24" class="desc-list-info text-left">
-                    <van-col tag="li" span="24" v-for="(item,key) in listInfo" :key="key">{{item}}</van-col>
-                </van-col>
-            </van-row>
-            <van-row span="24" class="desc-info margin-bottom">
-                <van-col span="24" tag="h3" class="text-left">方案描述</van-col>
-                <van-col tag="ul" span="24" class="desc-list-info text-left">
-                    <van-col tag="li" span="24" v-for="(item,key) in listInfo" :key="key">{{item}}</van-col>
-                </van-col>
-            </van-row>
-            <van-row span="24" class="desc-info margin-bottom">
-                <van-col span="24" tag="h3" class="text-left">结论描述</van-col>
-                <van-col tag="ul" span="24" class="desc-list-info text-left">
-                    <van-col tag="li" span="24" v-for="(item,key) in listInfo" :key="key">{{item}}</van-col>
-                </van-col>
-            </van-row>
+            <Vbanner :imgList="imgList" />
         </div>
     </div>
 </template>
 <script>
 import headOne from "@/components/headOne";
 import background from "@/components/background";
+import resultList from "@/components/resultList";
+import banner from "@/components/banner";
 import { dateTimeFormate } from "@/untils/commonJs";
 export default {
     components: {
         headOne,
-        background
+        background,
+        VresultList: resultList,
+        Vbanner: banner
     },
     data() {
         return {
-            title: "首页菜单",
+            title: this.$route.meta.title,
             isFixed: true,
-            leftArrow: true,
+            leftArrowStatus: false,
             rightIcon: false,
             leftText: "",
             rightText: "图表",
             onClickLeftStatus: true,
-            listInfo: [
-                "1、和覅哦我i换肤iohfhwofhow哈佛王红",
-                "2、凤凰网iofhifgwif凤凰网iugf服务管理",
-                "3、gfiwgfoifegf股份我广佛唔复古舞igf",
-                "4、符合我国igfiowweohqw分红文化宫ih"
+            listInfo: "和覅哦我i换肤哈佛为符合哈佛王红",
+            imgList: [
+                "https://img.yzcdn.cn/vant/apple-1.jpg",
+                "https://img.yzcdn.cn/vant/apple-2.jpg",
+                require("@image/1.jpg")
             ]
         };
     },
     //不能直接访问this，需要传入函数
     beforeRouteEnter(to, from, next) {
-        // this.title = "8888";
         next(vm => {
             // console.log(vm, "8888===");
         });
@@ -74,7 +65,6 @@ export default {
     methods: {
         forMate() {
             let result = dateTimeFormate("2019-2-12", "YYYY-MM-dd-HH");
-            console.log(result, "************");
         },
         back() {
             console.log("不能在返回了....");
@@ -88,22 +78,6 @@ export default {
 <style lang='less' scoped>
 .page {
     .main-container {
-        .desc-info {
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 10px;
-            > h3 {
-                padding-top: 10px;
-                font-weight: bold;
-            }
-            .desc-list-info {
-                & > li {
-                    font-size: 18px;
-                    line-height: 26px;
-                    padding: 10px 0 10px 10px;
-                }
-            }
-        }
     }
 }
 </style>
