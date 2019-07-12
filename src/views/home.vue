@@ -19,21 +19,25 @@
         <background />
         <div class="main-container">
             <Vbanner :imgList="imgList" />
+            <Vsearch />
         </div>
     </div>
 </template>
 <script>
+import eventVue from "@/untils/eventVue"; //引入vue的构造函数
 import headOne from "@/components/headOne";
 import background from "@/components/background";
 import resultList from "@/components/resultList";
 import banner from "@/components/banner";
+import search from "@/components/search";
 import { dateTimeFormate } from "@/untils/commonJs";
 export default {
     components: {
         headOne,
         background,
         VresultList: resultList,
-        Vbanner: banner
+        Vbanner: banner,
+        Vsearch: search
     },
     data() {
         return {
@@ -61,6 +65,11 @@ export default {
     created() {},
     mounted() {
         this.forMate();
+
+        //接收子组件$emit发送的消息
+        eventVue.$on("searchButton", msg => {
+            console.log(msg);
+        });
     },
     methods: {
         forMate() {

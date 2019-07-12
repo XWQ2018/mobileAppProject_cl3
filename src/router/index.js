@@ -11,7 +11,7 @@ const notFound = () => import('@/components/notFound');
 const router = [
     {
         path: '/',
-        redirect: { name: 'login' }
+        redirect: { name: 'home' }
     },
     {
         path: '/login',
@@ -64,8 +64,8 @@ const router = [
         path: '*',
         redirect: { name: 'notFound' }
     }
-]
+];
 
 export default new vueRouter({
     routes: router
-})
+});
