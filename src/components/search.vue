@@ -18,6 +18,7 @@
             </van-field>
         </van-cell-group>
         <div class="list-info" v-if="inputInfoStatus">
+            <div class="poup-back" @click="backgroundHandle(true)"></div>
             <van-cell
                 :title="item"
                 is-link
@@ -65,11 +66,11 @@ export default {
          * @Date: 2019-07-12 13:57:22
          */
         focusHandle() {
-            this.inputInfoStatus = this.inputInfo ? true : false;
+            this.inputInfoStatus = this.inputInfo != "" ? true : false;
         },
 
         /**
-         * @Description:
+         * @Description:选择历史记录
          * @Param:
          * @Author: xwq
          * @LastEditors: xwq
@@ -80,6 +81,20 @@ export default {
         listInfoClick(item) {
             this.inputVal = item;
             this.inputInfoStatus = false;
+        },
+        /**
+         * @Description: 点击poup层关闭历史
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-12 16:37:49
+         */
+        backgroundHandle(val) {
+            if (val) {
+                this.inputInfoStatus = false;
+            }
         },
 
         /**
@@ -92,15 +107,35 @@ export default {
          * @Date: 2019-07-12 11:42:48
          */
         searchClick() {
-            if (!this.inputVal) return;
+            if (!this.inputVal) {
+                this.$toast("请输入内容");
+                return;
+            }
             eventVue.$emit("searchButton", this.inputVal);
             this.inputInfo.push(this.inputVal);
             this.inputInfoStatus = false;
+            this.inputVal = "";
         }
     }
 };
 </script>
 <style lang="less" scoped>
 .search {
+    /deep/ .van-cell-group {
+        z-index: 9999;
+    }
+    .list-info {
+        margin-top: 2px;
+        max-height: 200px;
+        overflow-y: scroll;
+        .poup-back {
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0);
+        }
+    }
 }
 </style>
