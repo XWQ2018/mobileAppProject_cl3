@@ -55,7 +55,7 @@ export default {
             listArray: [
                 {
                     imgUrl: require("@assets/image/pic01.png"),
-                    title: "火把节"
+                    title: "热销商品"
                 },
                 {
                     imgUrl: require("@assets/image/pic02.png"),
@@ -156,6 +156,9 @@ export default {
          */
         listMenuHandle(item) {
             this.$toast("即将跳转->" + item.title);
+            this.$router.push({
+                name: "torch"
+            });
         },
         /**
          * @Description: 时间格式化

@@ -48,12 +48,10 @@ export default {
         justify-content: space-between;
         flex-direction: row;
         flex-wrap: wrap;
-        /* .list-content-children:nth-child(1),
-        .list-content-children:nth-child(2),
-        .list-content-children:nth-child(3),
-        .list-content-children:nth-child(4) {
-            margin-top: 5px;
-        } */
+        .list-content-children:nth-child(4),
+        .list-content-children:nth-child(8) {
+            border-right: 0 none;
+        }
         .list-content-children {
             width: 25%;
             padding: 5px;
