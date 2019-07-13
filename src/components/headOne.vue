@@ -1,3 +1,8 @@
+<!--
+ * @Description: 头部组件
+ * @Author: xwq
+ * @Date: 2019-04-18 09:41:51
+ -->
 <template>
     <div class="headOne">
         <van-nav-bar

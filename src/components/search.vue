@@ -1,3 +1,8 @@
+<!--
+ * @Description: 搜索组件
+ * @Author: xwq
+ * @Date: 2019-07-12 11:14:44
+ -->
 <template>
     <div class="search">
         <van-cell-group>

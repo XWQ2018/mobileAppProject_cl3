@@ -1,3 +1,8 @@
+<!--
+ * @Description: 九宫格列表
+ * @Author: xwq
+ * @Date: 2019-07-12 17:15:21
+ -->
 <template>
     <div class="listInfo">
         <van-row class="list-content" tag="ul">

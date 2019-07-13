@@ -1,3 +1,8 @@
+<!--
+ * @Description: 背景色组件
+ * @Author: xwq
+ * @Date: 2019-05-17 10:11:31
+ -->
 <template>
     <div class="page">
         <div class="background" ref="background"></div>

@@ -1,3 +1,8 @@
+<!--
+ * @Description: 侧边栏菜单
+ * @Author: xwq
+ * @Date: 2019-07-13 11:11:02
+ -->
 <template>
     <div class="header-left-menu">
         <van-popup

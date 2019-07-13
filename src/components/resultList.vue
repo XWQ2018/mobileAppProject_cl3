@@ -1,3 +1,8 @@
+<!--
+ * @Description: 结果展示
+ * @Author: xwq
+ * @Date: 2019-07-09 13:55:22
+ -->
 <template>
     <div class="page" v-if="listInfo">
         <div class="main-container">
