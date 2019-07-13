@@ -122,7 +122,7 @@ export default {
 <style lang="less" scoped>
 .search {
     /deep/ .van-cell-group {
-        z-index: 9999;
+        z-index: 1;
     }
     .list-info {
         margin-top: 2px;

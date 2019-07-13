@@ -1,7 +1,7 @@
 <template>
     <div class="page" v-if="imgList">
         <div class="banner">
-            <van-swipe>
+            <van-swipe :autoplay="3000">
                 <van-swipe-item v-for="(image, index) in imgList" :key="index">
                     <img v-lazy="image" @click="enlargeImage(imgList, index)" />
                 </van-swipe-item>

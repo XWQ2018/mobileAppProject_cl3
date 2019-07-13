@@ -8,18 +8,15 @@
         <headOne
             :title="title"
             :isFixed="isFixed"
-            :leftArrowStatus="leftArrowStatus"
-            :rightIcon="rightIcon"
-            :leftText="leftText"
-            :rightText="rightText"
+            :leftIcon="leftIcon"
             :onClickLeftStatus="onClickLeftStatus"
-            @onClickLeft="back"
-            @onClickRight="clickMenu"
+            @leftMenuHandle="leftMenuHandle"
         />
         <background />
         <div class="main-container">
             <Vbanner :imgList="imgList" />
-            <Vsearch />
+            <VlistInfo :listArray="listArray" />
+            <p class="statement-bottom">本软件由雲技科技提供.备案号-粤88AG9</p>
         </div>
     </div>
 </template>
@@ -27,32 +24,36 @@
 import eventVue from "@/untils/eventVue"; //引入vue的构造函数
 import headOne from "@/components/headOne";
 import background from "@/components/background";
-import resultList from "@/components/resultList";
 import banner from "@/components/banner";
-import search from "@/components/search";
+import listInfo from "@/components/listInfo";
 import { dateTimeFormate } from "@/untils/commonJs";
 export default {
     components: {
         headOne,
         background,
-        VresultList: resultList,
         Vbanner: banner,
-        Vsearch: search
+        VlistInfo: listInfo
     },
     data() {
         return {
             title: this.$route.meta.title,
             isFixed: true,
-            leftArrowStatus: false,
-            rightIcon: false,
-            leftText: "",
-            rightText: "图表",
+            leftIcon: true,
             onClickLeftStatus: true,
-            listInfo: "和覅哦我i换肤哈佛为符合哈佛王红",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
                 "https://img.yzcdn.cn/vant/apple-2.jpg",
                 require("@image/1.jpg")
+            ],
+            listArray: [
+                require("@assets/image/pic01.png"),
+                require("@assets/image/pic02.png"),
+                require("@assets/image/pic03.png"),
+                require("@assets/image/pic04.png"),
+                require("@assets/image/pic05.png"),
+                require("@assets/image/pic06.png"),
+                require("@assets/image/pic07.png"),
+                require("@assets/image/pic08.png")
             ]
         };
     },
@@ -65,21 +66,48 @@ export default {
     created() {},
     mounted() {
         this.forMate();
-
-        //接收子组件$emit发送的消息
-        eventVue.$on("searchButton", msg => {
-            console.log(msg);
-        });
+        this.getEmitValue();
     },
     methods: {
+        /**
+         * @Description: 左侧菜单
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-13 10:39:39
+         */
+        leftMenuHandle() {
+            console.log(8888);
+        },
+        /**
+         * @Description: 时间格式化
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-13 10:24:46
+         */
         forMate() {
             let result = dateTimeFormate("2019-2-12", "YYYY-MM-dd-HH");
         },
-        back() {
-            console.log("不能在返回了....");
-        },
-        clickMenu() {
-            console.log("菜单");
+        /**
+         * @Description: 接收$emit发送的数据
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-13 10:24:55
+         */
+
+        getEmitValue() {
+            //接收子组件$emit发送的消息
+            eventVue.$on("searchButton", msg => {
+                console.log(msg);
+            });
         }
     }
 };
@@ -87,6 +115,16 @@ export default {
 <style lang='less' scoped>
 .page {
     .main-container {
+        .statement-bottom {
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            color: #ccc;
+        }
     }
 }
 </style>
