@@ -11,10 +11,10 @@
                 class="list-content-children"
                 v-for="(item,key) in listArray"
                 :key="key"
-                @click.native="listHandle(key)"
+                @click.native="listHandle(item)"
             >
-                <img class="pic-info" v-lazy="item" @click.prevent />
-                <p class="text-info">西红柿</p>
+                <img class="pic-info" v-lazy="item.imgUrl" @click.prevent />
+                <p class="text-info">{{item.title}}</p>
             </van-col>
         </van-row>
     </div>
@@ -35,8 +35,8 @@ export default {
     created() {},
     mounted() {},
     methods: {
-        listHandle(k) {
-            this.$emit("listHandle", k);
+        listHandle(item) {
+            this.$emit("listHandle", item);
         }
     }
 };
@@ -44,26 +44,24 @@ export default {
 <style lang="less" scoped>
 .listInfo {
     .list-content {
-        // background-color: #0f0;
-        padding: 5px;
-        margin-top: 5px;
         display: flex;
         justify-content: space-between;
         flex-direction: row;
         flex-wrap: wrap;
-        .list-content-children:nth-child(1),
+        /* .list-content-children:nth-child(1),
         .list-content-children:nth-child(2),
         .list-content-children:nth-child(3),
         .list-content-children:nth-child(4) {
             margin-top: 5px;
-        }
+        } */
         .list-content-children {
-            width: 24%;
+            width: 25%;
             padding: 5px;
             border-radius: 10px;
             background-color: #fff;
-            margin: 0 0px 5px 1px;
+            margin-bottom: 5px;
             box-sizing: border-box;
+            border-right: 1px dotted#ccc;
             .pic-info {
                 display: inline-block;
                 min-width: 30px;

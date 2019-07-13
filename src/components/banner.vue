@@ -59,7 +59,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .page {
-    margin-bottom: 10px;
+    margin: 5px 0;
     .banner {
         width: 100%;
         background-color: #fff;

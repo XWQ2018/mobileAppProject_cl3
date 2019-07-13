@@ -18,9 +18,9 @@
             :styleInfo="{width:'70%',height:'100%'}"
             :listInfo="listInfo"
         />
+        <Vbanner :imgList="imgList" />
         <div class="main-container">
-            <Vbanner :imgList="imgList" />
-            <VlistInfo :listArray="listArray" />
+            <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" />
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
     </div>
@@ -53,14 +53,38 @@ export default {
                 require("@image/1.jpg")
             ],
             listArray: [
-                require("@assets/image/pic01.png"),
-                require("@assets/image/pic02.png"),
-                require("@assets/image/pic03.png"),
-                require("@assets/image/pic04.png"),
-                require("@assets/image/pic05.png"),
-                require("@assets/image/pic06.png"),
-                require("@assets/image/pic07.png"),
-                require("@assets/image/pic08.png")
+                {
+                    imgUrl: require("@assets/image/pic01.png"),
+                    title: "火把节"
+                },
+                {
+                    imgUrl: require("@assets/image/pic02.png"),
+                    title: "大杂烩"
+                },
+                {
+                    imgUrl: require("@assets/image/pic03.png"),
+                    title: "橙子"
+                },
+                {
+                    imgUrl: require("@assets/image/pic04.png"),
+                    title: "西红柿"
+                },
+                {
+                    imgUrl: require("@assets/image/pic05.png"),
+                    title: "肉类"
+                },
+                {
+                    imgUrl: require("@assets/image/pic06.png"),
+                    title: "海鲜类"
+                },
+                {
+                    imgUrl: require("@assets/image/pic07.png"),
+                    title: "营养类"
+                },
+                {
+                    imgUrl: require("@assets/image/pic08.png"),
+                    title: "零食"
+                }
             ],
             listInfo: [
                 {
@@ -120,6 +144,19 @@ export default {
                 }, 2000);
             });
         },
+
+        /**
+         * @Description:首页菜单跳转
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-13 15:59:37
+         */
+        listMenuHandle(item) {
+            this.$toast("即将跳转->" + item.title);
+        },
         /**
          * @Description: 时间格式化
          * @Param:
@@ -139,13 +176,13 @@ export default {
 .page {
     .main-container {
         .statement-bottom {
-            padding: 10px;
+            padding: 8px;
             font-size: 14px;
             text-align: center;
             position: fixed;
             left: 0;
             right: 0;
-            bottom: 10px;
+            bottom: 5px;
             color: #ccc;
         }
     }
