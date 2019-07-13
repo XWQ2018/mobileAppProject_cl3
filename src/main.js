@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import App from './App.vue'
-import store from './store'
-import router from './router'
-import './untils/request'
+import Vue from 'vue';
+import App from './App.vue';
+import store from './store';
+import router from './router';
+import './untils/request';
 // import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
 import 'amfe-flexible/index.js';
 import Storage from 'vue-web-storage';
@@ -18,7 +18,7 @@ import {
     Lazyload,
     Row,
     Col,
-} from 'vant'
+} from 'vant';
 
 Vue.use(Cell)
     .use(CellGroup)
@@ -49,7 +49,7 @@ import '@css/commonCss.css';
 import '@css/reset.css';
 import('vant/lib/icon/local.css');
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 if (process.env.NODE_ENV != 'production') {
     // eslint-disable-next-line no-console
@@ -63,7 +63,7 @@ new Vue({
     data() {
         return {
 
-        }
+        };
     },
     created() {
         // eslint-disable-next-line no-console
@@ -72,4 +72,4 @@ new Vue({
     mounted() {
 
     }
-}).$mount('#app')
+}).$mount('#app');
