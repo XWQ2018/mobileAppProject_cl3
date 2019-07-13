@@ -52,7 +52,7 @@ export default {
         },
         leftIconName: {
             type: String,
-            default: "shop-collect-o"
+            default: "bars"
         },
         rightIconName: {
             type: String,

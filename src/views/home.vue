@@ -13,10 +13,15 @@
             @leftMenuHandle="leftMenuHandle"
         />
         <background />
+        <VheaderLeftMenu
+            positionInfo="left"
+            :styleInfo="{width:'70%',height:'100%'}"
+            :listInfo="listInfo"
+        />
         <div class="main-container">
             <Vbanner :imgList="imgList" />
             <VlistInfo :listArray="listArray" />
-            <p class="statement-bottom">本软件由雲技科技提供.备案号-粤88AG9</p>
+            <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
     </div>
 </template>
@@ -26,13 +31,15 @@ import headOne from "@/components/headOne";
 import background from "@/components/background";
 import banner from "@/components/banner";
 import listInfo from "@/components/listInfo";
+import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/untils/commonJs";
 export default {
     components: {
         headOne,
         background,
         Vbanner: banner,
-        VlistInfo: listInfo
+        VlistInfo: listInfo,
+        VheaderLeftMenu: headerLeftMenu
     },
     data() {
         return {
@@ -54,6 +61,28 @@ export default {
                 require("@assets/image/pic06.png"),
                 require("@assets/image/pic07.png"),
                 require("@assets/image/pic08.png")
+            ],
+            listInfo: [
+                {
+                    title: "个人中心",
+                    iconName: "user-circle-o"
+                },
+                {
+                    title: "我的钱包",
+                    iconName: "balance-o"
+                },
+                {
+                    title: "修改密码",
+                    iconName: "edit"
+                },
+                {
+                    title: "关于协议",
+                    iconName: "description"
+                },
+                {
+                    title: "退出",
+                    iconName: "friends-o"
+                }
             ]
         };
     },
@@ -66,11 +95,10 @@ export default {
     created() {},
     mounted() {
         this.forMate();
-        this.getEmitValue();
     },
     methods: {
         /**
-         * @Description: 左侧菜单
+         * @Description: 左侧菜单,事件监听
          * @Param:
          * @Author: xwq
          * @LastEditors: xwq
@@ -79,7 +107,18 @@ export default {
          * @Date: 2019-07-13 10:39:39
          */
         leftMenuHandle() {
-            console.log(8888);
+            /* 发送侧边栏弹出的信号 */
+            eventVue.$emit("menuStatus", true);
+
+            /* 
+            监听左侧边栏列表点击跳转事件
+             */
+            eventVue.$on("menuListHandle", item => {
+                this.$toast("即将跳转->" + item.title);
+                setTimeout(() => {
+                    this.$toast.clear();
+                }, 2000);
+            });
         },
         /**
          * @Description: 时间格式化
@@ -92,22 +131,6 @@ export default {
          */
         forMate() {
             let result = dateTimeFormate("2019-2-12", "YYYY-MM-dd-HH");
-        },
-        /**
-         * @Description: 接收$emit发送的数据
-         * @Param:
-         * @Author: xwq
-         * @LastEditors: xwq
-         * @LastEditTime: Do not edit
-         * @return:
-         * @Date: 2019-07-13 10:24:55
-         */
-
-        getEmitValue() {
-            //接收子组件$emit发送的消息
-            eventVue.$on("searchButton", msg => {
-                console.log(msg);
-            });
         }
     }
 };
