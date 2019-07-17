@@ -8,47 +8,105 @@
         <headOne
             :title="title"
             :isFixed="isFixed"
-            :leftArrowStatus="leftArrowStatus"
-            :rightIcon="rightIcon"
-            :leftText="leftText"
-            :rightText="rightText"
+            :leftIcon="leftIcon"
             :onClickLeftStatus="onClickLeftStatus"
-            @onClickLeft="back"
-            @onClickRight="clickMenu"
+            @leftMenuHandle="leftMenuHandle"
         />
         <background />
+        <VheaderLeftMenu
+            positionInfo="left"
+            :styleInfo="{width:'70%',height:'100%'}"
+            :listInfo="listInfo"
+        />
+        <Vbanner :imgList="imgList" />
         <div class="main-container">
-            <Vbanner :imgList="imgList" />
+            <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" />
+            <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
     </div>
 </template>
 <script>
+import eventVue from "@/untils/eventVue"; //引入vue的构造函数
 import headOne from "@/components/headOne";
 import background from "@/components/background";
-import resultList from "@/components/resultList";
 import banner from "@/components/banner";
+import listInfo from "@/components/listInfo";
+import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/untils/commonJs";
 export default {
     components: {
         headOne,
         background,
-        VresultList: resultList,
-        Vbanner: banner
+        Vbanner: banner,
+        VlistInfo: listInfo,
+        VheaderLeftMenu: headerLeftMenu
     },
     data() {
         return {
             title: this.$route.meta.title,
             isFixed: true,
-            leftArrowStatus: false,
-            rightIcon: false,
-            leftText: "",
-            rightText: "图表",
+            leftIcon: true,
             onClickLeftStatus: true,
-            listInfo: "和覅哦我i换肤哈佛为符合哈佛王红",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
                 "https://img.yzcdn.cn/vant/apple-2.jpg",
                 require("@image/1.jpg")
+            ],
+            listArray: [
+                {
+                    imgUrl: require("@assets/image/pic01.png"),
+                    title: "热销商品"
+                },
+                {
+                    imgUrl: require("@assets/image/pic02.png"),
+                    title: "大杂烩"
+                },
+                {
+                    imgUrl: require("@assets/image/pic03.png"),
+                    title: "橙子"
+                },
+                {
+                    imgUrl: require("@assets/image/pic04.png"),
+                    title: "西红柿"
+                },
+                {
+                    imgUrl: require("@assets/image/pic05.png"),
+                    title: "肉类"
+                },
+                {
+                    imgUrl: require("@assets/image/pic06.png"),
+                    title: "海鲜类"
+                },
+                {
+                    imgUrl: require("@assets/image/pic07.png"),
+                    title: "营养类"
+                },
+                {
+                    imgUrl: require("@assets/image/pic08.png"),
+                    title: "零食"
+                }
+            ],
+            listInfo: [
+                {
+                    title: "个人中心",
+                    iconName: "user-circle-o"
+                },
+                {
+                    title: "我的钱包",
+                    iconName: "balance-o"
+                },
+                {
+                    title: "修改密码",
+                    iconName: "edit"
+                },
+                {
+                    title: "关于协议",
+                    iconName: "description"
+                },
+                {
+                    title: "退出",
+                    iconName: "friends-o"
+                }
             ]
         };
     },
@@ -63,14 +121,56 @@ export default {
         this.forMate();
     },
     methods: {
+        /**
+         * @Description: 左侧菜单,事件监听
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-13 10:39:39
+         */
+        leftMenuHandle() {
+            /* 发送侧边栏弹出的信号 */
+            eventVue.$emit("menuStatus", true);
+
+            /* 
+            监听左侧边栏列表点击跳转事件
+             */
+            eventVue.$on("menuListHandle", item => {
+                this.$toast("即将跳转->" + item.title);
+                setTimeout(() => {
+                    this.$toast.clear();
+                }, 2000);
+            });
+        },
+
+        /**
+         * @Description:首页菜单跳转
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-13 15:59:37
+         */
+        listMenuHandle(item) {
+            this.$toast("即将跳转->" + item.title);
+            this.$router.push({
+                name: "torch"
+            });
+        },
+        /**
+         * @Description: 时间格式化
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-13 10:24:46
+         */
         forMate() {
             let result = dateTimeFormate("2019-2-12", "YYYY-MM-dd-HH");
-        },
-        back() {
-            console.log("不能在返回了....");
-        },
-        clickMenu() {
-            console.log("菜单");
         }
     }
 };
@@ -78,6 +178,16 @@ export default {
 <style lang='less' scoped>
 .page {
     .main-container {
+        .statement-bottom {
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 5px;
+            color: #ccc;
+        }
     }
 }
 </style>

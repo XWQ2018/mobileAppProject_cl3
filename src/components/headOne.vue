@@ -1,3 +1,8 @@
+<!--
+ * @Description: 头部组件
+ * @Author: xwq
+ * @Date: 2019-04-18 09:41:51
+ -->
 <template>
     <div class="headOne">
         <van-nav-bar
@@ -10,7 +15,8 @@
             @click-left="onClickLeft"
             @click-right="onClickRight"
         >
-            <van-icon v-show="rightIcon" :name="iconName?iconName:'shop-collect-o'" slot="right" />
+            <van-icon v-if="leftIcon" :name="leftIconName" slot="left" />
+            <van-icon v-if="rightIcon" :name="rightIconName" slot="right" />
         </van-nav-bar>
         <van-row span="24" v-if="isFixed" class="fix-chunk"></van-row>
     </div>
@@ -39,14 +45,23 @@ export default {
         },
         leftArrowStatus: {
             type: Boolean,
-            default: true
+            default: false
+        },
+        leftIcon: {
+            type: Boolean,
+            default: false
         },
         rightIcon: {
             type: Boolean,
             default: false
         },
-        iconName: {
-            type: String
+        leftIconName: {
+            type: String,
+            default: "bars"
+        },
+        rightIconName: {
+            type: String,
+            default: "shop-collect-o"
         },
         onClickLeftStatus: {
             type: Boolean
@@ -77,7 +92,7 @@ export default {
     methods: {
         onClickLeft() {
             if (this.onClickLeftStatus) {
-                this.$emit("onClickLeft");
+                this.$emit("leftMenuHandle");
             } else {
                 this.$router.back();
             }

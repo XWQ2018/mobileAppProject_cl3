@@ -1,3 +1,8 @@
+<!--
+ * @Description: NotFound组件
+ * @Author: xwq
+ * @Date: 2019-05-17 14:52:27
+ -->
 <template>
     <div class="page">
         <h3>页面走丢了。。</h3>

@@ -1,3 +1,8 @@
+<!--
+ * @Description: 按钮组件
+ * @Author: xwq
+ * @Date: 2019-06-17 09:26:04
+ -->
 <template>
     <div class="page">
         <div class="main-container">

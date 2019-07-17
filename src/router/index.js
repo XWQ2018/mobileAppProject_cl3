@@ -4,9 +4,9 @@ Vue.use(vueRouter);
 
 const login = () => import('@/views/login');
 const home = () => import('@/views/home');
-const test = () => import('@/views/test');
 const userRegister = () => import('@/views/userRegister');
 const agreement = () => import('@/views/agreement');
+const torch = () => import('@/views/torch');
 const notFound = () => import('@/components/notFound');
 
 const router = [
@@ -52,11 +52,16 @@ const router = [
         }
     },
     {
-        path: '/test',
-        name: 'test',
-        component: test,
+        path: '/torch',
+        name: 'torch',
+        component: torch,
+        /* 路由独享守卫 */
+        beforeEnter: (to, from, next) => {
+            // console.log(to, from);
+            next();
+        },
         meta: {
-            title: 'test',
+            title: '热销商品',
             keepAlive: false
         }
     },
@@ -74,8 +79,8 @@ const router = [
         path: '*',
         redirect: { name: 'notFound' }
     }
-]
+];
 
 export default new vueRouter({
-    routes: router
-})
+    routes: router,
+});

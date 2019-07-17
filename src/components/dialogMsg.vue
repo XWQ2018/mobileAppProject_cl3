@@ -1,3 +1,8 @@
+<!--
+ * @Description: 弹窗组件
+ * @Author: xwq
+ * @Date: 2019-05-10 14:47:38
+ -->
 <template>
     <div class="dialog">
         <van-dialog
@@ -12,10 +17,10 @@
         >
             <van-row>
                 <van-col span="24" class="close-btn">
-                    <van-icon name="cross" size="30px" color="#666" @click="closeHandle"/>
+                    <van-icon name="cross" size="30px" color="#666" @click="closeHandle" />
                 </van-col>
             </van-row>
-            <img src="@image/dialogIcon.png">
+            <img src="@image/dialogIcon.png" />
             <p class="warning-info" v-text="warningInfoText?warningInfoText:''"></p>
         </van-dialog>
     </div>

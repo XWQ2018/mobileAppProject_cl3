@@ -1,7 +1,12 @@
+<!--
+ * @Description: 轮播图组件
+ * @Author: xwq
+ * @Date: 2019-07-09 13:55:22
+ -->
 <template>
     <div class="page" v-if="imgList">
         <div class="banner">
-            <van-swipe>
+            <van-swipe :autoplay="3000">
                 <van-swipe-item v-for="(image, index) in imgList" :key="index">
                     <img v-lazy="image" @click="enlargeImage(imgList, index)" />
                 </van-swipe-item>
@@ -54,7 +59,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .page {
-    margin-bottom: 10px;
+    margin: 5px 0;
     .banner {
         width: 100%;
         background-color: #fff;
