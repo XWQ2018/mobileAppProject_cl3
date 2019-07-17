@@ -86,7 +86,12 @@ module.exports = {
             .set('@', resolve('src'))
             .set('@assets', resolve('src/assets'))
             .set('@css', resolve('src/assets/css'))
-            .set('@image', resolve('src/assets/image'))
+            .set('@image', resolve('src/assets/image'));
+
+        // console.log(config);
+        /* 解决webpack资源入口点限制的警告 */
+        config.performance.hints(false);
+
     },
 
     //生产环境开启插件
