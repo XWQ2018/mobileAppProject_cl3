@@ -142,6 +142,16 @@ export default {
                 }
             }
             this.ruletellphone(this.tellPhone);
+            this.$toast("登入成功");
+            setTimeout(() => {
+                this.$toast.clear();
+                this.$router.push({
+                    name: "home"
+                });
+            }, 2000);
+
+            return;
+
             loginApi
                 .getLoginInfo({
                     username: this.tellPhone + "",
