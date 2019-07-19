@@ -18,7 +18,7 @@
             <van-icon v-if="leftIcon" :name="leftIconName" :color="leftColor" slot="left" />
             <van-row v-if="rightIcon" slot="right">
                 <van-icon :name="rightIconName" :color="rightColor" />
-                <span class="golacation-text">{{golacationText}}</span>
+                <span class="golacation-text" v-text="golacationText">{{golacationText}}</span>
             </van-row>
         </van-nav-bar>
         <van-row span="24" v-if="isFixed" class="fix-chunk"></van-row>
@@ -83,8 +83,7 @@ export default {
             default: false
         },
         golacationText: {
-            type: String,
-            default: "广州"
+            type: String
         }
     },
     components: {

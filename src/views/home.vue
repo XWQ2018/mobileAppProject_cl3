@@ -10,6 +10,7 @@
             :isFixed="isFixed"
             :leftIcon="leftIcon"
             :rightIcon="rightIcon"
+            :golacationText="golacationText"
             rightColor="#f00"
             rightIconName="location-o"
             :onClickLeftStatus="onClickLeftStatus"
@@ -52,6 +53,7 @@ export default {
             leftIcon: true,
             rightIcon: true,
             onClickLeftStatus: true,
+            golacationText: "广州",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
                 "https://img.yzcdn.cn/vant/apple-2.jpg",
@@ -130,6 +132,10 @@ export default {
     created() {},
     mounted() {
         this.forMate();
+        let paramsInfo = this.$route.params;
+        if (paramsInfo) {
+            this.golacationText = paramsInfo.citysName;
+        }
     },
     methods: {
         /**
