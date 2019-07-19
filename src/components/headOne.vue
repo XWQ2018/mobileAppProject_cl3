@@ -15,8 +15,11 @@
             @click-left="onClickLeft"
             @click-right="onClickRight"
         >
-            <van-icon v-if="leftIcon" :name="leftIconName" slot="left" />
-            <van-icon v-if="rightIcon" :name="rightIconName" slot="right" />
+            <van-icon v-if="leftIcon" :name="leftIconName" :color="leftColor" slot="left" />
+            <van-row v-if="rightIcon" slot="right">
+                <van-icon :name="rightIconName" :color="rightColor" />
+                <span class="golacation-text">{{golacationText}}</span>
+            </van-row>
         </van-nav-bar>
         <van-row span="24" v-if="isFixed" class="fix-chunk"></van-row>
     </div>
@@ -63,6 +66,12 @@ export default {
             type: String,
             default: "shop-collect-o"
         },
+        leftColor: {
+            type: String
+        },
+        rightColor: {
+            type: String
+        },
         onClickLeftStatus: {
             type: Boolean
         },
@@ -72,6 +81,10 @@ export default {
         isTransparent: {
             type: Boolean,
             default: false
+        },
+        golacationText: {
+            type: String,
+            default: "广州"
         }
     },
     components: {
@@ -98,7 +111,7 @@ export default {
             }
         },
         onClickRight() {
-            this.$emit("onClickRight");
+            this.$emit("rightMenuHandle");
         }
     }
 };
@@ -127,6 +140,9 @@ export default {
     }
     .fix-chunk {
         margin-top: 46px;
+    }
+    .golacation-text {
+        font-size: 16px;
     }
 }
 </style>

@@ -7,6 +7,7 @@ const home = () => import('@/views/home');
 const userRegister = () => import('@/views/userRegister');
 const agreement = () => import('@/views/agreement');
 const torch = () => import('@/views/torch');
+const cityList = () => import('@/views/cityList');
 const notFound = () => import('@/components/notFound');
 
 const router = [
@@ -48,6 +49,15 @@ const router = [
         component: home,
         meta: {
             title: '首页',
+            keepAlive: false
+        }
+    },
+    {
+        path: '/cityList',
+        name: 'cityList',
+        component: cityList,
+        meta: {
+            title: '城市列表',
             keepAlive: false
         }
     },
