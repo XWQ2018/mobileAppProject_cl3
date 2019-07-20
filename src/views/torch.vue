@@ -1,3 +1,8 @@
+<!--
+ * @Description: 热销产品区
+ * @Author: xwq
+ * @Date: 2019-07-13 16:13:22
+ -->
 <template>
     <div class="page">
         <VheadOne
@@ -8,7 +13,7 @@
             @leftMenuHandle="back"
         />
         <div class="main-container">
-            <h3>火把节组件</h3>
+            <h3>热销商品</h3>
         </div>
     </div>
 </template>

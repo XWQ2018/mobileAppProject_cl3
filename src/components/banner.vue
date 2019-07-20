@@ -36,7 +36,7 @@ export default {
     mounted() {},
     methods: {
         /**
-         * @Description: 查看图片
+         * @Description: 图片预览
          * @Param:
          * @Author: xwq
          * @LastEditors: xwq

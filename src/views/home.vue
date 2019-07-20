@@ -9,8 +9,13 @@
             :title="title"
             :isFixed="isFixed"
             :leftIcon="leftIcon"
+            :rightIcon="rightIcon"
+            :golacationText="golacationText"
+            rightColor="#f00"
+            rightIconName="location-o"
             :onClickLeftStatus="onClickLeftStatus"
             @leftMenuHandle="leftMenuHandle"
+            @rightMenuHandle="rightMenuHandle"
         />
         <background />
         <VheaderLeftMenu
@@ -20,7 +25,7 @@
         />
         <Vbanner :imgList="imgList" />
         <div class="main-container">
-            <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" />
+            <!-- <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" /> -->
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
     </div>
@@ -46,7 +51,9 @@ export default {
             title: this.$route.meta.title,
             isFixed: true,
             leftIcon: true,
+            rightIcon: true,
             onClickLeftStatus: true,
+            golacationText: "广州",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
                 "https://img.yzcdn.cn/vant/apple-2.jpg",
@@ -116,9 +123,19 @@ export default {
             // console.log(vm, "8888===");
         });
     },
+    beforeRouteLeave(to, from, next) {
+        if (to.path === "/login") {
+            return;
+        }
+        next();
+    },
     created() {},
     mounted() {
         this.forMate();
+        let paramsInfo = this.$route.params;
+        if (paramsInfo) {
+            this.golacationText = paramsInfo.citysName;
+        }
     },
     methods: {
         /**
@@ -142,6 +159,22 @@ export default {
                 setTimeout(() => {
                     this.$toast.clear();
                 }, 2000);
+            });
+        },
+
+        /**
+         * @Description: 导航栏 右边按钮
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-19 14:47:19
+         */
+
+        rightMenuHandle() {
+            this.$router.push({
+                name: "cityList"
             });
         },
 
