@@ -38,6 +38,8 @@ import banner from "@/components/banner";
 import listInfo from "@/components/listInfo";
 import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/untils/commonJs";
+// import { getCurrentPosition } from "@/untils/getGolacation";
+import "@/untils/getGolacation";
 export default {
     components: {
         headOne,
@@ -129,7 +131,9 @@ export default {
         }
         next();
     },
-    created() {},
+    created() {
+        // getCurrentPosition();
+    },
     mounted() {
         this.forMate();
         let paramsInfo = this.$route.params;
