@@ -38,7 +38,7 @@ import banner from "@/components/banner";
 import listInfo from "@/components/listInfo";
 import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/untils/commonJs";
-import "@/untils/getGolacation"; //引入Hbuilder打包定位的处理方法
+import { getCurrentPosition } from "@/untils/getGolacation"; //引入Hbuilder打包定位的处理方法
 export default {
     components: {
         headOne,
@@ -129,6 +129,17 @@ export default {
             return;
         }
         next();
+    },
+    beforeCreate() {
+        getCurrentPosition();
+        document.addEventListener(
+            "plusready",
+            function() {
+                let uuid = plus.device.uuid;
+                alert(uuid, "=====");
+            },
+            false
+        );
     },
     created() {
         let cityName = this.$route.query.cityName;

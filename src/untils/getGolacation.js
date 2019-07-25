@@ -9,22 +9,64 @@ import { Toast } from 'vant';
  * @Date: 2019-07-20 09:37:09
  */
 // 扩展API加载完毕后调用onPlusReady回调函数 
-document.addEventListener('plusready', onPlusReady, false);
-// 扩展API加载完毕，现在可以正常调用扩展API
-function onPlusReady() {
-    plus.geolocation.getCurrentPosition(function (p) {
-        Toast({
-            type: 'success',
-            // message: 'Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude,
-            message: JSON.stringify(p),
-            duration: 0,
-        });
+export function getCurrentPosition() {
 
-    }, function (e) {
-        Toast({
-            type: 'fail',
-            message: 'Geolocation error: ' + e.message,
-            duration: 0,
-        });
-    }, { provider: "amap", geocode: true });
+    if (window.plus) {
+        console.log(999);
+        plus.geolocation.getCurrentPosition(function (p) {
+            Toast({
+                type: 'success',
+                // message: 'Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude,
+                message: JSON.stringify(p),
+                duration: 0,
+            });
+
+        }, function (e) {
+            Toast({
+                type: 'fail',
+                message: 'Geolocation error: ' + e.message,
+                duration: 0,
+            });
+        }, { provider: "amap", geocode: true });
+
+    }
+    /*  document.addEventListener('plusready', function () {
+         Toast({
+             type: 'success',
+             message: '66666',
+         });
+         plus.geolocation.getCurrentPosition(function (p) {
+             Toast({
+                 type: 'success',
+                 // message: 'Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude,
+                 message: JSON.stringify(p),
+                 duration: 0,
+             });
+ 
+         }, function (e) {
+             Toast({
+                 type: 'fail',
+                 message: 'Geolocation error: ' + e.message,
+                 duration: 0,
+             });
+         }, { provider: "amap", geocode: true });
+     }, false); */
+    // 扩展API加载完毕，现在可以正常调用扩展API
+    /*  function onPlusReady() {
+         plus.geolocation.getCurrentPosition(function (p) {
+             Toast({
+                 type: 'success',
+                 // message: 'Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude,
+                 message: JSON.stringify(p),
+                 duration: 0,
+             });
+ 
+         }, function (e) {
+             Toast({
+                 type: 'fail',
+                 message: 'Geolocation error: ' + e.message,
+                 duration: 0,
+             });
+         }, { provider: "amap", geocode: true });
+     } */
 }
