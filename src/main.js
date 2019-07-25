@@ -5,6 +5,7 @@ import router from './router';
 import './untils/request';
 import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
 import './untils/androidBack'; //引入Hbuilder打包app监听物理键返回的处理方法
+import './untils/getGolacation'; //引入Hbuilder打包定位的处理方法
 import 'amfe-flexible/index.js';
 import Storage from 'vue-web-storage';
 import {
@@ -53,9 +54,20 @@ import('vant/lib/icon/local.css');
 Vue.config.productionTip = false;
 
 if (process.env.NODE_ENV != 'production') {
-    // eslint-disable-next-line no-console
     console.log(process.env);
-}
+};
+router.beforeEach((to, from, next) => {
+
+    const { path, query } = to;
+
+    if (path == '/notFound') {
+        next();
+        return;
+    }
+
+    next();
+
+});
 
 new Vue({
     store,
@@ -71,6 +83,6 @@ new Vue({
         // console.log(777)
     },
     mounted() {
-
+        // window.andriodApiFuc = andriodApi;
     }
 }).$mount('#app');

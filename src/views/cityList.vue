@@ -45,7 +45,7 @@
                         title-class="left-title-style"
                         v-for="(item2,k2) in item1.citys"
                         :key="k2"
-                        @click="selectMoreUseCity(item2)"
+                        @click="selectMoreUseCity(item2.citysName)"
                     />
                 </div>
             </div>
@@ -114,7 +114,9 @@ export default {
             setTimeout(() => {
                 this.$router.push({
                     name: "home",
-                    params: item
+                    query: {
+                        cityName: item
+                    }
                 });
             }, 500);
         }

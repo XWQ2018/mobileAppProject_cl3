@@ -38,8 +38,7 @@ import banner from "@/components/banner";
 import listInfo from "@/components/listInfo";
 import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/untils/commonJs";
-// import { getCurrentPosition } from "@/untils/getGolacation";
-import "@/untils/getGolacation";
+import andriodApiFuc from "@/untils/getGolacation";
 export default {
     components: {
         headOne,
@@ -122,7 +121,7 @@ export default {
     //不能直接访问this，需要传入函数
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            // console.log(vm, "8888===");
+            // console.log(vm.$route.params, "8888===");
         });
     },
     beforeRouteLeave(to, from, next) {
@@ -132,14 +131,21 @@ export default {
         next();
     },
     created() {
-        // getCurrentPosition();
+        let cityName = this.$route.query.cityName;
+        if (cityName) {
+            this.golacationText = cityName;
+        }
     },
     mounted() {
         this.forMate();
-        let paramsInfo = this.$route.params;
-        if (paramsInfo) {
-            this.golacationText = paramsInfo.citysName;
-        }
+        // this.getCurrentPosition();
+        /*  this.$nextTick(() => {
+            console.log(andriodApiFuc.getCurrentPosition, "==========");
+            andriodApiFuc.getCurrentPosition();
+            // this.getCurrentPosition();
+        }); */
+
+        // this.onPlusReady();
     },
     methods: {
         /**
@@ -208,6 +214,57 @@ export default {
          */
         forMate() {
             let result = dateTimeFormate("2019-2-12", "YYYY-MM-dd-HH");
+        },
+
+        /**
+         * @Description:调起原生定位
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-22 11:35:38
+         */
+
+        getCurrentPosition() {
+            let self = this;
+            // 扩展API加载完毕后调用onPlusReady回调函数
+            document.addEventListener("plusready", self.onPlusReady, false);
+        },
+        onPlusReady() {
+            // 扩展API加载完毕，现在可以正常调用扩展API
+            plus.geolocation.getCurrentPosition(
+                function(p) {
+                    this.$toast({
+                        type: "fail",
+                        message:
+                            "Geolocation\nLatitude:" +
+                            p.coords.latitude +
+                            "\nLongitude:" +
+                            p.coords.longitude +
+                            "\nAltitude:" +
+                            p.coords.altitude,
+                        duration: 5000
+                    });
+                    alert(
+                        "Geolocation\nLatitude:" +
+                            p.coords.latitude +
+                            "\nLongitude:" +
+                            p.coords.longitude +
+                            "\nAltitude:" +
+                            p.coords.altitude
+                    );
+                },
+                function(e) {
+                    alert("Geolocation error: " + e.message);
+                    this.$toast({
+                        type: "fail",
+                        message: "Geolocation error: " + e.message,
+                        duration: 5000
+                    });
+                },
+                { provider: "amap" }
+            );
         }
     }
 };
