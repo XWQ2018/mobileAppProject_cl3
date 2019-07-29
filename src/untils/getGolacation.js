@@ -13,11 +13,11 @@ export function getCurrentPosition() {
     let resultInfo = null;
     if (window.plus) {
         plus.geolocation.getCurrentPosition(function (p) {
-            Toast({
-                type: 'success',
-                message: JSON.stringify(p),
-                duration: 3000,
-            });
+            /*  Toast({
+                 type: 'success',
+                 message: JSON.stringify(p),
+                 duration: 3000,
+             }); */
             resultInfo = JSON.stringify(p);
         }, function (e) {
             Toast({
