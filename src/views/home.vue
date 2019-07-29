@@ -144,7 +144,7 @@ export default {
         ); */
     },
     created() {
-        this.positionInfo = getCurrentPosition();
+        this.positionInfo = JSON.Parse(getCurrentPosition());
         let cityName = this.$route.query.cityName;
         if (cityName) {
             this.golacationText = cityName;
