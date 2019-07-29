@@ -24,6 +24,7 @@
             :listInfo="listInfo"
         />
         <Vbanner :imgList="imgList" />
+        <p>{{positionInfo}}</p>
         <div class="main-container">
             <!-- <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" /> -->
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
@@ -55,6 +56,7 @@ export default {
             rightIcon: true,
             onClickLeftStatus: true,
             golacationText: "广州",
+            positionInfo: "",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
                 "https://img.yzcdn.cn/vant/apple-2.jpg",
@@ -131,17 +133,18 @@ export default {
         next();
     },
     beforeCreate() {
-        getCurrentPosition();
-        document.addEventListener(
+        // getCurrentPosition();
+        /* document.addEventListener(
             "plusready",
             function() {
                 let uuid = plus.device.uuid;
                 alert(uuid, "=====");
             },
             false
-        );
+        ); */
     },
     created() {
+        this.positionInfo = getCurrentPosition();
         let cityName = this.$route.query.cityName;
         if (cityName) {
             this.golacationText = cityName;
