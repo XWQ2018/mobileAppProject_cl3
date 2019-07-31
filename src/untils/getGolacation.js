@@ -10,8 +10,8 @@ import { Toast } from 'vant';
  */
 // 扩展API加载完毕后调用onPlusReady回调函数 
 export function getCurrentPosition() {
-    let resultInfo = null;
     if (window.plus) {
+        let resultInfo = null;
         plus.geolocation.getCurrentPosition(function (p) {
             /*  Toast({
                  type: 'success',
@@ -19,6 +19,7 @@ export function getCurrentPosition() {
                  duration: 3000,
              }); */
             resultInfo = JSON.stringify(p);
+            return resultInfo;
         }, function (e) {
             Toast({
                 type: 'fail',
@@ -28,5 +29,4 @@ export function getCurrentPosition() {
         }, { provider: "amap", geocode: true });
 
     }
-    return resultInfo;
 }

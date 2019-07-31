@@ -24,9 +24,10 @@
             :listInfo="listInfo"
         />
         <Vbanner :imgList="imgList" />
-        <p>{{positionInfo}}</p>
         <div class="main-container">
             <!-- <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" /> -->
+            <p>原始数据：{{sourceInfo}}</p>
+            <p>{{positionInfo}}</p>
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
     </div>
@@ -40,6 +41,7 @@ import listInfo from "@/components/listInfo";
 import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/untils/commonJs";
 import { getCurrentPosition } from "@/untils/getGolacation"; //引入Hbuilder打包定位的处理方法
+import { scrypt } from "crypto";
 export default {
     components: {
         headOne,
@@ -56,6 +58,7 @@ export default {
             rightIcon: true,
             onClickLeftStatus: true,
             golacationText: "广州",
+            sourceInfo: "",
             positionInfo: "",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
@@ -144,7 +147,8 @@ export default {
         ); */
     },
     created() {
-        this.positionInfo = JSON.Parse(getCurrentPosition());
+        this.sourceInfo = getCurrentPosition();
+        this.positionInfo = JSON.parse(getCurrentPosition());
         let cityName = this.$route.query.cityName;
         if (cityName) {
             this.golacationText = cityName;
