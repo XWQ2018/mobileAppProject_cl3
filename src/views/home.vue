@@ -128,7 +128,7 @@ export default {
                     iconName: "friends-o"
                 }
             ],
-            qrCodeLink: "http://www.baidu.com"
+            qrCodeLink: "https://xwq2018.github.io/#/home"
         };
     },
     //不能直接访问this，需要传入函数
@@ -167,23 +167,26 @@ export default {
     methods: {
         /* 复制粘贴 */
         copylink() {
+            let _this = this;
             this.$nextTick(() => {
-                let oInput = document.createElement("input");
-                oInput.value = this.qrCodeLink;
+                let oInput = window.document.createElement("input");
+                let range = document.createRange();
+                oInput.value = _this.qrCodeLink;
                 oInput.className = "copy-input-style";
                 oInput.setAttribute("readOnly", false);
                 document.body.appendChild(oInput);
-                oInput.select(); // 选择对象
+                range.selectNode(oInput);
+                window.getSelection().addRange(range);
+                let successful = document.execCommand("copy");
+                _this.$toast(successful);
                 try {
-                    if (document.execCommand("copy", false, null)) {
-                        this.$toast("短链接已复制到手机剪切板");
-                        setTimeout(() => {
-                            this.$toast.clear();
-                        }, 1500);
-                    }
-                } catch (err) {
-                    console.log(err);
+                    let msg = successful ? "复制成功" : "复制失败";
+                    _this.$toast(msg);
+                } catch {
+                    _this.$toast("unable to copy");
                 }
+                window.getSelection().removeAllRanges(); //移除选中的元素
+                //oInput.select(); // 选择对象
             });
         },
         /**
