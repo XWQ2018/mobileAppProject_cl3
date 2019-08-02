@@ -28,6 +28,12 @@
             <!-- <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" /> -->
             <p>原始数据：{{sourceInfo}}</p>
             <p>{{positionInfo}}</p>
+            <van-cell title-class="title-style" title="推广渠道">
+                <template slot="default">
+                    <span @click="copylink">复制链接</span>
+                </template>
+            </van-cell>
+            <QRCode :qrCodeLink="qrCodeLink" :titleStatus="false" :buttonStatus="false" />
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
     </div>
@@ -41,14 +47,15 @@ import listInfo from "@/components/listInfo";
 import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/untils/commonJs";
 import { getCurrentPosition } from "@/untils/getGolacation"; //引入Hbuilder打包定位的处理方法
-import { scrypt } from "crypto";
+import QRCode from "@/components/qrCode";
 export default {
     components: {
         headOne,
         background,
         Vbanner: banner,
         VlistInfo: listInfo,
-        VheaderLeftMenu: headerLeftMenu
+        VheaderLeftMenu: headerLeftMenu,
+        QRCode
     },
     data() {
         return {
@@ -120,7 +127,8 @@ export default {
                     title: "退出",
                     iconName: "friends-o"
                 }
-            ]
+            ],
+            qrCodeLink: "http://www.baidu.com"
         };
     },
     //不能直接访问this，需要传入函数
@@ -136,7 +144,6 @@ export default {
         next();
     },
     beforeCreate() {
-        // getCurrentPosition();
         /* document.addEventListener(
             "plusready",
             function() {
@@ -147,8 +154,8 @@ export default {
         ); */
     },
     created() {
-        this.sourceInfo = getCurrentPosition();
-        this.positionInfo = JSON.parse(getCurrentPosition());
+        // this.sourceInfo = getCurrentPosition();
+        // this.positionInfo = JSON.parse(getCurrentPosition());
         let cityName = this.$route.query.cityName;
         if (cityName) {
             this.golacationText = cityName;
@@ -158,6 +165,27 @@ export default {
         this.forMate();
     },
     methods: {
+        /* 复制粘贴 */
+        copylink() {
+            this.$nextTick(() => {
+                let oInput = document.createElement("input");
+                oInput.value = this.qrCodeLink;
+                oInput.className = "copy-input-style";
+                oInput.setAttribute("readOnly", false);
+                document.body.appendChild(oInput);
+                oInput.select(); // 选择对象
+                try {
+                    if (document.execCommand("copy", false, null)) {
+                        this.$toast("短链接已复制到手机剪切板");
+                        setTimeout(() => {
+                            this.$toast.clear();
+                        }, 1500);
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            });
+        },
         /**
          * @Description: 左侧菜单,事件监听
          * @Param:
@@ -228,6 +256,17 @@ export default {
     }
 };
 </script>
+<style>
+.copy-input-style {
+    opacity: 0;
+    cursor: default;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: -99999px;
+    left: -99999px;
+}
+</style>
 <style lang='less' scoped>
 .page {
     .main-container {
