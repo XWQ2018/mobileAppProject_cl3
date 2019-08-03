@@ -165,7 +165,15 @@ export default {
         this.forMate();
     },
     methods: {
-        /* 复制粘贴 */
+        /**
+         * @Description: 复制到剪贴板
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-08-03 10:32:08
+         */
         copylink() {
             let _this = this;
             this.$nextTick(() => {
