@@ -1,12 +1,13 @@
 <!--
- * @Description: Description
+ * @Description: 测试组件
  * @Author: xwq
  * @Date: 2019-08-21 17:28:35
+ * @LastEditTime: 2019-08-22 15:29:07
  -->
 <template>
     <div class="tag">
         <div class="test">
-            <van-button type="primary" class="test-btn" @click="clickHandle">节流测试</van-button>
+            <van-button type="primary" class="test-btn" @click="clickHandle">测试</van-button>
             <p class="desc-text">{{num}}</p>
         </div>
     </div>
@@ -20,13 +21,7 @@ export default {
     },
     created() {},
     mounted() {},
-    methods: {
-        clickHandle() {
-            setTimeout(() => {
-                this.num++;
-            }, 1000);
-        }
-    }
+    methods: {}
 };
 </script>
 <style lang="less" scoped>
