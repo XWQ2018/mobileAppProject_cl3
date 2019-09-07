@@ -2,11 +2,11 @@
  * @Description: $listeners  $attrr测试
  * @Author: xwq
  * @Date: 2019-09-07 10:46:50
- * @LastEditTime: 2019-09-07 16:55:47
+ * @LastEditTime: 2019-09-07 17:37:53
  -->
 <template>
     <div class="page">
-        <div>父组件的$attrs数据:{{$attrs}}</div>
+        <div>test组件的$attrs数据:{{$attrs}}</div>
         <checkComponentb :info="$attrs" v-on="$listeners" />
     </div>
 </template>

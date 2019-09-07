@@ -13,7 +13,7 @@ const userRegister = () => import('@/views/userRegister');
 const agreement = () => import('@/views/agreement');
 const torch = () => import('@/views/torch');
 const cityList = () => import('@/views/cityList');
-const test = () => import('@/views/test');
+const test = () => import('@/views/testComponents/test');
 const notFound = () => import('@/components/notFound');
 
 const router = [
