@@ -2,7 +2,7 @@
  * @Description: $listeners  $attrr测试隔代传值
  * @Author: xwq
  * @Date: 2019-08-21 17:28:35
- * @LastEditTime: 2019-09-07 18:32:19
+ * @LastEditTime: 2019-09-07 18:33:31
  -->
 <template>
     <div class="page">
@@ -41,8 +41,7 @@ export default {
             endX: "",
             moveStyle: {
                 transform: "translate3d(0px, 0px, 0px)"
-            },
-            startVal: 55
+            }
         };
     },
     created() {},
@@ -72,16 +71,7 @@ export default {
                     console.log("endX==", this.endX, "startX==", this.startX);
                     this.endX = e.targetTouches[0].pageX;
                     let moveDistance = this.endX - this.startX;
-                    console.log(moveDistance); /* startVal */
-                    /*  if (moveDistance > 0) {
-                        this.moveStyle = {
-                            transform: `translate3d(${this.startVal}px,0px, 0px)`
-                        };
-                    } else {
-                        this.moveStyle = {
-                            transform: `translate3d(-${this.startVal}px,0px, 0px)`
-                        };
-                    } */
+                    console.log(moveDistance);
                     setTimeout(() => {
                         this.moveStyle = {
                             transform: `translate3d(${moveDistance}px,0px, 0px)`
