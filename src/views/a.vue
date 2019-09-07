@@ -1,26 +1,28 @@
 <!--
- * @Description: $attrr测试
+ * @Description: $listeners  $attrr测试
  * @Author: xwq
  * @Date: 2019-09-07 10:46:50
- * @LastEditTime: 2019-09-07 12:00:49
+ * @LastEditTime: 2019-09-07 16:55:47
  -->
 <template>
     <div class="page">
         <div>父组件的$attrs数据:{{$attrs}}</div>
-        <div>{{$listeners}}</div>
+        <checkComponentb :info="$attrs" v-on="$listeners" />
     </div>
 </template>
 <script>
+import checkComponentb from "./b";
 export default {
-    components: {},
-    props: ["num"],
+    components: {
+        checkComponentb
+    },
+    props: ["c"],
     data() {
         return {};
     },
+    inheritAttrs: false,
     created() {},
-    mounted() {
-        console.log(this.$attrs, "******");
-    },
+    mounted() {},
     methods: {}
 };
 </script>

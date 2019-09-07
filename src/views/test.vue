@@ -1,16 +1,13 @@
 <!--
- * @Description: 测试组件
+ * @Description: $listeners  $attrr测试隔代传值
  * @Author: xwq
  * @Date: 2019-08-21 17:28:35
- * @LastEditTime: 2019-09-07 11:41:49
+ * @LastEditTime: 2019-09-07 16:56:10
  -->
 <template>
     <div class="tag">
         <div class="test">
-            <van-button type="primary" class="test-btn" @click="clickHandle">测试</van-button>
-            <!-- <p class="desc-text">{{num}}</p> -->
-            <aComponent :num="num" :a="a" :b="b" v-on="$listeners" />
-            <input @input="input" v-model="value" placeholder="请输入内容" />
+            <aComponent :a="a" :b="b" :c="c" @upBackInfo="upBackInfoHandle" />
         </div>
     </div>
 </template>
@@ -22,26 +19,19 @@ export default {
     },
     data() {
         return {
-            num: 0,
             a: 10,
             b: 20,
+            c: 80,
             value: ""
         };
     },
     created() {},
-    mounted() {
-        console.log(this);
-    },
+    mounted() {},
     methods: {
-        test() {
-            this.a++;
-        },
-        input() {
-            console.log(this.value);
-        },
-        clickHandle() {
+        upBackInfoHandle() {
             this.a++;
             this.b--;
+            console.log("$listeners成功");
         }
     }
 };
