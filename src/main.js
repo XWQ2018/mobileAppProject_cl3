@@ -3,7 +3,7 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import './untils/request';
-import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
+// import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
 import './untils/androidBack'; //引入Hbuilder打包app监听物理键返回的处理方法
 // import './untils/getGolacation'; //引入Hbuilder打包定位的处理方法
 import 'amfe-flexible/index.js';
@@ -35,8 +35,8 @@ Vue.use(Cell)
     .use(Col);
 
 //实例化插件
-const vConsole = new Vconsole();
-Vue.use(vConsole);
+// const vConsole = new Vconsole();
+// Vue.use(vConsole);
 //本地缓存插件
 Vue.use(Storage, {
     prefix: 'APPInfo',// default `app_`
