@@ -2,7 +2,7 @@
  * @Description: $listeners  $attrr测试隔代传值
  * @Author: xwq
  * @Date: 2019-08-21 17:28:35
- * @LastEditTime: 2019-09-07 18:33:31
+ * @LastEditTime: 2019-09-08 22:18:37
  -->
 <template>
     <div class="page">
@@ -10,17 +10,19 @@
             <aComponent :a="a" :b="b" :c="c" @upBackInfo="upBackInfoHandle" />
         </div>
         <div class="container">
-            <ul class="content" ref="content" :style="moveStyle">
-                <li class="content-item">1</li>
-                <li class="content-item">2</li>
-                <li class="content-item">3</li>
-                <li class="content-item">4</li>
-                <li class="content-item">5</li>
-                <li class="content-item">6</li>
-                <li class="content-item">7</li>
-                <li class="content-item">8</li>
-                <li class="content-item">9</li>
-            </ul>
+            <div class="content-cntainer">
+                <ul class="content" ref="content" :style="moveStyle">
+                    <li class="content-item">1</li>
+                    <li class="content-item">2</li>
+                    <li class="content-item">3</li>
+                    <li class="content-item">4</li>
+                    <li class="content-item">5</li>
+                    <li class="content-item">6</li>
+                    <li class="content-item">7</li>
+                    <li class="content-item">8</li>
+                    <li class="content-item">9</li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -41,7 +43,10 @@ export default {
             endX: "",
             moveStyle: {
                 transform: "translate3d(0px, 0px, 0px)"
-            }
+            },
+            currentMoveDistance: "",
+            copyMoveDistance: 0,
+            copyStartX: ""
         };
     },
     created() {},
@@ -64,22 +69,33 @@ export default {
                 document.addEventListener("touchstart", e => {
                     console.log(e.target.innerText);
                     console.log("touchstart", e.targetTouches[0].pageX);
-                    this.startX = e.targetTouches[0].pageX;
+                    this.startX = e.targetTouches[0].pageX.toFixed(2);
                 });
                 document.addEventListener("touchmove", e => {
-                    console.log("touchmove", e.targetTouches[0].pageX);
-                    console.log("endX==", this.endX, "startX==", this.startX);
-                    this.endX = e.targetTouches[0].pageX;
-                    let moveDistance = this.endX - this.startX;
-                    console.log(moveDistance);
-                    setTimeout(() => {
-                        this.moveStyle = {
-                            transform: `translate3d(${moveDistance}px,0px, 0px)`
-                        };
-                    }, 300);
+                    this.endX = e.targetTouches[0].pageX.toFixed(2);
+                    this.currentMoveDistance = this.endX - this.startX;
+                    // console.log("touchmove", e.targetTouches[0].pageX);
+                    // console.log("endX==", this.endX, "startX==", this.startX);
+                    /*  if (this.copyStartX) {
+                        if (this.copyStartX != this.startX) {
+                            this.moveStyle = {
+                                transform: `translate3d(${this
+                                    .currentMoveDistance +
+                                    this.copyMoveDistance}px,0px, 0px)`
+                            };
+
+                            console.log("touchmove", this.currentMoveDistance);
+                        }
+                    } else { */
+                    this.moveStyle = {
+                        transform: `translate3d(${this.currentMoveDistance}px,0px, 0px)`
+                    };
+                    // }
                 });
                 document.addEventListener("touchend", e => {
                     /* "transition-duration": "200ms" */
+                    this.copyStartX = this.startX; //备份起点位置
+                    this.copyMoveDistance = this.currentMoveDistance;
                     console.log("touchend", e);
                 });
             });
@@ -90,21 +106,24 @@ export default {
 <style lang="less" scoped>
 .page {
     .container {
-        margin-top: 50px;
-        overflow: hidden;
-        user-select: none;
-        .content {
-            width: 2000px;
-            height: 50px;
-            transform: translate3d(0px, 0px, 0px);
-            transition-duration: 0ms;
-            .content-item {
-                width: 50px;
+        .content-cntainer {
+            margin-top: 50px;
+            overflow: hidden;
+            user-select: none;
+            .content {
+                width: 2000px;
                 height: 50px;
-                border: 1px solid #ccc;
-                box-sizing: border-box;
-                line-height: 50px;
-                float: left;
+                transform: translate3d(0px, 0px, 0px);
+                transition-duration: 0ms;
+                transition-timing-function: cubic-bezier(0.23, 1, 0.68, 1);
+                .content-item {
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid #ccc;
+                    box-sizing: border-box;
+                    line-height: 50px;
+                    float: left;
+                }
             }
         }
     }
