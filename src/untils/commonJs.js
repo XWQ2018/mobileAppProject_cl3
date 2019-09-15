@@ -175,3 +175,17 @@ export function getClientWidth() {
         document.body.clientWidth;
     return parseInt(Math.floor(clientWidth * 0.9));
 }
+
+/**
+ * @Description: 图片预览_转URL方法
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-09-15 21:01:11
+ */
+export function previewImg(file) {
+    if (!file) return;
+    return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](file);
+}

@@ -131,6 +131,7 @@ export default {
          * @Date: 2019-06-30 14:47:13
          */
         submit() {
+            console.log(888);
             let params = {
                 tellPhone: this.tellPhone,
                 password: this.password
