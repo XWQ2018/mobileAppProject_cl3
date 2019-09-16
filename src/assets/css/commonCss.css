@@ -27,7 +27,7 @@
 }
 .clearFix::after{
     display:block;
-    content:'.';
+    content:'';
     height:0;
     visibility:hidden;
     clear:both;

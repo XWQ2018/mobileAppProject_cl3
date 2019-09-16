@@ -14,6 +14,7 @@ const agreement = () => import('@/views/agreement');
 const torch = () => import('@/views/torch');
 const cityList = () => import('@/views/cityList');
 const test = () => import('@/views/testComponents/test');
+const touchMove = () => import('@/views/touchMove');
 const notFound = () => import('@/components/notFound');
 
 const router = [
@@ -95,6 +96,11 @@ const router = [
         path: '/test',
         name: 'test',
         component: test,
+    },
+    {
+        path: '/touchMove',
+        name: 'touchMove',
+        component: touchMove,
     },
     {
         path: '*',
