@@ -35,7 +35,7 @@ export default {
                 let moveY = 0; //记录上一次移动端的位置
 
                 //设置向下滑动的最大距离
-                let maxDown = 50;
+                let maxDown = 120;
                 //设置向上滑动的最大距离
                 let maxUp = -(ul.offsetHeight - draw.offsetHeight + maxDown);
                 //触摸开始
@@ -69,7 +69,7 @@ export default {
                 //触摸移动结束
                 document.addEventListener("touchend", function(e) {
                     // 向上反弹值
-                    let maxUpBounce = 120;
+                    let maxUpBounce = 0;
                     // 向下反弹值
                     let maxDownBounce = -(ul.offsetHeight - draw.offsetHeight);
                     // console.log(e, "touchend");
@@ -81,7 +81,7 @@ export default {
                     console.log(maxDownBounce, "maxDownBounce");
                     if (moveY > maxUpBounce) {
                         // 让两次滑动的距离 等于 设置的值
-                        moveY = maxUpBounce;
+                        moveY = 120;
                         // 添加过渡
                         ul.style.transition = "transform .5s";
                         ul.style.transform = `translate3d(0px,${moveY}px, 0px)`; //添加滑动样式
