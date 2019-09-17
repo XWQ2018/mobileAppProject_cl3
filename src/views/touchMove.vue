@@ -35,7 +35,7 @@ export default {
                 let moveY = 0; //记录上一次移动端的位置
 
                 //设置向下滑动的最大距离
-                let maxDown = 10;
+                let maxDown = 50;
                 //设置向上滑动的最大距离
                 let maxUp = -(ul.offsetHeight - draw.offsetHeight + maxDown);
                 //触摸开始
