@@ -7,8 +7,7 @@
     <div class="page">
         <Vbackground />
         <div class="main-container">
-            <!-- <h1 class="text-left margin-bottom">{{title}}>></h1> -->
-            <div class="text-left margin-bottom">
+            <div class="text-left">
                 <span>{{title}}</span>
                 <span @click="backLogin">登入>></span>
             </div>
@@ -16,7 +15,6 @@
                 <van-cell-group>
                     <van-field
                         v-model="registerInfo.username"
-                        required
                         clearable
                         type="number"
                         maxlength="11"
@@ -27,13 +25,13 @@
                     <van-field
                         v-model="registerInfo.password"
                         type="password"
-                        label="密码"
                         maxlength="20"
                         placeholder="请输入6-20位的密码"
-                        required
                         clearable
                         size="large"
-                    />
+                    >
+                        <span slot="label">密&nbsp;&nbsp;&nbsp;&nbsp;码</span>
+                    </van-field>
                     <van-field
                         v-model="registerInfo.email"
                         type="email"
@@ -44,7 +42,7 @@
                     />
                 </van-cell-group>
                 <div class="check-radio">
-                    <h3>性别：</h3>
+                    <h3>性&nbsp;&nbsp;&nbsp;&nbsp;别</h3>
                     <van-radio-group v-model="registerInfo.sex">
                         <van-radio name="男">男</van-radio>
                         <van-radio name="女">女</van-radio>
@@ -75,7 +73,7 @@ export default {
             registerInfo: {
                 username: "",
                 password: "",
-                sex: "男",
+                sex: "",
                 email: ""
             }
         };
@@ -94,6 +92,7 @@ export default {
          */
 
         submitRegister() {
+            console.log(666);
             let registerInfo = this.registerInfo;
             for (let k in registerInfo) {
                 if (!registerInfo[k]) {
@@ -202,7 +201,7 @@ export default {
     .main-container {
         .text-left {
             padding: 10px;
-            margin: 20px 0 30px 0;
+            margin: 20px 0 10px 0;
             display: flex;
             & > span {
                 font-size: 20px;
@@ -212,10 +211,9 @@ export default {
                 line-height: 29px;
             }
             span:last-child {
-                color: rgba(18, 136, 165, 0.3);
                 text-align: right;
                 font-size: 16px;
-                text-shadow: 2px 2px 5px #ccc;
+                opacity: 0.5;
             }
         }
         .register-info {
@@ -227,6 +225,7 @@ export default {
                 margin: 10px 0 50px 0;
                 & > h3 {
                     flex: 0.6;
+                    font-weight: normal;
                 }
                 .van-radio-group {
                     flex: 1;

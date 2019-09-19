@@ -37,7 +37,7 @@ const router = [
         name: 'userRegister',
         component: userRegister,
         meta: {
-            title: '用户注册',
+            title: '账号注册',
             keepAlive: false
         }
     },
