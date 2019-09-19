@@ -48,7 +48,7 @@
                         <van-radio name="女">女</van-radio>
                     </van-radio-group>
                 </div>
-                <Vbutton @clickButton="submitRegister" buttonText="注册" />
+                <Vbutton @buttonHandle="submitRegister" buttonText="注册" />
             </div>
         </div>
     </div>
@@ -92,7 +92,6 @@ export default {
          */
 
         submitRegister() {
-            console.log(666);
             let registerInfo = this.registerInfo;
             for (let k in registerInfo) {
                 if (!registerInfo[k]) {

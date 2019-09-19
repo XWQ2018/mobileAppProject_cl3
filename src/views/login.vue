@@ -41,7 +41,7 @@
                         </div>
                     </van-cell-group>
                 </van-row>
-                <Vbutton buttonText="登录" @clickButton="submit" />
+                <Vbutton buttonText="登录" @buttonHandle="submit" />
                 <div class="agreement">
                     <van-radio-group v-model="agreement.radioGroupVal">
                         <van-radio
@@ -135,7 +135,6 @@ export default {
          * @Date: 2019-06-30 14:47:13
          */
         submit() {
-            console.log(888);
             let params = {
                 tellPhone: this.tellPhone,
                 password: this.password
@@ -153,7 +152,7 @@ export default {
                 this.$router.push({
                     name: "home"
                 });
-            }, 2000);
+            }, 1500);
 
             return;
 
@@ -187,6 +186,9 @@ export default {
                 default:
                     break;
             }
+            setTimeout(() => {
+                this.$toast.clear();
+            }, 1500);
         },
         //验证手机号的合法性
         ruletellphone(val) {
