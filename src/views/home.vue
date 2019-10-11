@@ -162,9 +162,35 @@ export default {
         }
     },
     mounted() {
+        this.Geolocation();
         this.forMate();
     },
     methods: {
+        Geolocation() {
+            if (window.plus) {
+                plus.geolocation.getCurrentPosition(
+                    function(p) {
+                        /*  Toast({
+                     type: 'success',
+                     message: JSON.stringify(p),
+                     duration: 3000,
+                 }); */
+                        resultInfo = JSON.stringify(p);
+                        console.log("success: " + resultInfo);
+                        this.$toast(resultInfo);
+                    },
+                    function(e) {
+                        console.log("Geolocation error: " + e.message);
+                        this.$toast.fail({
+                            type: "fail",
+                            message: "Geolocation error: " + e.message,
+                            duration: 0
+                        });
+                    },
+                    { provider: "amap", geocode: true }
+                );
+            }
+        },
         /**
          * @Description: 复制到剪贴板
          * @Param:
