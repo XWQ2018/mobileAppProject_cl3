@@ -1,0 +1,750 @@
+<!--
+ * @Description: 日历组件
+ * @Author: xwq
+ * @Date: 2019-10-17 09:29:41
+ * @LastEditTime: 2019-10-21 18:04:23
+ -->
+<template>
+    <transition name="slide-fade">
+        <div class="date-time-week" v-show="popShow" :style="dateWeekStyle">
+            <headerOne
+                :isFixed="true"
+                :title="title"
+                @onClickLeft="onClickLeft"
+                :onClickLeftStatus="true"
+            />
+            <div class="date-comtainer">
+                <van-row
+                    tag="ul"
+                    class="day-info-top"
+                    type="flex"
+                    align="center"
+                    justify="space-around"
+                >
+                    <van-col tag="li" v-for="(i,k) in weekDay" :key="k" class="weekday-item">
+                        <van-col span="24" class="weekday-style">{{i}}</van-col>
+                    </van-col>
+                </van-row>
+                <van-row :style="{width:'100%',height:'60px'}"></van-row>
+                <div class="date-content">
+                    <div class="date-list-container">
+                        <div v-for="(i2,k2) in allDateInfo" :key="k2">
+                            <h2 class="date-title">{{i2.title | dateTimeFormate}}</h2>
+                            <ul class="date-list">
+                                <li class="date-list-item" v-for="(i3,k3) in i2.dateItem" :key="k3">
+                                    <b
+                                        :class="['text-value','no-events']"
+                                        v-show="i3.textValue"
+                                        :style="{color:'#fff'}"
+                                    >{{i3.textValue}}</b>
+                                    <span
+                                        class="date-list-item-text"
+                                        v-html="i3.day_time"
+                                        @click="selectDateTimeHandle(i3,k2,k3)"
+                                        :class="[{'no-events':i3.day_time == '\&\#160'},{'active-item':i3.status},{'active-item-between-style':i3.between_BC}]"
+                                    ></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-content">
+                <van-button
+                    native-type="button"
+                    type="info"
+                    :style="styleButton"
+                    size="large"
+                    :block="true"
+                    @click="confirmHandle"
+                >{{bottonText}}</van-button>
+            </div>
+        </div>
+    </transition>
+</template>
+<script>
+import Button from "@/components/public/pubButton";
+import headerOne from "@/components/header/headerOne";
+import { Toast } from "vant";
+let _self;
+export default {
+    name: "dateTime",
+    components: {
+        Button,
+        headerOne
+    },
+    props: {
+        popShow: {
+            type: Boolean,
+            default: false
+        },
+        bottonText: {
+            type: String,
+            default: "设置完毕"
+        }
+    },
+    data() {
+        return {
+            title: "选择起止时间",
+            weekDay: ["日", "一", "二", "三", "四", "五", "六"],
+            currentDateTime: date => {
+                return new Date(date);
+            },
+            currentYear: () => {
+                let t = new Date();
+                return t.getFullYear();
+            },
+            allDateInfo: [], //所有年份的数据,
+            selectDateTime: [], //开始和结束时间
+            num1: null,
+            num2: null,
+            dateWeekStyle: {
+                transform: `translatex(100%)`
+            },
+            styleButton: {
+                "background-color": "#46aef7",
+                color: "#fff",
+                border: 0
+            }
+        };
+    },
+    created() {
+        this.init();
+        _self = this;
+    },
+    mounted() {
+        this.$watch("popShow", (newVal, oldVal) => {
+            if (newVal) {
+                this.dateWeekStyle["transform"] = `translatex(0)`;
+            } else {
+                this.dateWeekStyle["transform"] = `translatex(100%)`;
+            }
+        });
+    },
+    methods: {
+        init() {
+            let num = 0;
+            for (let j = this.currentYear() - 4; j <= this.currentYear(); j++) {
+                for (let i = 1; i <= 12; i++) {
+                    let inum = i;
+                    inum = inum < 10 ? "0" + inum : inum;
+                    this.getDateTimeHandle(`${j}-${inum}-01`);
+                }
+                num++;
+            }
+        },
+        /**
+         * @Description: 日历计算
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-17 13:45:41
+         */
+        getDateTimeHandle(dateTime) {
+            let _this = this;
+            this.$nextTick(() => {
+                /*获取一个月的天数 */
+                function getCountDays(date) {
+                    date = date || null;
+                    var curDate = new Date(date);
+                    /* 获取当前月份 */
+                    var curMonth = curDate.getMonth();
+                    /* Month设置 */
+                    curDate.setMonth(curMonth + 1);
+                    /* 将日期设置为0 */
+                    curDate.setDate(0);
+                    /* 返回当月的天数 */
+                    return curDate.getDate();
+                }
+
+                // 在通过数组来生成天数数组：
+                //传入月天数和日期
+                function getEvryDay(day, date) {
+                    // console.log(day, date, "bbbb");
+                    var createdDate = new Date(date);
+                    var getDate = createdDate.getDay(); //得到每月的第一天是星期几
+
+                    var currentYear = createdDate.getFullYear(); //年份
+                    var currentMonth = createdDate.getMonth() + 1; //月份
+                    currentMonth =
+                        currentMonth < 10 ? "0" + currentMonth : currentMonth;
+
+                    var ulNode = document.createElement("ul");
+                    ulNode.className = "date-list";
+                    // var content = ``;
+
+                    switch (getDate) {
+                        case 0:
+                            let objItem1 = {
+                                title: date,
+                                dateItem: []
+                            };
+                            for (let k = 1; k <= day; k++) {
+                                let n = k;
+                                n = n < 10 ? "0" + n : n;
+                                let obj1 = {
+                                    year: currentYear,
+                                    month: currentMonth,
+                                    date_time: `${currentYear}-${currentMonth}-${n}`,
+                                    day_time: k,
+                                    status: false,
+                                    textValue: "",
+                                    between_BC: false
+                                };
+                                objItem1["dateItem"].push(obj1);
+                            }
+
+                            _this.allDateInfo.push(objItem1);
+                            break;
+                        case 1:
+                            let objItem2 = {
+                                title: date,
+                                dateItem: []
+                            };
+                            objItem2["dateItem"].push({
+                                year: "",
+                                month: "",
+                                date_time: "",
+                                day_time: "&#160"
+                            });
+
+                            for (let k = 1; k <= day; k++) {
+                                let n = k;
+                                n = n < 10 ? "0" + n : n;
+                                let obj2 = {
+                                    year: currentYear,
+                                    month: currentMonth,
+                                    date_time: `${currentYear}-${currentMonth}-${n}`,
+                                    day_time: k,
+                                    status: false,
+                                    textValue: "",
+                                    between_BC: false
+                                };
+                                objItem2["dateItem"].push(obj2);
+                            }
+
+                            _this.allDateInfo.push(objItem2);
+
+                            break;
+                        case 2:
+                            let objItem3 = {
+                                title: date,
+                                dateItem: []
+                            };
+                            for (let i = 1; i <= getDate; i++) {
+                                objItem3["dateItem"].push({
+                                    year: "",
+                                    month: "",
+                                    date_time: "",
+                                    day_time: "&#160"
+                                });
+                            }
+                            for (let k = 1; k <= day; k++) {
+                                let n = k;
+                                n = n < 10 ? "0" + n : n;
+                                let obj3 = {
+                                    year: currentYear,
+                                    month: currentMonth,
+                                    date_time: `${currentYear}-${currentMonth}-${n}`,
+                                    day_time: k,
+                                    status: false,
+                                    textValue: "",
+                                    between_BC: false
+                                };
+                                objItem3["dateItem"].push(obj3);
+                            }
+
+                            _this.allDateInfo.push(objItem3);
+
+                            break;
+                        case 3:
+                            let objItem4 = {
+                                title: date,
+                                dateItem: []
+                            };
+                            for (let i = 1; i <= getDate; i++) {
+                                objItem4["dateItem"].push({
+                                    year: "",
+                                    month: "",
+                                    date_time: "",
+                                    day_time: "&#160"
+                                });
+                            }
+                            for (let k = 1; k <= day; k++) {
+                                let n = k;
+                                n = n < 10 ? "0" + n : n;
+                                let obj4 = {
+                                    year: currentYear,
+                                    month: currentMonth,
+                                    date_time: `${currentYear}-${currentMonth}-${n}`,
+                                    day_time: k,
+                                    status: false,
+                                    textValue: "",
+                                    between_BC: false
+                                };
+                                objItem4["dateItem"].push(obj4);
+                            }
+
+                            _this.allDateInfo.push(objItem4);
+
+                            break;
+                        case 4:
+                            let objItem5 = {
+                                title: date,
+                                dateItem: []
+                            };
+                            for (let i = 1; i <= getDate; i++) {
+                                objItem5["dateItem"].push({
+                                    year: "",
+                                    month: "",
+                                    date_time: "",
+                                    day_time: "&#160"
+                                });
+                            }
+                            for (let k = 1; k <= day; k++) {
+                                let n = k;
+                                n = n < 10 ? "0" + n : n;
+                                let obj5 = {
+                                    year: currentYear,
+                                    month: currentMonth,
+                                    date_time: `${currentYear}-${currentMonth}-${n}`,
+                                    day_time: k,
+                                    status: false,
+                                    textValue: "",
+                                    between_BC: false
+                                };
+                                objItem5["dateItem"].push(obj5);
+                            }
+
+                            _this.allDateInfo.push(objItem5);
+
+                            break;
+                        case 5:
+                            let objItem6 = {
+                                title: date,
+                                dateItem: []
+                            };
+                            for (let i = 1; i <= getDate; i++) {
+                                objItem6["dateItem"].push({
+                                    year: "",
+                                    month: "",
+                                    date_time: "",
+                                    day_time: "&#160"
+                                });
+                            }
+                            for (let k = 1; k <= day; k++) {
+                                let n = k;
+                                n = n < 10 ? "0" + n : n;
+                                let obj6 = {
+                                    year: currentYear,
+                                    month: currentMonth,
+                                    date_time: `${currentYear}-${currentMonth}-${n}`,
+                                    day_time: k,
+                                    status: false,
+                                    textValue: "",
+                                    between_BC: false
+                                };
+                                objItem6["dateItem"].push(obj6);
+                            }
+
+                            _this.allDateInfo.push(objItem6);
+
+                            break;
+                        case 6:
+                            let objItem7 = {
+                                title: date,
+                                dateItem: []
+                            };
+                            for (let i = 1; i <= getDate; i++) {
+                                objItem7["dateItem"].push({
+                                    year: "",
+                                    month: "",
+                                    date_time: "",
+                                    day_time: "&#160"
+                                });
+                            }
+                            for (let k = 1; k <= day; k++) {
+                                let n = k;
+                                n = n < 10 ? "0" + n : n;
+                                let obj7 = {
+                                    year: currentYear,
+                                    month: currentMonth,
+                                    date_time: `${currentYear}-${currentMonth}-${n}`,
+                                    day_time: k,
+                                    status: false,
+                                    textValue: "",
+                                    between_BC: false
+                                };
+                                objItem7["dateItem"].push(obj7);
+                            }
+
+                            _this.allDateInfo.push(objItem7);
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                getEvryDay(getCountDays(dateTime), dateTime); //调用获取每月天数函数和生成当月日历结构h函数
+            });
+        },
+        /**
+         * @Description: 日期选择
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-17 14:18:12
+         */
+        selectDateTimeHandle(item, index1, index2) {
+            // console.log(item.date_time, index1, index2);
+            if (this.selectDateTime.length === 2) {
+                for (let i of this.allDateInfo) {
+                    for (let k of i.dateItem) {
+                        if (k["date_time"] != "") {
+                            k.status = false;
+                            k.textValue = "";
+                            k["between_BC"] = false;
+                            this.$set(
+                                this.allDateInfo[index1]["dateItem"],
+                                i,
+                                k
+                            );
+                        }
+                    }
+                }
+                this.selectDateTime = [];
+                this.selectDateTime.push(item.date_time);
+                this.num1 = [index1, index2];
+                item.status = true;
+                item.textValue = "开始";
+                this.$set(this.allDateInfo[index1]["dateItem"], index2, item);
+                return;
+            }
+
+            switch (this.selectDateTime.length) {
+                case 0:
+                    this.num1 = [index1, index2];
+                    this.selectDateTime.push(item.date_time);
+                    item.status = true;
+                    item.textValue = "开始";
+                    this.$set(
+                        this.allDateInfo[index1]["dateItem"],
+                        index2,
+                        item
+                    );
+                    break;
+                case 1:
+                    if (this.num1[0] == index1 && this.num1[1] == index2) {
+                        return;
+                    }
+                    this.num2 = [index1, index2];
+                    this.selectDateTime.push(item.date_time);
+                    item.status = true;
+                    item.textValue = "结束";
+                    this.$set(
+                        this.allDateInfo[index1]["dateItem"],
+                        index2,
+                        item
+                    );
+
+                    /* 添加区间背景色 */
+                    /* 同月份的处理 */
+                    if (
+                        this.num1[0] == this.num2[0] &&
+                        (this.num2[1] - this.num1[1] > 1 ||
+                            this.num1[1] - this.num2[1] > 1)
+                    ) {
+                        this.allDateInfo.forEach((i1, k1) => {
+                            i1["dateItem"].forEach((i2, k2) => {
+                                if (
+                                    k1 == this.num1[0] &&
+                                    k1 == this.num2[0] &&
+                                    ((k2 > this.num1[1] && k2 < this.num2[1]) ||
+                                        (k2 < this.num1[1] &&
+                                            k2 > this.num2[1])) &&
+                                    i2["date_time"] != ""
+                                ) {
+                                    i2["between_BC"] = true;
+                                    this.$set(
+                                        this.allDateInfo[k1]["dateItem"],
+                                        k2,
+                                        i2
+                                    );
+                                }
+                            });
+                        });
+                        /* 不同月份的处理 */
+                    } else if (this.num2[0] > this.num1[0]) {
+                        this.allDateInfo.forEach((i1, k1) => {
+                            i1["dateItem"].forEach((i2, k2) => {
+                                if (
+                                    k1 == this.num1[0] &&
+                                    k2 > this.num1[1] &&
+                                    i2["date_time"] != ""
+                                ) {
+                                    i2["between_BC"] = true;
+                                    this.$set(
+                                        this.allDateInfo[k1]["dateItem"],
+                                        k2,
+                                        i2
+                                    );
+                                }
+                                if (
+                                    k1 > this.num1[0] &&
+                                    k1 < this.num2[0] &&
+                                    i2["date_time"] != ""
+                                ) {
+                                    i2["between_BC"] = true;
+                                    this.$set(
+                                        this.allDateInfo[k1]["dateItem"],
+                                        k2,
+                                        i2
+                                    );
+                                }
+                                if (
+                                    k1 == this.num2[0] &&
+                                    k2 < this.num2[1] &&
+                                    i2["date_time"] != ""
+                                ) {
+                                    i2["between_BC"] = true;
+                                    this.$set(
+                                        this.allDateInfo[k1]["dateItem"],
+                                        k2,
+                                        i2
+                                    );
+                                }
+                            });
+                        });
+                    } else if (this.num2[0] < this.num1[0]) {
+                        this.allDateInfo.forEach((i1, k1) => {
+                            i1["dateItem"].forEach((i2, k2) => {
+                                if (
+                                    ((k1 == this.num2[0] &&
+                                        k2 > this.num2[1]) ||
+                                        (k1 > this.num2[0] &&
+                                            k1 < this.num1[0]) ||
+                                        (k1 == this.num1[0] &&
+                                            k2 < this.num1[1])) &&
+                                    i2["date_time"] != ""
+                                ) {
+                                    i2["between_BC"] = true;
+                                    this.$set(
+                                        this.allDateInfo[k1]["dateItem"],
+                                        k2,
+                                        i2
+                                    );
+                                }
+                            });
+                        });
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        },
+
+        /**
+         * @Description: 日期格式化 [yyyy-MM]
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-17 13:45:16
+         */
+        dateTtileFormate(date, format) {
+            // console.log(date, typeof format);
+            let t = new Date(date);
+            let tf = i => {
+                return (i < 10 ? "0" : "") + i;
+            };
+            return format.replace(/yyyy|MM/g, function(result) {
+                switch (result) {
+                    case "yyyy":
+                        return t.getFullYear() + "年";
+                    case "MM":
+                        return tf(t.getMonth() + 1) + "月";
+                    case "dd":
+                        return tf(t.getDate()) + "日";
+                    default:
+                        break;
+                }
+            });
+        },
+        /**
+         * @Description: 设置完毕
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-19 17:16:46
+         */
+
+        confirmHandle() {
+            if (this.num1 == undefined && this.num2 == undefined) {
+                Toast("请选择时间");
+                return;
+            } else if (this.num1 != undefined && this.num2 == undefined) {
+                Toast("请选择结束时间");
+                return;
+            } else if (this.num1[0] == this.num2[0]) {
+                if (this.num1[1] < this.num2[1]) {
+                    this.$emit("confirm", {
+                        startTime: this.selectDateTime[0],
+                        endTime: this.selectDateTime[1]
+                    });
+                } else if (this.num1[1] > this.num2[1]) {
+                    this.$emit("confirm", {
+                        startTime: this.selectDateTime[1],
+                        endTime: this.selectDateTime[0]
+                    });
+                }
+            } else if (this.num1[0] != this.num2[0]) {
+                if (this.num1[0] < this.num2[0]) {
+                    this.$emit("confirm", {
+                        startTime: this.selectDateTime[0],
+                        endTime: this.selectDateTime[1]
+                    });
+                } else if (this.num1[0] > this.num2[0]) {
+                    this.$emit("confirm", {
+                        startTime: this.selectDateTime[1],
+                        endTime: this.selectDateTime[0]
+                    });
+                }
+            }
+        },
+        /**
+         * @Description: 返回
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-21 11:12:33
+         */
+        onClickLeft() {
+            this.$emit("onClickLeft");
+        }
+    },
+    /**
+     * @Description: 过滤器函数
+     * @Param:
+     * @Author: xwq
+     * @LastEditors: xwq
+     * @LastEditTime: Do not edit
+     * @return:
+     * @Date: 2019-10-18 17:21:56
+     */
+    filters: {
+        dateTimeFormate(val) {
+            return _self.dateTtileFormate(val, "yyyy-MM");
+        }
+    }
+};
+</script>
+<style lang="less" >
+.date-time-week {
+    background-color: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    .date-comtainer {
+        .day-info-top {
+            width: 100%;
+            height: 60px;
+            border-bottom: 1px solid #f2f2f2;
+            box-sizing: border-box;
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            background-color: #fff;
+            z-index: 1;
+            margin-top: 46px;
+            .weekday-style {
+                font-size: 16px;
+            }
+        }
+
+        /* 日期部分 */
+        .date-content {
+            max-height: 100vh;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            .date-list-container {
+                height: calc(100vh - 100px);
+                overflow: auto;
+                padding-top: 5px;
+                .date-list {
+                    width: 100%;
+                    display: flex;
+                    flex-flow: row wrap;
+                    margin-bottom: 15px;
+                    .date-list-item {
+                        width: calc(100vw / 7);
+                        height: 55px;
+                        box-sizing: border-box;
+                        text-align: center;
+                        position: relative;
+                        .text-value {
+                            display: inline-block;
+                            font-size: 12px;
+                            position: absolute;
+                            left: 50%;
+                            top: 4px;
+                            transform: translate(-50%, 0);
+                        }
+                        .date-list-item-text {
+                            padding: 5px;
+                            line-height: 45px;
+                            display: inline-block;
+                            width: 100%;
+                            height: 100%;
+                            box-sizing: border-box;
+                        }
+                    }
+                }
+                .date-title {
+                    padding: 10px 20px;
+                }
+            }
+        }
+    }
+    .button-content {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+.active-item {
+    background-color: #46aef7;
+    color: #fff;
+}
+.active-item-between-style {
+    background-color: #ebf7ff;
+}
+.no-events {
+    pointer-events: none;
+}
+/* 路由动画 */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+    transition: all 0.3s ease-in-out;
+}
+
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateX(0);
+    opacity: 0;
+}
+</style>
