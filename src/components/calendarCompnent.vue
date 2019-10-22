@@ -2,7 +2,7 @@
  * @Description: 日历组件
  * @Author: xwq
  * @Date: 2019-10-17 09:29:41
- * @LastEditTime: 2019-10-22 11:38:53
+ * @LastEditTime: 2019-10-22 13:48:46
  -->
 <template>
     <transition name="slide-fade">
@@ -124,8 +124,8 @@ export default {
             },
             allDateInfo: [], //所有年份的数据,
             selectDateTime: [], //开始和结束时间
-            num1: null,
-            num2: null,
+            num1: null, //包含月份和日的信息
+            num2: null, //包含月份和日的信息
             dateWeekStyle: {
                 transform: `translatex(100%)`
             },
@@ -143,13 +143,7 @@ export default {
         _self = this;
     },
     mounted() {
-        this.$watch("popShow", (newVal, oldVal) => {
-            if (newVal) {
-                this.dateWeekStyle["transform"] = `translatex(0)`;
-            } else {
-                this.dateWeekStyle["transform"] = `translatex(100%)`;
-            }
-        });
+        this.watchHandle();
         this.getNodeHeightHandle();
     },
     methods: {
@@ -731,6 +725,31 @@ export default {
                     "---",
                     _this.contentStyle
                 ); */
+            });
+        },
+        /**
+         * @Description: 监听函数
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-22 13:26:39
+         */
+
+        watchHandle() {
+            this.$watch("popShow", (newVal, oldVal) => {
+                if (newVal) {
+                    this.dateWeekStyle["transform"] = `translatex(0)`;
+                    /*  document.getElementsByTagName("html")[0].style.overflow =
+                        "hidden";
+                    document.body.style.overflow = "hidden"; */
+                } else {
+                    this.dateWeekStyle["transform"] = `translatex(100%)`;
+                    /*   document.getElementsByTagName("html")[0].style.overflow =
+                        "auto";
+                    document.body.style.overflow = "auto"; */
+                }
             });
         }
     },
