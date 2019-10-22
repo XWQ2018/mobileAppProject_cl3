@@ -2,17 +2,24 @@
  * @Description: 日历组件
  * @Author: xwq
  * @Date: 2019-10-17 09:29:41
- * @LastEditTime: 2019-10-21 18:04:23
+ * @LastEditTime: 2019-10-22 11:38:53
  -->
 <template>
     <transition name="slide-fade">
         <div class="date-time-week" v-show="popShow" :style="dateWeekStyle">
-            <headerOne
-                :isFixed="true"
-                :title="title"
-                @onClickLeft="onClickLeft"
-                :onClickLeftStatus="true"
-            />
+            <div class="header-one">
+                <van-nav-bar
+                    :z-index="999"
+                    :fixed="true"
+                    :class="{'clear-background':backgroundStatus, 'border-bottom':isborderBottom}"
+                    :border="true"
+                    :title="title"
+                    :left-arrow="leftArrow"
+                    @click-left="onClickLeft"
+                    ref="headerOne"
+                ></van-nav-bar>
+                <van-row :class="['header-fixed-margin']"></van-row>
+            </div>
             <div class="date-comtainer">
                 <van-row
                     tag="ul"
@@ -20,6 +27,7 @@
                     type="flex"
                     align="center"
                     justify="space-around"
+                    ref="dateTime"
                 >
                     <van-col tag="li" v-for="(i,k) in weekDay" :key="k" class="weekday-item">
                         <van-col span="24" class="weekday-style">{{i}}</van-col>
@@ -27,7 +35,7 @@
                 </van-row>
                 <van-row :style="{width:'100%',height:'60px'}"></van-row>
                 <div class="date-content">
-                    <div class="date-list-container">
+                    <div class="date-list-container" :style="[contentStyle]">
                         <div v-for="(i2,k2) in allDateInfo" :key="k2">
                             <h2 class="date-title">{{i2.title | dateTimeFormate}}</h2>
                             <ul class="date-list">
@@ -47,6 +55,7 @@
                             </ul>
                         </div>
                     </div>
+                    <van-row :style="{width:'100%',height:'50px'}"></van-row>
                 </div>
             </div>
             <div class="button-content">
@@ -57,6 +66,7 @@
                     size="large"
                     :block="true"
                     @click="confirmHandle"
+                    ref="bottomBtn"
                 >{{bottonText}}</van-button>
             </div>
         </div>
@@ -64,14 +74,13 @@
 </template>
 <script>
 import Button from "@/components/public/pubButton";
-import headerOne from "@/components/header/headerOne";
-import { Toast } from "vant";
-let _self;
+import { Toast, NavBar } from "vant";
+var _self;
 export default {
     name: "dateTime",
     components: {
         Button,
-        headerOne
+        [NavBar.name]: NavBar
     },
     props: {
         popShow: {
@@ -81,11 +90,30 @@ export default {
         bottonText: {
             type: String,
             default: "设置完毕"
+        },
+        title: {
+            type: String,
+            default: "选择起止时间"
+        },
+        backgroundStatus: {
+            type: Boolean,
+            default: false
+        },
+        leftText: {
+            type: String,
+            default: ""
+        },
+        leftArrow: {
+            type: Boolean,
+            default: true
+        },
+        isborderBottom: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
-            title: "选择起止时间",
             weekDay: ["日", "一", "二", "三", "四", "五", "六"],
             currentDateTime: date => {
                 return new Date(date);
@@ -105,9 +133,11 @@ export default {
                 "background-color": "#46aef7",
                 color: "#fff",
                 border: 0
-            }
+            },
+            contentStyle: {}
         };
     },
+    beforeUpdate() {},
     created() {
         this.init();
         _self = this;
@@ -120,6 +150,7 @@ export default {
                 this.dateWeekStyle["transform"] = `translatex(100%)`;
             }
         });
+        this.getNodeHeightHandle();
     },
     methods: {
         init() {
@@ -458,6 +489,12 @@ export default {
                         (this.num2[1] - this.num1[1] > 1 ||
                             this.num1[1] - this.num2[1] > 1)
                     ) {
+                        if (
+                            this.num1[0] == this.num2[0] &&
+                            this.num2[1] - this.num1[1] < 1
+                        ) {
+                            this.changeTextValHandle();
+                        }
                         this.allDateInfo.forEach((i1, k1) => {
                             i1["dateItem"].forEach((i2, k2) => {
                                 if (
@@ -540,12 +577,35 @@ export default {
                                 }
                             });
                         });
+                        this.changeTextValHandle();
                     }
-
                     break;
                 default:
                     break;
             }
+        },
+
+        /**
+         * @Description:修改日期上的文本显示
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-22 11:20:35
+         */
+
+        changeTextValHandle() {
+            this.$set(
+                this.allDateInfo[this.num2[0]]["dateItem"][this.num2[1]],
+                "textValue",
+                "开始"
+            );
+            this.$set(
+                this.allDateInfo[this.num1[0]]["dateItem"][this.num1[1]],
+                "textValue",
+                "结束"
+            );
         },
 
         /**
@@ -630,6 +690,48 @@ export default {
          */
         onClickLeft() {
             this.$emit("onClickLeft");
+        },
+        /**
+         * @Description:动态设置日期内容区的高度
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-22 09:30:53
+         */
+
+        getNodeHeightHandle() {
+            let _this = this;
+            let clientHeight =
+                window.screen.height || window.screen.availHeight;
+            this.$nextTick(() => {
+                let headerOneHeight = window
+                    .getComputedStyle(_this.$refs.headerOne)
+                    .height.replace(/px/, "");
+                let dateTimeHeight = window
+                    .getComputedStyle(_this.$refs.dateTime.$el)
+                    .height.replace(/px/, "");
+                let bottomBtnHeight = window
+                    .getComputedStyle(_this.$refs.bottomBtn)
+                    .height.replace(/px/, "");
+
+                _this.contentStyle = {
+                    height: `${clientHeight -
+                        headerOneHeight -
+                        dateTimeHeight -
+                        bottomBtnHeight -
+                        50}px`
+                };
+                /*  console.log(
+                    clientHeight,
+                    headerOneHeight,
+                    dateTimeHeight,
+                    bottomBtnHeight,
+                    "---",
+                    _this.contentStyle
+                ); */
+            });
         }
     },
     /**
@@ -677,13 +779,16 @@ export default {
 
         /* 日期部分 */
         .date-content {
-            max-height: 100vh;
+            /*  max-height: 100vh;
             overflow-y: scroll;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; */
             .date-list-container {
-                height: calc(100vh - 100px);
-                overflow: auto;
-                padding-top: 5px;
+                // height: 100vh;
+                // overflow: auto;
+                height: 100vh;
+                overflow-y: scroll;
+                -webkit-overflow-scrolling: touch; /* ios 自带滚动条不平滑解决方法 */
+                padding: 5px 0 30px 0;
                 .date-list {
                     width: 100%;
                     display: flex;
@@ -716,6 +821,9 @@ export default {
                 .date-title {
                     padding: 10px 20px;
                 }
+                & > :last-child {
+                    margin-bottom: 40px;
+                }
             }
         }
     }
@@ -724,6 +832,27 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
+    }
+    .header-one {
+        z-index: 999;
+        .van-nav-bar__left {
+            top: -2px;
+            left: 5px;
+            .van-icon {
+                font-size: @font-lg;
+                color: @black;
+            }
+        }
+        .clearBackground {
+            background: transparent;
+        }
+        .header-fixed-margin {
+            margin-top: 46px;
+        }
+
+        .border-bottom {
+            border-bottom: solid 3px #e14732;
+        }
     }
 }
 .active-item {
