@@ -2,7 +2,7 @@
  * @Description: 日历组件
  * @Author: xwq
  * @Date: 2019-10-17 09:29:41
- * @LastEditTime: 2019-10-22 13:48:46
+ * @LastEditTime: 2019-10-23 16:10:08
  -->
 <template>
     <transition name="slide-fade">
@@ -34,10 +34,14 @@
                     </van-col>
                 </van-row>
                 <van-row :style="{width:'100%',height:'60px'}"></van-row>
-                <div class="date-content">
-                    <div class="date-list-container" :style="[contentStyle]">
+                <div class="date-content" ref="dateContent">
+                    <div class="date-list-container" :style="[contentStyle]" id="date-container">
                         <div v-for="(i2,k2) in allDateInfo" :key="k2">
-                            <h2 class="date-title">{{i2.title | dateTimeFormate}}</h2>
+                            <!-- (()=>{if(k2%12==0){return 'test'}})()-->
+                            <h2
+                                class="date-title"
+                                :class="i2.title | addClassNameHandle"
+                            >{{i2.title | dateTimeFormate}}</h2>
                             <ul class="date-list">
                                 <li class="date-list-item" v-for="(i3,k3) in i2.dateItem" :key="k3">
                                     <b
@@ -68,6 +72,26 @@
                     @click="confirmHandle"
                     ref="bottomBtn"
                 >{{bottonText}}</van-button>
+            </div>
+            <div class="select-year" v-show="false">
+                <span
+                    class="select-year-arrow"
+                    :class="{'arrow-up-style':yearInfo['clipPathStatus'],'arrow-down-style':!yearInfo['clipPathStatus']}"
+                    @click="selectYear"
+                >{{yearInfo['textVal']}}</span>
+                <ul
+                    class="select-year-content"
+                    ref="yearContent"
+                    :style="yearInfo['yearContentStyle']"
+                    v-show="yearInfo['isShowYear']"
+                >
+                    <li
+                        class="select-year-content-item"
+                        v-for="(i6,k6) in yearInfo['yearSelect']"
+                        :key="k6"
+                        @click="selectYearItem(i6)"
+                    >{{i6}}</li>
+                </ul>
             </div>
         </div>
     </transition>
@@ -110,6 +134,18 @@ export default {
         isborderBottom: {
             type: Boolean,
             default: false
+        },
+        minYear: {
+            type: Date,
+            default: () => {
+                return new Date("2015-01-01");
+            }
+        },
+        maxYear: {
+            type: Date,
+            default: () => {
+                return new Date();
+            }
         }
     },
     data() {
@@ -118,9 +154,10 @@ export default {
             currentDateTime: date => {
                 return new Date(date);
             },
-            currentYear: () => {
-                let t = new Date();
-                return t.getFullYear();
+            currentYear: date => {
+                /*   let t = new Date();
+                return t.getFullYear(); */
+                return date.getFullYear();
             },
             allDateInfo: [], //所有年份的数据,
             selectDateTime: [], //开始和结束时间
@@ -134,10 +171,23 @@ export default {
                 color: "#fff",
                 border: 0
             },
-            contentStyle: {}
+            contentStyle: {},
+            yearInfo: {
+                yearSelect: [],
+                yearContentStyle: null,
+                isShowYear: false,
+                textVal: null,
+                clipPathStatus: false
+            },
+            scrollStatus: true //首次进来滚动到当前年份
         };
     },
     beforeUpdate() {},
+    computed: {
+        test(i) {
+            return i;
+        }
+    },
     created() {
         this.init();
         _self = this;
@@ -148,14 +198,20 @@ export default {
     },
     methods: {
         init() {
-            let num = 0;
-            for (let j = this.currentYear() - 4; j <= this.currentYear(); j++) {
+            this.yearInfo["textVal"] = this.currentYear(this.maxYear);
+            // let num = 0;
+            for (
+                let j = this.currentYear(this.minYear);
+                j <= this.currentYear(this.maxYear);
+                j++
+            ) {
+                this.yearInfo["yearSelect"].push(j);
                 for (let i = 1; i <= 12; i++) {
                     let inum = i;
                     inum = inum < 10 ? "0" + inum : inum;
                     this.getDateTimeHandle(`${j}-${inum}-01`);
                 }
-                num++;
+                // num++;
             }
         },
         /**
@@ -631,7 +687,7 @@ export default {
             });
         },
         /**
-         * @Description: 设置完毕
+         * @Description: 日期设置完成
          * @Param:
          * @Author: xwq
          * @LastEditors: xwq
@@ -650,28 +706,29 @@ export default {
             } else if (this.num1[0] == this.num2[0]) {
                 if (this.num1[1] < this.num2[1]) {
                     this.$emit("confirm", {
-                        startTime: this.selectDateTime[0],
-                        endTime: this.selectDateTime[1]
+                        startDate: this.selectDateTime[0],
+                        endDate: this.selectDateTime[1]
                     });
                 } else if (this.num1[1] > this.num2[1]) {
                     this.$emit("confirm", {
-                        startTime: this.selectDateTime[1],
-                        endTime: this.selectDateTime[0]
+                        startDate: this.selectDateTime[1],
+                        endDate: this.selectDateTime[0]
                     });
                 }
             } else if (this.num1[0] != this.num2[0]) {
                 if (this.num1[0] < this.num2[0]) {
                     this.$emit("confirm", {
-                        startTime: this.selectDateTime[0],
-                        endTime: this.selectDateTime[1]
+                        startDate: this.selectDateTime[0],
+                        endDate: this.selectDateTime[1]
                     });
                 } else if (this.num1[0] > this.num2[0]) {
                     this.$emit("confirm", {
-                        startTime: this.selectDateTime[1],
-                        endTime: this.selectDateTime[0]
+                        startDate: this.selectDateTime[1],
+                        endDate: this.selectDateTime[0]
                     });
                 }
             }
+            this.scrollStatus = false;
         },
         /**
          * @Description: 返回
@@ -717,14 +774,6 @@ export default {
                         bottomBtnHeight -
                         50}px`
                 };
-                /*  console.log(
-                    clientHeight,
-                    headerOneHeight,
-                    dateTimeHeight,
-                    bottomBtnHeight,
-                    "---",
-                    _this.contentStyle
-                ); */
             });
         },
         /**
@@ -741,6 +790,9 @@ export default {
             this.$watch("popShow", (newVal, oldVal) => {
                 if (newVal) {
                     this.dateWeekStyle["transform"] = `translatex(0)`;
+                    if (this.scrollStatus) {
+                        this.scrillHandle("active-scroll");
+                    }
                     /*  document.getElementsByTagName("html")[0].style.overflow =
                         "hidden";
                     document.body.style.overflow = "hidden"; */
@@ -751,6 +803,67 @@ export default {
                     document.body.style.overflow = "auto"; */
                 }
             });
+        },
+        /**
+         * @Description: 展现所有年份
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-22 16:10:05
+         */
+        selectYear() {
+            this.yearInfo["isShowYear"] = true;
+            this.yearInfo["yearContentStyle"] = {
+                animation: `yearShow 0.5s ease-in`
+            };
+        },
+        /**
+         * @Description: 选择年份
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-22 16:11:26
+         */
+
+        selectYearItem(year) {
+            let container = document.getElementById("date-container");
+            // container.scrollIntoView();
+            console.log(container.scrollHeight);
+
+            console.log(this.$refs.dateContent.children[0].children[0]);
+            // console.log(window.getComputedStyle(this.$refs.dateContent).height);
+            this.$nextTick(() => {
+                this.$refs.dateContent.children[0];
+                console.log(
+                    // this.$refs.dateContent.children[0].children[0].offsetHeight
+                    window.getComputedStyle(
+                        this.$refs.dateContent.children[0].children[0]
+                    ).height
+                );
+            });
+            this.yearInfo["textVal"] = year;
+            this.yearInfo["yearContentStyle"] = {
+                animation: `yearClose 0.5s ease-out`
+            };
+            setTimeout(() => {
+                this.yearInfo["isShowYear"] = false;
+            }, 500);
+        },
+        /**
+         * @Description: 滚动到当前年份
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-10-23 15:52:20
+         */
+        scrillHandle(nodeName) {
+            document.querySelector(`.${nodeName}`).scrollIntoView();
         }
     },
     /**
@@ -765,6 +878,15 @@ export default {
     filters: {
         dateTimeFormate(val) {
             return _self.dateTtileFormate(val, "yyyy-MM");
+        },
+        addClassNameHandle(val) {
+            let dateResult = new Date(val);
+            let y = dateResult.getFullYear();
+            let m = dateResult.getMonth() + 1;
+            let currentYear = new Date().getFullYear();
+            if (y == currentYear && m == 1) {
+                return "active-scroll";
+            }
         }
     }
 };
@@ -873,6 +995,56 @@ export default {
             border-bottom: solid 3px #e14732;
         }
     }
+    .select-year {
+        width: 80px;
+        height: 46px;
+        background-color: #fff;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: inherit;
+        .select-year-arrow {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            line-height: 46px;
+            font-size: 16px;
+            color: #999;
+            &::after {
+                content: "";
+                display: inline-block;
+                width: 15px;
+                height: 20px;
+                clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+                background-color: rgba(110, 108, 108, 0.7);
+                vertical-align: middle;
+                margin-left: 5px;
+                position: relative;
+                top: 3px;
+            }
+        }
+        .select-year-content {
+            width: 80px;
+            height: 210px;
+            overflow: auto;
+            background-color: #fff;
+            border-left: 1px solid #f2f2f2;
+            border-bottom: 1px solid #f2f2f2;
+            box-sizing: border-box;
+            z-index: -1;
+            position: relative;
+
+            .select-year-content-item {
+                padding: 10px 0 10px 15px;
+                font-size: 16px;
+                text-align: left;
+                height: 40px;
+                line-height: 20px;
+                box-sizing: inherit;
+            }
+        }
+    }
 }
 .active-item {
     background-color: #46aef7;
@@ -894,5 +1066,75 @@ export default {
 /* .slide-fade-leave-active for below version 2.1.8 */ {
     transform: translateX(0);
     opacity: 0;
+}
+
+.arrow-down-style {
+    &::after {
+        content: "";
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+        background-color: rgba(110, 108, 108, 0.7);
+        vertical-align: middle;
+        margin-left: 5px;
+        position: relative;
+        top: 3px;
+    }
+}
+.arrow-up-style {
+    &::after {
+        content: "";
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        clip-path: polygon(50% 0, 0 100%, 100% 100%);
+        background-color: rgba(110, 108, 108, 0.7);
+        vertical-align: middle;
+        margin-left: 5px;
+        position: relative;
+        top: -3px;
+    }
+}
+
+@keyframes yearShow {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes yearClose {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+}
+@keyframes arrowUp {
+    from {
+        background-color: rgba(110, 108, 108, 0.7);
+        clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+    }
+    to {
+        background-color: rgba(110, 108, 108, 0.7);
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+}
+@keyframes arrowDown {
+    from {
+        background-color: rgba(110, 108, 108, 0.7);
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+    to {
+        background-color: rgba(110, 108, 108, 0.7);
+        clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+    }
 }
 </style>
