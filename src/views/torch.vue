@@ -29,7 +29,7 @@
 </template>
 <script>
 import headOne from "@/components/headOne";
-import { previewImg } from "@/untils/commonJs";
+import { previewImg } from "@/utils/commonJs";
 import { Uploader } from "vant";
 export default {
     components: {

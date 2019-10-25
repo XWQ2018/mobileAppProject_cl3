@@ -55,7 +55,7 @@
 <script>
 import headOne from "@/components/headOne";
 import background from "@/components/background";
-import otherCity from "@/untils/area.js";
+import otherCity from "@/utils/area.js";
 import { setTimeout } from "timers";
 export default {
     components: {

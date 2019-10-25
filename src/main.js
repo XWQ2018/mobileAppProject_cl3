@@ -2,10 +2,10 @@ import Vue from 'vue';
 import App from './App.vue';
 import store from './store';
 import router from './router';
-import './untils/request';
+import './utils/request';
 // import Vconsole from 'vconsole';  //移动端log控制台输出测试插件
-import './untils/androidBack'; //引入Hbuilder打包app监听物理键返回的处理方法
-// import './untils/getGolacation'; //引入Hbuilder打包定位的处理方法
+import './utils/androidBack'; //引入Hbuilder打包app监听物理键返回的处理方法
+// import './utils/getGolacation'; //引入Hbuilder打包定位的处理方法
 import 'amfe-flexible/index.js';
 import Storage from 'vue-web-storage';
 import {

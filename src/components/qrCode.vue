@@ -25,7 +25,7 @@
 <script>
 import QRCode from "qrcode";
 import pubButton from "@/components/button";
-import { getClientWidth } from "@/untils/commonJs";
+import { getClientWidth } from "@/utils/commonJs";
 export default {
     name: "qrCode",
     components: {

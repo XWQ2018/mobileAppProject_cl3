@@ -41,3 +41,8 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+/* ios 自带滚动条不平滑解决方法 */
+.touchScroll{
+    -webkit-overflow-scrolling: touch; 
+}

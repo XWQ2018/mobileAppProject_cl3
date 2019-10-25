@@ -39,14 +39,14 @@
     </div>
 </template>
 <script>
-import eventVue from "@/untils/eventVue"; //引入vue的构造函数
+import eventVue from "@/utils/eventVue"; //引入vue的构造函数
 import headOne from "@/components/headOne";
 import background from "@/components/background";
 import banner from "@/components/banner";
 import listInfo from "@/components/listInfo";
 import headerLeftMenu from "@/components/headerLeftMenu";
-import { dateTimeFormate } from "@/untils/commonJs";
-import { getCurrentPosition } from "@/untils/getGolacation"; //引入Hbuilder打包定位的处理方法
+import { dateTimeFormate } from "@/utils/commonJs";
+import { getCurrentPosition } from "@/utils/getGolacation"; //引入Hbuilder打包定位的处理方法
 import QRCode from "@/components/qrCode";
 export default {
     components: {

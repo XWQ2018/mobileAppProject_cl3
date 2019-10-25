@@ -2,7 +2,7 @@
  * @Description: 日历组件
  * @Author: xwq
  * @Date: 2019-10-17 09:29:41
- * @LastEditTime: 2019-10-23 16:10:08
+ * @LastEditTime: 2019-10-25 11:31:24
  -->
 <template>
     <transition name="slide-fade">
@@ -98,6 +98,7 @@
 </template>
 <script>
 import Button from "@/components/public/pubButton";
+import { lockBackgroundScroll } from "@/utils/backgroundScrollOverly";
 import { Toast, NavBar } from "vant";
 var _self;
 export default {
@@ -729,6 +730,7 @@ export default {
                 }
             }
             this.scrollStatus = false;
+            lockBackgroundScroll(false);
         },
         /**
          * @Description: 返回
@@ -740,6 +742,7 @@ export default {
          * @Date: 2019-10-21 11:12:33
          */
         onClickLeft() {
+            lockBackgroundScroll(false);
             this.$emit("onClickLeft");
         },
         /**
@@ -790,17 +793,12 @@ export default {
             this.$watch("popShow", (newVal, oldVal) => {
                 if (newVal) {
                     this.dateWeekStyle["transform"] = `translatex(0)`;
+                    lockBackgroundScroll(true);
                     if (this.scrollStatus) {
                         this.scrillHandle("active-scroll");
                     }
-                    /*  document.getElementsByTagName("html")[0].style.overflow =
-                        "hidden";
-                    document.body.style.overflow = "hidden"; */
                 } else {
                     this.dateWeekStyle["transform"] = `translatex(100%)`;
-                    /*   document.getElementsByTagName("html")[0].style.overflow =
-                        "auto";
-                    document.body.style.overflow = "auto"; */
                 }
             });
         },
