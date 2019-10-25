@@ -111,7 +111,7 @@ module.exports = {
         }
     },
 
-}
+};
 
 function addStyleResource(rule) {
     rule.use('style-resource')
@@ -121,5 +121,5 @@ function addStyleResource(rule) {
                 path.resolve(__dirname, '@/assets/less/style.less'),
                 path.resolve(__dirname, '@/assets/less/theme-colors-default.less')
             ],
-        })
+        });
 }
