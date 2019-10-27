@@ -2,8 +2,7 @@ const path = require('path');
 const resolve = (dir) => path.join(__dirname, dir);
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
-
-let isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 
 //配饰多页应用  （单页应用，这项配置是默认）
@@ -111,7 +110,7 @@ module.exports = {
         }
     },
 
-}
+};
 
 function addStyleResource(rule) {
     rule.use('style-resource')
@@ -121,5 +120,5 @@ function addStyleResource(rule) {
                 path.resolve(__dirname, '@/assets/less/style.less'),
                 path.resolve(__dirname, '@/assets/less/theme-colors-default.less')
             ],
-        })
+        });
 }

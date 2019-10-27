@@ -37,29 +37,29 @@ export function getUrlParams() {
 export function dateTimeFormate(val, timeFormate) {
     let t = new Date(val);
     let tf = function (val) {
-        return val > 9 ? val : "0" + val;
+        return val > 9 ? val : '0' + val;
     };
     if (val && timeFormate) {
         return timeFormate.replace(/YYYY|MM|dd|HH|mm|ss/g, v => {
             switch (v) {
-                case "YYYY":
+                case 'YYYY':
                     return t.getFullYear();
-                case "MM":
+                case 'MM':
                     return tf(t.getMonth() + 1);
-                case "dd":
+                case 'dd':
                     return tf(t.getDate());
-                case "HH":
+                case 'HH':
                     return tf(t.getHours());
-                case "mm":
+                case 'mm':
                     return tf(t.getMinutes());
-                case "ss":
+                case 'ss':
                     return tf(t.getSeconds());
                 default: break;
             }
         });
     } else {
         // eslint-disable-next-line no-console
-        console.log("缺少参数。。。");
+        console.log('缺少参数。。。');
     }
 }
 /**
@@ -75,7 +75,7 @@ export function getAppStatus() {
     //ios||android状态判断
     let u = navigator.userAgent;
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-    return isiOS ? "ios" : "android";
+    return isiOS ? 'ios' : 'android';
 
 }
 
@@ -158,4 +158,34 @@ export function bannerHeightFormate() {
 
     let currentHeight = document.documentElement.clientHeight || document.body.clientHeight;
     return Math.ceil(currentHeight * 0.375)
+}
+
+/**
+ * @Description: 获取可视区域宽度
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-07-31 13:52:32
+ */
+export function getClientWidth() {
+    let clientWidth =
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+    return parseInt(Math.floor(clientWidth * 0.9));
+}
+
+/**
+ * @Description: 图片预览_转URL方法
+ * @Param: 
+ * @Author: xwq
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ * @Date: 2019-09-15 21:01:11
+ */
+export function previewImg(file) {
+    if (!file) return;
+    return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](file);
 }

@@ -1,3 +1,8 @@
+/*
+ * @Description: Description
+ * @Author: xwq
+ * @Date: 2019-08-21 14:57:26
+ */
 import Vue from 'vue';
 import vueRouter from 'vue-router';
 Vue.use(vueRouter);
@@ -8,6 +13,9 @@ const userRegister = () => import('@/views/userRegister');
 const agreement = () => import('@/views/agreement');
 const torch = () => import('@/views/torch');
 const cityList = () => import('@/views/cityList');
+const test = () => import('@/views/testComponents/test');
+const touchMove = () => import('@/views/touchMove');
+const details = () => import('@/views/details');
 const notFound = () => import('@/components/notFound');
 
 const router = [
@@ -30,7 +38,7 @@ const router = [
         name: 'userRegister',
         component: userRegister,
         meta: {
-            title: '用户注册',
+            title: '账号注册',
             keepAlive: false
         }
     },
@@ -84,6 +92,21 @@ const router = [
             keepAlive: true,
 
         }
+    },
+    {
+        path: '/test',
+        name: 'test',
+        component: test,
+    },
+    {
+        path: '/touchMove',
+        name: 'touchMove',
+        component: touchMove,
+    },
+    {
+        path: '/details',
+        name: 'details',
+        component: details
     },
     {
         path: '*',

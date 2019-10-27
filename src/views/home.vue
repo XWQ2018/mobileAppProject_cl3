@@ -26,25 +26,36 @@
         <Vbanner :imgList="imgList" />
         <div class="main-container">
             <!-- <VlistInfo :listArray="listArray" @listHandle="listMenuHandle" /> -->
+            <p>原始数据：{{sourceInfo}}</p>
+            <p>{{positionInfo}}</p>
+            <van-cell title-class="title-style" title="推广渠道">
+                <template slot="default">
+                    <span @click="copylink">复制链接</span>
+                </template>
+            </van-cell>
+            <QRCode :qrCodeLink="qrCodeLink" :titleStatus="false" :buttonStatus="false" />
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
     </div>
 </template>
 <script>
-import eventVue from "@/untils/eventVue"; //引入vue的构造函数
+import eventVue from "@/utils/eventVue"; //引入vue的构造函数
 import headOne from "@/components/headOne";
 import background from "@/components/background";
 import banner from "@/components/banner";
 import listInfo from "@/components/listInfo";
 import headerLeftMenu from "@/components/headerLeftMenu";
-import { dateTimeFormate } from "@/untils/commonJs";
+import { dateTimeFormate } from "@/utils/commonJs";
+import { getCurrentPosition } from "@/utils/getGolacation"; //引入Hbuilder打包定位的处理方法
+import QRCode from "@/components/qrCode";
 export default {
     components: {
         headOne,
         background,
         Vbanner: banner,
         VlistInfo: listInfo,
-        VheaderLeftMenu: headerLeftMenu
+        VheaderLeftMenu: headerLeftMenu,
+        QRCode
     },
     data() {
         return {
@@ -54,6 +65,8 @@ export default {
             rightIcon: true,
             onClickLeftStatus: true,
             golacationText: "广州",
+            sourceInfo: "",
+            positionInfo: "",
             imgList: [
                 "https://img.yzcdn.cn/vant/apple-1.jpg",
                 "https://img.yzcdn.cn/vant/apple-2.jpg",
@@ -114,13 +127,15 @@ export default {
                     title: "退出",
                     iconName: "friends-o"
                 }
-            ]
+            ],
+            qrCodeLink: "https://xwq2018.github.io/#/home",
+            show: false
         };
     },
     //不能直接访问this，需要传入函数
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            // console.log(vm, "8888===");
+            // console.log(vm.$route.params, "8888===");
         });
     },
     beforeRouteLeave(to, from, next) {
@@ -129,15 +144,87 @@ export default {
         }
         next();
     },
-    created() {},
-    mounted() {
-        this.forMate();
-        let paramsInfo = this.$route.params;
-        if (paramsInfo) {
-            this.golacationText = paramsInfo.citysName;
+    beforeCreate() {
+        /* document.addEventListener(
+            "plusready",
+            function() {
+                let uuid = plus.device.uuid;
+                alert(uuid, "=====");
+            },
+            false
+        ); */
+    },
+    created() {
+        // this.sourceInfo = getCurrentPosition();
+        // this.positionInfo = JSON.parse(getCurrentPosition());
+        let cityName = this.$route.query.cityName;
+        if (cityName) {
+            this.golacationText = cityName;
         }
     },
+    mounted() {
+        this.Geolocation();
+        this.forMate();
+    },
     methods: {
+        Geolocation() {
+            if (window.plus) {
+                plus.geolocation.getCurrentPosition(
+                    function(p) {
+                        /*  Toast({
+                     type: 'success',
+                     message: JSON.stringify(p),
+                     duration: 3000,
+                 }); */
+                        resultInfo = JSON.stringify(p);
+                        console.log("success: " + resultInfo);
+                        this.$toast(resultInfo);
+                    },
+                    function(e) {
+                        console.log("Geolocation error: " + e.message);
+                        this.$toast.fail({
+                            type: "fail",
+                            message: "Geolocation error: " + e.message,
+                            duration: 0
+                        });
+                    },
+                    { provider: "amap", geocode: true }
+                );
+            }
+        },
+        /**
+         * @Description: 复制到剪贴板
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-08-03 10:32:08
+         */
+        copylink() {
+            this.show = true;
+            let _this = this;
+            this.$nextTick(() => {
+                let oInput = window.document.createElement("input");
+                let range = document.createRange();
+                oInput.value = _this.qrCodeLink;
+                oInput.className = "copy-input-style";
+                oInput.setAttribute("readOnly", false);
+                document.body.appendChild(oInput);
+                range.selectNode(oInput);
+                window.getSelection().addRange(range);
+                let successful = document.execCommand("copy");
+                _this.$toast(successful);
+                try {
+                    let msg = successful ? "复制成功" : "复制失败";
+                    _this.$toast(msg);
+                } catch {
+                    _this.$toast("unable to copy");
+                }
+                window.getSelection().removeAllRanges(); //移除选中的元素
+                //oInput.select(); // 选择对象
+            });
+        },
         /**
          * @Description: 左侧菜单,事件监听
          * @Param:
@@ -208,6 +295,17 @@ export default {
     }
 };
 </script>
+<style>
+.copy-input-style {
+    opacity: 0;
+    cursor: default;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: -99999px;
+    left: -99999px;
+}
+</style>
 <style lang='less' scoped>
 .page {
     .main-container {

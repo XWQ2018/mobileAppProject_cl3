@@ -36,7 +36,7 @@
 </template>
 <script>
 import { Field } from "vant";
-import eventVue from "@/untils/eventVue"; //引入vue的构造函数
+import eventVue from "@/utils/eventVue"; //引入vue的构造函数
 export default {
     props: {
         buttonText: {

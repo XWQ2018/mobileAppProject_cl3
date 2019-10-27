@@ -17,7 +17,6 @@
                             type="number"
                             maxlength="11"
                             clearable
-                            required
                             placeholder="请输入11位手机号"
                         />
                         <van-col tag="h5" class="title-h5" span="24">密码</van-col>
@@ -26,21 +25,23 @@
                             clearable
                             type="password"
                             maxlength="20"
-                            required
                             placeholder="请输入密码"
                         />
-                        <van-radio-group v-model="remenb.radioGroupVal">
-                            <van-radio
-                                :name="remenb.radioVal"
-                                icon-size="16"
-                                shape="square"
-                                @click="clickRemenb"
-                            >记住密码</van-radio>
-                            <span class="register" @click="register">注册>></span>
-                        </van-radio-group>
+                        <div class="remember-password">
+                            <van-radio-group v-model="remenb.radioGroupVal">
+                                <van-radio
+                                    :name="remenb.radioVal"
+                                    icon-size="16"
+                                    shape="square"
+                                    @click="clickRemenb"
+                                ></van-radio>
+                            </van-radio-group>
+                            <p>记住密码</p>
+                            <p class="register" @click="register">注册>></p>
+                        </div>
                     </van-cell-group>
                 </van-row>
-                <Vbutton buttonText="登录" @clickButton="submit" />
+                <Vbutton buttonText="登录" @buttonHandle="submit" />
                 <div class="agreement">
                     <van-radio-group v-model="agreement.radioGroupVal">
                         <van-radio
@@ -48,9 +49,12 @@
                             icon-size="16"
                             shape="square"
                             @click="clickAgreement"
-                        >已阅读相关协议说明>></van-radio>
-                        <a href="javascript:void(0)" @click="agreementInfo">协议内容</a>
+                        ></van-radio>
                     </van-radio-group>
+                    <p>已阅读相关协议说明>></p>
+                    <div>
+                        <a href="javascript:void(0)" @click="agreementInfo">协议内容</a>
+                    </div>
                 </div>
             </van-row>
         </div>
@@ -148,7 +152,7 @@ export default {
                 this.$router.push({
                     name: "home"
                 });
-            }, 2000);
+            }, 1500);
 
             return;
 
@@ -182,6 +186,9 @@ export default {
                 default:
                     break;
             }
+            setTimeout(() => {
+                this.$toast.clear();
+            }, 1500);
         },
         //验证手机号的合法性
         ruletellphone(val) {
@@ -197,9 +204,6 @@ export default {
 <style lang='less' scoped>
 .page {
     .main-container {
-        /deep/ .van-radio__icon {
-            padding-bottom: 6px;
-        }
         .login-info {
             margin-top: 80px;
             padding: 0 10px;
@@ -207,6 +211,7 @@ export default {
                 font-size: 26px;
                 padding: 10px 0;
                 margin-bottom: 20px;
+                // text-shadow: 3px 3px 3px rgb(178, 180, 180);
             }
             .title-h5 {
                 font-size: 16px;
@@ -215,34 +220,32 @@ export default {
             /deep/ .van-cell {
                 background-color: #f2f2f2;
             }
-            .van-radio-group {
-                margin: 5px 0 10px 0;
-                padding: 0 10px;
-            }
             /deep/ .van-radio__label {
                 font-size: 16px;
                 color: #666;
             }
+            .remember-password {
+                height: 30px;
+                display: flex;
+                font-size: 16px;
+                margin: 10px 0 10px 0;
+                line-height: 30px;
+            }
+            .van-radio-group {
+                margin-right: 5px;
+            }
             .agreement {
-                /deep/ .van-radio {
-                    display: inline-block;
-                }
-                /deep/ .van-radio-group {
-                    > a {
-                        font-size: 16px;
-                        vertical-align: middle;
-                        line-height: 20px;
-                        display: inline-block;
-                        padding-bottom: 10px;
-                    }
-                }
+                height: 30px;
+                display: flex;
+                font-size: 16px;
+                margin-top: 10px;
+                line-height: 30px;
             }
             .register {
-                font-size: 16px;
-                position: absolute;
-                right: 0;
-                bottom: 8px;
+                position: relative;
+                right: -160px;
                 color: #00f;
+                opacity: 0.5;
             }
         }
     }

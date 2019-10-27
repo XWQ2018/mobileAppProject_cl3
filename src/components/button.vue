@@ -15,7 +15,7 @@
                     :text="buttonText"
                     :isFixed="isFixed"
                     :disabled="isDisabled"
-                    @click="clickButton"
+                    @click="buttonHandle"
                 />
             </div>
         </div>
@@ -46,16 +46,64 @@ export default {
         isDisabled: {
             type: Boolean,
             default: false
+        },
+        backgroundColor: {
+            type: String,
+            default: "#46aef7"
+        },
+        textColor: {
+            type: String,
+            default: "#fff"
         }
     },
     data() {
-        return {};
+        return {
+            buttonStyle: null
+        };
     },
     created() {},
-    mouted() {},
+    mounted() {
+        this.init();
+    },
     methods: {
-        clickButton() {
-            this.$emit("clickButton");
+        //初始化
+        init() {
+            if (this.backgroundColor) {
+                this.buttonStyle = {
+                    "background-color": "buttonStyle",
+                    color: this.textColor
+                };
+            }
+        },
+        /**
+         * @Description: 按钮事件
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-31 14:18:07
+         */
+        buttonHandle() {
+            this.$emit("buttonHandle");
+        }
+    },
+    watch: {
+        /**
+         * @Description: 按钮样式处理
+         * @Param:
+         * @Author: xwq
+         * @LastEditors: xwq
+         * @LastEditTime: Do not edit
+         * @return:
+         * @Date: 2019-07-31 14:09:23
+         */
+
+        backgroundColor(newVal, oldVal) {
+            this.buttonStyle = {
+                "background-color": newVal,
+                color: this.textColor
+            };
         }
     }
 };

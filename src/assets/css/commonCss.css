@@ -1,3 +1,25 @@
+#app{
+    font-size:16px;
+}
+h1{
+    font-size:28px;
+}
+h2{
+    font-size:26px;
+}
+h3{
+    font-size:24px;
+}
+h4{
+    font-size:22px;
+}
+h5{
+    font-size:20px;
+}
+h6{
+    font-size:18px;
+}
+
 .main-container{
     padding:10px;
 }
@@ -27,9 +49,22 @@
 }
 .clearFix::after{
     display:block;
-    content:'.';
+    content:'';
     height:0;
     visibility:hidden;
     clear:both;
     zoom:1;
+}
+/* 去掉input框Number类型的默认箭头 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* ios 自带滚动条不平滑解决方法 */
+.touchScroll{
+    -webkit-overflow-scrolling: touch; 
 }
