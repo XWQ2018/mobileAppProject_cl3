@@ -2,7 +2,7 @@
  * @Description: 日历组件
  * @Author: xwq
  * @Date: 2019-10-17 09:29:41
- * @LastEditTime: 2019-10-25 16:55:45
+ * @LastEditTime: 2019-10-27 21:04:35
  -->
 <template>
     <transition name="slide-fade">
@@ -729,6 +729,8 @@ export default {
                     });
                 }
             }
+            this.num1=null;
+            this.num2=null;
             this.scrollStatus = false;
             lockBackgroundScroll(false);
         },
@@ -944,7 +946,7 @@ export default {
                             font-size: 12px;
                             position: absolute;
                             left: 50%;
-                            top: 4px;
+                            top: 2px;
                             transform: translate(-50%, 0);
                         }
                         .date-list-item-text {

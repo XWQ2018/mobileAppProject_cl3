@@ -36,7 +36,6 @@
             <QRCode :qrCodeLink="qrCodeLink" :titleStatus="false" :buttonStatus="false" />
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
-        <calendarCompnent :popShow="show" />
     </div>
 </template>
 <script>
@@ -49,7 +48,6 @@ import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/utils/commonJs";
 import { getCurrentPosition } from "@/utils/getGolacation"; //引入Hbuilder打包定位的处理方法
 import QRCode from "@/components/qrCode";
-import calendarCompnent from "@/components/calendarCompnent";
 export default {
     components: {
         headOne,
@@ -57,8 +55,7 @@ export default {
         Vbanner: banner,
         VlistInfo: listInfo,
         VheaderLeftMenu: headerLeftMenu,
-        QRCode,
-        calendarCompnent
+        QRCode
     },
     data() {
         return {
