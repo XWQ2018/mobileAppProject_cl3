@@ -2,7 +2,7 @@
  * @Description: 日历组件
  * @Author: xwq
  * @Date: 2019-10-17 09:29:41
- * @LastEditTime: 2019-10-27 21:04:35
+ * @LastEditTime: 2019-10-25 17:01:52
  -->
 <template>
     <transition name="slide-fade">
@@ -97,14 +97,12 @@
     </transition>
 </template>
 <script>
-// import Button from "@/components/public/pubButton";
 import { lockBackgroundScroll } from "@/utils/backgroundScrollOverly";
 import { Toast, NavBar } from "vant";
 var _self;
 export default {
     name: "dateTime",
     components: {
-        // Button,
         [NavBar.name]: NavBar
     },
     props: {
@@ -946,7 +944,7 @@ export default {
                             font-size: 12px;
                             position: absolute;
                             left: 50%;
-                            top: 2px;
+                            top: 4px;
                             transform: translate(-50%, 0);
                         }
                         .date-list-item-text {
@@ -961,13 +959,6 @@ export default {
                 }
                 .date-title {
                     padding: 10px 20px;
-                    font-size: 26px;
-                    background-image: linear-gradient(
-                        to top,
-                        rgba(8, 155, 223, 0.5) 20%,
-                        rgba(62, 212, 238, 0.5) 100%
-                    );
-                    color: #fff;
                 }
                 & > :last-child {
                     margin-bottom: 40px;
@@ -987,8 +978,8 @@ export default {
             top: -2px;
             left: 5px;
             .van-icon {
-                font-size: 24px;
-                color: #000;
+                font-size: @font-lg;
+                color: @black;
             }
         }
         .clearBackground {
