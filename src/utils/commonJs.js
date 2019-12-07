@@ -189,3 +189,20 @@ export function previewImg(file) {
     if (!file) return;
     return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](file);
 }
+
+/**
+ * @Description: 对象合并
+ * @Param: 
+ * @Author: xwq
+ * @Date: 2019-12-07 17:05:23
+ * @LastEditors: xwq
+ * @LastEditTime: Do not edit
+ * @return: 
+ */
+
+export function objectMerge(obj1, obj2) {
+    for (let i in obj2) {
+        obj1[i] = obj2[i];
+    }
+    return obj1;
+}
