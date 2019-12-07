@@ -60,7 +60,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
  
  > * babelrc--babel文件
  
+ > * eslintrc--eslint配置文件
+ 
  > * vue.config.js --- 配置文件
+ >>>
 
 
  
