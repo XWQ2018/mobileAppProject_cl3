@@ -2,7 +2,7 @@
  * @Description: 区间日期选择组件
  * @Author: xwq
  * @Date: 2019-10-28 14:39:13
- * @LastEditTime: 2019-10-28 16:27:26
+ * @LastEditTime : 2020-01-08 22:22:20
  -->
 <template>
     <div class="interval-time-select">
@@ -1104,8 +1104,8 @@ export default {
                 top: -2px;
                 left: 5px;
                 .van-icon {
-                    font-size: @font-lg;
-                    color: @black;
+                    font-size: 24px;
+                    color: #000;
                 }
             }
             .clearBackground {

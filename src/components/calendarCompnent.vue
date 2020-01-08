@@ -978,8 +978,8 @@ export default {
             top: -2px;
             left: 5px;
             .van-icon {
-                font-size: @font-lg;
-                color: @black;
+                font-size: 24px;
+                color: #000;
             }
         }
         .clearBackground {
