@@ -5,21 +5,29 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        count: 0
+        count: 0,
+        num: 5
     },
     getters: {
         doneCount(state) {
-            return state.count + 1;
+            return state.count++;
         }
     },
     mutations: {
-        setShopInfoHandle(state, val) {
-            state.count = val;
+        addCountFnc(state) {
+            state.count++;
+        },
+        reduceCountFnc(state) {
+            state.count--;
         }
     },
     actions: {
         addFunc(context, val) {
-            context.commit('setShopInfoHandle', val);
+            context.commit('addCountFnc', val);
+        },
+        reduce(context) {
+            context.commit('reduceCountFnc');
         }
+
     }
 });
