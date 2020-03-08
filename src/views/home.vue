@@ -33,9 +33,15 @@
                     <span @click="copylink">复制链接</span>
                 </template>
             </van-cell>
-            <QRCode :qrCodeLink="qrCodeLink" :titleStatus="false" :buttonStatus="false" />
+            <QRCode
+                id="qrcode"
+                :qrCodeLink="qrCodeLink"
+                :titleStatus="false"
+                :buttonStatus="false"
+            />
             <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
+        <img :src="url" style="display:block;width:100%;" />
     </div>
 </template>
 <script>
@@ -48,6 +54,7 @@ import headerLeftMenu from "@/components/headerLeftMenu";
 import { dateTimeFormate } from "@/utils/commonJs";
 import { getCurrentPosition } from "@/utils/getGolacation"; //引入Hbuilder打包定位的处理方法
 import QRCode from "@/components/qrCode";
+import html2canvas from "html2canvas";
 export default {
     components: {
         headOne,
@@ -129,7 +136,8 @@ export default {
                 }
             ],
             qrCodeLink: "https://xwq2018.github.io/#/home",
-            show: false
+            show: false,
+            url: ""
         };
     },
     //不能直接访问this，需要传入函数
@@ -165,8 +173,125 @@ export default {
     mounted() {
         this.Geolocation();
         this.forMate();
+
+        console.log("html2canvas==", html2canvas);
+
+        this.$nextTick(() => {
+            /* let opt = {
+                width: 300,
+                height: 300,
+                backgroundColor: null,
+                useCORS: true, // 允许图片跨域
+                taintTest: true, // 在渲染前测试图片
+                timeout: 500 // 加载延时
+            };
+            html2canvas(document.getElementById("qrcode"), opt).then(canvas => {
+                let imgUrl = canvas.toDataURL("image/jpeg");
+                this.url = imgUrl;
+                console.log(imgUrl);
+            });
+ */
+            // html2Canvas: function() {
+
+            var shareContent = document.getElementById("qrcode"); // 需要绘制的部分的 (原生）dom 对象 ，注意容器的宽度不要使用百分比，使用固定宽度，避免缩放问题
+
+            var width = shareContent.offsetWidth; // 获取(原生）dom 宽度
+
+            var height = shareContent.offsetHeight; // 获取(原生）dom 高
+
+            var offsetTop = shareContent.offsetTop; //元素距离顶部的偏移量
+
+            console.log(width, height);
+
+            var canvas = document.createElement("canvas"); //创建canvas 对象
+
+            var context = canvas.getContext("2d");
+
+            var scaleBy = this.getPixelRatio(context); //获取像素密度的方法 (也可以采用自定义缩放比例)
+
+            canvas.width = width * scaleBy; //这里 由于绘制的dom 为固定宽度，居中，所以没有偏移
+
+            canvas.height = (height + offsetTop) * scaleBy; // 注意高度问题，由于顶部有个距离所以要加上顶部的距离，解决图像高度偏移问题
+
+            // context.scale(scaleBy, scaleBy);
+
+            var opts = {
+                //allowTaint: true, //允许加载跨域的图片
+
+                tainttest: true, //检测每张图片都已经加载完成
+
+                scale: scaleBy, // 添加的scale 参数
+
+                canvas: canvas, //自定义 canvas
+
+                logging: true, //日志开关，发布的时候记得改成false
+
+                width: width, //dom 原始宽度
+
+                height: height, //dom 原始高度
+
+                // y: 170,
+                scrollX: 0,
+                scrollY: 0,
+
+                allowTaint: false,
+
+                useCORS: false
+            };
+
+            html2canvas(shareContent, opts).then(function(canvas) {
+                let imgmap = canvas.toDataURL();
+                if (window.navigator.msSaveOrOpenBlob) {
+                    console.log("window.navigator.msSaveOrOpenBlob");
+                    var bstr = atob(imgmap.split(",")[1]);
+
+                    var n = bstr.length;
+
+                    var u8arr = new Uint8Array(n);
+
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+
+                    var blob = new Blob([u8arr]);
+
+                    window.navigator.msSaveOrOpenBlob(
+                        blob,
+                        "个人证书" + "." + "png"
+                    );
+                } else {
+                    // 这里就按照chrome等新版浏览器来处理;
+                    console.log("这里就按照chrome等新版浏览器来处理");
+                    const a = document.createElement("a");
+
+                    a.href = imgmap;
+
+                    a.setAttribute("download", "chart-download");
+
+                    a.click();
+                }
+            });
+
+            // }
+            //
+            // }
+        });
     },
     methods: {
+        //获取像素密度
+        getPixelRatio: function(context) {
+            var backingStore =
+                context.backingStorePixelRatio ||
+                context.webkitBackingStorePixelRatio ||
+                context.mozBackingStorePixelRatio ||
+                context.msBackingStorePixelRatio ||
+                context.oBackingStorePixelRatio ||
+                context.backingStorePixelRatio ||
+                1;
+            console.log("devicePixelRatio==", window.devicePixelRatio);
+            console.log("backingStore==", backingStore);
+            return (window.devicePixelRatio || 1) / backingStore;
+        },
         Geolocation() {
             if (window.plus) {
                 plus.geolocation.getCurrentPosition(
