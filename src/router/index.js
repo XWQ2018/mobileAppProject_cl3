@@ -17,6 +17,7 @@ const test = () => import('@/views/testComponents/test');
 const touchMove = () => import('@/views/touchMove');
 const details = () => import('@/views/details');
 const uploadTest = () => import('@/views/uploadTest');
+const storeTest = () => import('@/views/storeTest');
 const notFound = () => import('@/components/notFound');
 
 const router = [
@@ -113,6 +114,11 @@ const router = [
         path: '/uploadTest',
         name: 'uploadTest',
         component: uploadTest
+    },
+    {
+        path: '/storeTest',
+        name: 'storeTest',
+        component: storeTest
     },
     {
         path: '*',
