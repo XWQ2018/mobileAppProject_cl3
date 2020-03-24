@@ -1,5 +1,5 @@
 /*
- * @Description: Description
+ * @Description: 路由文件
  * @Author: xwq
  * @Date: 2019-08-21 14:57:26
  */
@@ -7,47 +7,27 @@ import Vue from 'vue';
 import vueRouter from 'vue-router';
 Vue.use(vueRouter);
 
-const login = () => import('@/views/login');
-const home = () => import('@/views/home');
-const userRegister = () => import('@/views/userRegister');
-const agreement = () => import('@/views/agreement');
-const torch = () => import('@/views/torch');
-const cityList = () => import('@/views/cityList');
-const test = () => import('@/views/testComponents/test');
-const touchMove = () => import('@/views/touchMove');
-const details = () => import('@/views/details');
-const uploadTest = () => import('@/views/uploadTest');
-const storeTest = () => import('@/views/storeTest');
-const notFound = () => import('@/components/notFound');
+const routerList = [];
+function getRouterAll(r) {
+    console.log('r==', r);
+    r.keys().forEach(
+        key => routerList.push(r(key).default)
+    );
+}
+getRouterAll(require.context('../route', true, /\.routes\.js/));
+
+console.log('routerList==', routerList);
 
 const router = [
     {
         path: '/',
         redirect: { name: 'login' }
     },
-    {
-        path: '/login',
-        name: 'login',
-        // component: resolve => require(['@/views/login'], resolve),
-        component: login,
-        meta: {
-            title: '登入',
-            keepAlive: false
-        }
-    },
-    {
-        path: '/userRegister',
-        name: 'userRegister',
-        component: userRegister,
-        meta: {
-            title: '账号注册',
-            keepAlive: false
-        }
-    },
+    ...routerList,
     {
         path: '/agreement',
         name: 'agreement',
-        component: agreement,
+        component: () => import('@/views/agreement'),
         meta: {
             title: '协议内容',
             keepAlive: true
@@ -56,41 +36,18 @@ const router = [
     {
         path: '/home',
         name: 'home',
-        component: home,
+        component: () => import('@/views/home'),
         meta: {
             title: '首页',
             keepAlive: false
         }
     },
     {
-        path: '/cityList',
-        name: 'cityList',
-        component: cityList,
-        meta: {
-            title: '城市列表',
-            keepAlive: false
-        }
-    },
-    {
-        path: '/torch',
-        name: 'torch',
-        component: torch,
-        /* 路由独享守卫 */
-        beforeEnter: (to, from, next) => {
-            // console.log(to, from);
-            next();
-        },
-        meta: {
-            title: '热销商品',
-            keepAlive: false
-        }
-    },
-    {
         path: '/notFound',
         name: 'notFound',
-        component: notFound,
+        component: () => import('@/components/notFound'),
         meta: {
-            title: '页面丢失了',
+            title: '页面走丢了',
             keepAlive: true,
 
         }
@@ -98,27 +55,27 @@ const router = [
     {
         path: '/test',
         name: 'test',
-        component: test,
+        component: () => import('@/views/testComponents/test'),
     },
     {
         path: '/touchMove',
         name: 'touchMove',
-        component: touchMove,
+        component: () => import('@/views/touchMove'),
     },
     {
         path: '/details',
         name: 'details',
-        component: details
+        component: () => import('@/views/details')
     },
     {
         path: '/uploadTest',
         name: 'uploadTest',
-        component: uploadTest
+        component: () => import('@/views/uploadTest')
     },
     {
         path: '/storeTest',
         name: 'storeTest',
-        component: storeTest
+        component: () => import('@/views/storeTest')
     },
     {
         path: '*',
