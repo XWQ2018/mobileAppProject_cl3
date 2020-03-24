@@ -8,6 +8,7 @@ import './utils/androidBack'; //引入Hbuilder打包app监听物理键返回的�
 // import './utils/getGolacation'; //引入Hbuilder打包定位的处理方法
 import 'amfe-flexible/index.js';
 import Storage from 'vue-web-storage';
+const isPro = process.env.NODE_ENV === 'production';
 import {
     Cell,
     CellGroup,
@@ -33,16 +34,16 @@ Vue.use(Cell)
     .use(Lazyload)
     .use(Row)
     .use(Col);
-
 //实例化插件
-const vConsole = new Vconsole();
-Vue.use(vConsole);
+if (!isPro) {
+    const vConsole = new Vconsole();
+    Vue.use(vConsole);
+}
 //本地缓存插件
 Vue.use(Storage, {
     prefix: 'APPInfo',// default `app_`
     drivers: ['session', 'local'], // default 'local'
 });
-
 Vue.prototype.$local = Vue.$localStorage;
 Vue.prototype.$session = Vue.$sessionStorage;
 //样式
@@ -52,6 +53,35 @@ import '@css/reset.css';
 import('vant/lib/icon/local.css');
 
 Vue.config.productionTip = false;
+
+//自定义指令
+Vue.directive('display-key', {
+    bind(el, binding) {
+        console.log('自定义指令值绑定==', binding);
+    },
+    inserted(el, binding) {
+        console.log('自定义指令传值==', binding);
+        let displayKey = binding.value;
+        if (displayKey == 11) {
+            el.parentNode && el.parentNode.removeChild(el);
+        } else {
+            //抛出异常
+            throw new Error('need key! like v-display-key = Boolean');
+        }
+    },
+    update(el, binding) {
+        console.log('自定义指令值更新==', binding);
+        let displayKey = binding.value;
+        if (displayKey == 11) {
+            el.parentNode && el.parentNode.removeChild(el);
+        }
+        if (displayKey != 11) {
+            console.log('updateEl', el);
+            console.log('el.parentNode=', el.parentNode);
+            el.parentNode && el.parentNode.appenChild(el);
+        }
+    }
+});
 
 if (process.env.NODE_ENV != 'production') {
     console.log(process.env);

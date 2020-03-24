@@ -39,7 +39,7 @@
                 :titleStatus="false"
                 :buttonStatus="false"
             />
-            <p class="statement-bottom">本软件由雲亿科技提供.备案号-粤88AG9</p>
+            <p class="statement-bottom" v-display-key:[title]="status">本软件由雲亿科技提供.备案号-粤88AG9</p>
         </div>
         <img :src="url" style="display:block;width:100%;" />
     </div>
@@ -137,7 +137,8 @@ export default {
             ],
             qrCodeLink: "https://xwq2018.github.io/#/home",
             show: false,
-            url: ""
+            url: "",
+            status: 12
         };
     },
     //不能直接访问this，需要传入函数
@@ -171,6 +172,10 @@ export default {
         }
     },
     mounted() {
+        setTimeout(() => {
+            this.status = 11;
+        }, 3000);
+        return;
         this.Geolocation();
         this.forMate();
 
@@ -334,8 +339,10 @@ export default {
                 let range = document.createRange();
                 oInput.value = _this.qrCodeLink;
                 oInput.className = "copy-input-style";
-                oInput.setAttribute("readOnly", false);
+                oInput.setAttribute("readOnly", true);
                 document.body.appendChild(oInput);
+                console.log(_this.qrCodeLink);
+                console.log("11==", oInput.value);
                 range.selectNode(oInput);
                 window.getSelection().addRange(range);
                 let successful = document.execCommand("copy");
