@@ -1,5 +1,5 @@
 /*
- * @Description: Description
+ * @Description: 全局注入高频组件
  * @Author: xwq
  * @Date: 2020-03-27 14:07:59
  */

@@ -8,6 +8,7 @@ import './utils/androidBack'; //引入Hbuilder打包app监听物理键返回的�
 // import './utils/getGolacation'; //引入Hbuilder打包定位的处理方法
 import 'amfe-flexible/index.js';
 import Storage from 'vue-web-storage';
+import installComponent from '@/components/Height_components/index.js';
 const isPro = process.env.NODE_ENV === 'production';
 import {
     Cell,
@@ -39,6 +40,7 @@ if (!isPro) {
     const vConsole = new Vconsole();
     Vue.use(vConsole);
 }
+Vue.use(installComponent);
 //本地缓存插件
 Vue.use(Storage, {
     prefix: 'APPInfo',// default `app_`

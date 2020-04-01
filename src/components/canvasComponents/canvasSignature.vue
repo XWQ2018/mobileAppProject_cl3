@@ -15,11 +15,38 @@
                     @touchmove="mMove"
                     @touchend="mEnd"
                 ></canvas>
+                <van-button
+                    v-if="LandscapeBtn"
+                    :class="{'btn-active':LandscapeBtn,'btn-normal':!LandscapeBtn}"
+                    type="primary"
+                    class="btn-style"
+                    @click="saveLinkHandle"
+                >确认</van-button>
+                <div class="desc-title" v-if="!isLandscape">
+                    <span>签名区域</span>
+                </div>
+                <div class="desc-title-2" v-if="isLandscape">
+                    <span>签名区域</span>
+                </div>
             </div>
-            <div class="signature-title">
+            <div class="signature-title" v-if="!isLandscape">
                 <div class="signature-item">
                     <span>请在下方空白区域进行签名</span>
-                    <span @click="clearHandle">清空</span>
+                    <span
+                        @click="clearHandle"
+                        v-show="isShowBtn"
+                        :class="{'btn-active':isShowBtn,'btn-normal':!isShowBtn}"
+                    >清空</span>
+                </div>
+            </div>
+            <div class="signature-title-2" v-if="isLandscape">
+                <div class="signature-item-2">
+                    <span>请在下方空白区域进行签名</span>
+                    <span
+                        @click="clearHandle"
+                        v-show="LandscapeBtn"
+                        :class="{'btn-active':LandscapeBtn,'btn-normal':!LandscapeBtn}"
+                    >清空</span>
                 </div>
             </div>
         </div>
@@ -49,9 +76,10 @@ export default {
                 x: 0,
                 y: 0
             },
-            imgUrl: "",
             moving: false,
+            LandscapeBtn: false,
             isShowBtn: false,
+            isLandscape: false,
             pathRecord: {
                 startPath: [],
                 endPath: []
@@ -60,18 +88,43 @@ export default {
     },
     created() {},
     mounted() {
+        // document.body.addEventListener(
+        //     "touchmove",
+        //     function(e) {
+        //         e.preventDefault();
+        //     },
+        //     { passive: false }
+        // );
+        let _this = this;
+        window.addEventListener("resize", _this.renderResize, false);
         this.init();
     },
     methods: {
+        renderResize() {
+            this.$nextTick(() => {
+                // 判断横竖屏
+                let width = document.documentElement.clientWidth;
+                let height = document.documentElement.clientHeight;
+                if (width > height) {
+                    console.log("横屏", this.isLandscape);
+                    // this.LandscapeBtn = true;
+                    this.isLandscape = true;
+                    this.isShowBtn = false;
+                    this.init();
+                } else {
+                    // this.init();
+                    console.log("竖屏", this.isLandscape);
+                    this.LandscapeBtn = false;
+                    this.isLandscape = false;
+                    this.init();
+                    // this.isShowBtn = true;
+                }
+                // 做页面适配
+                // 注意：renderResize方法执行时虚拟dom尚未渲染挂载，如果要操作vue实例，最好在this.$nextTick()里进行。
+            });
+        },
         //初始化
         init() {
-            document.body.addEventListener(
-                "touchmove",
-                function(e) {
-                    e.preventDefault();
-                },
-                { passive: false }
-            );
             let board = this.$refs.board;
             board.width = this.$refs.boardBox.offsetWidth;
             board.height = this.$refs.boardBox.offsetHeight;
@@ -79,11 +132,12 @@ export default {
             this.ctx.strokeStyle = "#000";
             this.ctx.lineWidth = 6;
             let drawImg = document.createElement("canvas");
-            drawImg.width = 150;
-            drawImg.height = 150;
+            drawImg.width = this.ctx.canvas.width;
+            drawImg.height = this.ctx.canvas.height;
             this.drawImgCtx = drawImg.getContext("2d");
             this.drawImgCtx.lineWidth = 6;
         },
+        //清除
         clearHandle() {
             let width = this.ctx.canvas.width;
             let height = this.ctx.canvas.height;
@@ -93,20 +147,23 @@ export default {
             this.pathRecord["endPath"] = [];
             this.init();
             this.isShowBtn = false;
+            this.LandscapeBtn = false;
         },
         saveLinkHandle() {
-            this.drawImgCtx.translate(75, 75);
-            this.drawImgCtx.rotate((-90 * Math.PI) / 180);
-            this.drawImgCtx.scale(1.5, 1.5);
-            this.drawImgCtx.drawImage(this.$refs.board, 50, 30, -75, -75);
-            let picUrl = this.drawImgCtx.canvas.toDataURL("image/png", 1);
-            //测试
-            // let aNode = document.createElement("a");
-            // aNode.href = picUrl;
-            // aNode.download = "test11.png";
-            // setTimeout(() => {
-            //     aNode.click();
-            // }, 1000);
+            console.log("方法==", this.ctx.getImageData);
+            console.log("方法==", this.ctx.canvas.width);
+            console.log("方法==", this.ctx.canvas.height);
+            console.log("是否横屏==", window.orientation);
+            // return;
+
+            // this.ctx.putImageData(imageData, 0, 0);
+
+            // this.drawImgCtx.translate(75, 75);
+            // this.drawImgCtx.rotate((-90 * Math.PI) / 180);
+            // this.drawImgCtx.scale(1.5, 1.5);
+            // this.drawImgCtx.drawImage(this.$refs.board, 50, 30, -75, -75);
+            // let picUrl = this.drawImgCtx.canvas.toDataURL("image/png", 1);
+            let picUrl = this.ctx.canvas.toDataURL("image/png", 1);
             this.$emit("saveLinkHandle", picUrl);
         },
         mStart(e) {
@@ -141,13 +198,17 @@ export default {
                 params.x = this.point.x;
                 params.y = this.point.y;
                 this.pathRecord["endPath"].unshift(params);
-                this.imgUrl = this.ctx.canvas.toDataURL();
-                if (!this.isShowBtn) {
+                if (!this.isShowBtn && !this.isLandscape) {
                     this.isShowBtn = true;
+                } else if (!this.LandscapeBtn && this.isLandscape) {
+                    this.LandscapeBtn = true;
                 }
-                // console.log("绘制路径", this.pathRecord);
             }
         }
+    },
+    destroyed() {
+        window.removeEventListener("resize", function() {}, true);
+        // window.removeEventListener("touchmove", function() {}, true);
     }
 };
 </script>
@@ -155,26 +216,68 @@ export default {
 .page {
     position: relative;
     .main-container {
-        padding: 20px 0 20px 20px;
+        // padding: 20px 0 20px 20px;
         box-sizing: border-box;
         display: flex;
         .boardBox {
+            position: relative;
             height: calc(100vh - 40px);
             background: #fff;
-            // border: 1px solid transparent;
             box-sizing: border-box;
             flex: 1;
             width: 90%;
             border-radius: 10px;
             .canvas-board {
                 box-sizing: border-box;
+                background: transparent;
+                position: absolute;
+                z-index: 99;
+            }
+            //新增btn
+            .btn-style {
+                position: absolute;
+                bottom: 7vh;
+                right: 7vw;
+                // transform: rotateZ(90deg);
+                border-radius: 10px;
+                background-color: #46aef7;
+                border-color: #46aef7;
+                width: 100px;
+                z-index: 99;
+            }
+            .desc-title {
+                position: absolute;
+                left: 20%;
+                top: 46%;
+                transform: translate(-50%, -50%);
+                padding: 10px;
+                transform: rotateZ(90deg);
+                width: 180px;
+                & > :first-child {
+                    color: #ececec;
+                    font-size: 40px;
+                }
+            }
+            .desc-title-2 {
+                position: absolute;
+                left: 56%;
+                top: 46%;
+                transform: translate(-50%, -50%);
+                padding: 10px;
+                // transform: rotateZ(90deg);
+                width: 180px;
+                & > :first-child {
+                    color: #ececec;
+                    font-size: 30px;
+                }
             }
         }
         .signature-title {
             width: 30px;
             padding: 8px;
-
-            position: relative;
+            position: absolute;
+            right: 18px;
+            z-index: 99;
             .signature-item {
                 position: absolute;
                 left: 0;
@@ -182,9 +285,36 @@ export default {
                 width: 100%;
                 transform: rotateZ(90deg);
                 display: -webkit-box;
+                font-size: 16px;
                 & > :first-child {
                     display: block;
                     width: 80vh;
+                    color: #999;
+                }
+                & > :last-child {
+                    display: inline-block;
+                    color: #46aef7;
+                }
+            }
+        }
+        .signature-title-2 {
+            width: 30px;
+            padding: 8px;
+            position: absolute;
+            left: 30px;
+            z-index: 99;
+            .signature-item-2 {
+                position: absolute;
+                left: 0;
+                top: 10px;
+                width: calc(100vw - 30px);
+                // transform: rotateZ(90deg);
+                display: -webkit-box;
+                font-size: 16px;
+                & > :first-child {
+                    display: block;
+                    width: 80%;
+                    color: #999;
                 }
                 & > :last-child {
                     display: inline-block;
@@ -199,6 +329,7 @@ export default {
         left: 0;
         transform: rotateZ(90deg);
         border-radius: 10px;
+        z-index: 99;
         & > :first-child {
             background-color: #46aef7;
             border-color: #46aef7;

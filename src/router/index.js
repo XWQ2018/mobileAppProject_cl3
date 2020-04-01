@@ -78,6 +78,11 @@ const router = [
         component: () => import('@/views/storeTest')
     },
     {
+        path: '/test',
+        name: 'test',
+        component: () => import('@/views/test')
+    },
+    {
         path: '*',
         redirect: { name: 'notFound' }
     }

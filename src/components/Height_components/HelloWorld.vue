@@ -14,6 +14,13 @@ export default {
   name: "HelloWorld",
   data() {
     return {};
+  },
+  created() {},
+  mounted() {},
+  methods: {
+    init() {
+      this.$toast("Hello World");
+    }
   }
 };
 </script>
