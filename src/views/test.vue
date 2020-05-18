@@ -6,6 +6,7 @@
 <template>
   <div class="page">
     <HelloWorld />
+    <Vbutton type="primary" @click.native="btnClick" buttonText="测试"></Vbutton>
   </div>
 </template>
 <script>
@@ -16,13 +17,18 @@ export default {
     };
   },
   render: function(createElement, context) {
-    console.log(createElement);
+    console.log("---*", createElement);
   },
   created() {},
-  mounted() {
-    console.log(this.$children[0].init());
-  },
-  methods: {}
+  mounted() {},
+  methods: {
+    btnClick() {
+      this.$tips({
+        msg: "我来自tips插件",
+        time: 1000
+      });
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

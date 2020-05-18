@@ -1,3 +1,4 @@
+const isPro = process.env.NODE_ENV === 'production';
 import Vue from 'vue';
 import App from './App.vue';
 import store from './store';
@@ -9,7 +10,7 @@ import './utils/androidBack'; //引入Hbuilder打包app监听物理键返回的�
 import 'amfe-flexible/index.js';
 import Storage from 'vue-web-storage';
 import installComponent from '@/components/Height_components/index.js';
-const isPro = process.env.NODE_ENV === 'production';
+import myPlugins from 'vue-plugin-tips-six';
 import {
     Cell,
     CellGroup,
@@ -35,6 +36,7 @@ Vue.use(Cell)
     .use(Lazyload)
     .use(Row)
     .use(Col);
+Vue.use(myPlugins);
 //实例化插件
 if (!isPro) {
     const vConsole = new Vconsole();
@@ -53,6 +55,7 @@ import 'vant/lib/index.css';
 import '@css/commonCss.css';
 import '@css/reset.css';
 import('vant/lib/icon/local.css');
+import 'vue-plugin-tips-six/lib/vue-plugin-tips-six.css';
 
 Vue.config.productionTip = false;
 
